@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'usuarios',
-    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -50,10 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
-CORS_ALLOW_ALL_ORIGINS = True # Permitir todas las solicitudes CORS (solo para desarrollo, no en producción)
-
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -81,11 +77,14 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'viajar',           # nombre exacto de la base
-        'USER': 'postgres',             # tu usuario PostgreSQL
-        'PASSWORD': 'admin',# sin caracteres raros
-        'HOST': 'localhost',        # o IP de tu servidor
-        'PORT': '5432',             # puerto por defecto de PostgreSQL
+        'NAME':      'viajar',           # nombre exacto de la base
+        'USER':      'postgres',         # tu usuario PostgreSQL
+        'PASSWORD':  '43810897',         # sin caracteres raros
+        'HOST':      'localhost',        # o IP de tu servidor
+        'PORT':      '5432',             # puerto por defecto de PostgreSQL
+        'OPTIONS': {
+                    'options': '-c client_encoding=UTF8',
+                }
     }
 }
 
