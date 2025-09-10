@@ -17,9 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from usuarios.views import UsuarioViewSet, DetalleUsuario
+from provincias.views import PronviciasViewSet
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('usuarios/', UsuarioViewSet.as_view(), name='usuarios'),
     path('usuarios/<int:pk>/', DetalleUsuario.as_view(), name='detalle_usuario'),
+    path('provincias/', PronviciasViewSet.as_view(), name='provincias'),
 ]

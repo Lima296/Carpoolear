@@ -23,4 +23,19 @@ class UsuarioSerializer(serializers.ModelSerializer):
                 setattr(instance, attr, value)
             instance.save()
             return instance
+        
+# class ProvinciaSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Provincia
+#         fields = ['id', 'nombre']
+#         read_only_fields = ['id']
 
+#     def create(self, validated_data):
+#         return Provincia.objects.create(**validated_data)
+    
+#     def update(self, instance, validated_data):
+#         instance.nombre = validated_data.get('nombre', instance.nombre)
+#         instance.save()
+#         return instance
+
+        

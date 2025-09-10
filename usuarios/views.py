@@ -17,6 +17,9 @@ class UsuarioViewSet(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request):
+        Usuario.objects.all().delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     
 class DetalleUsuario(APIView):
     def get(self, request, pk):
@@ -36,5 +39,7 @@ class DetalleUsuario(APIView):
         usuario = get_object_or_404(Usuario, pk=pk)
         usuario.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
 
 
