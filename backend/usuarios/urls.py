@@ -1,8 +1,6 @@
-# from django.contrib import admin
-# from django.urls import path
-# from views import UsuarioViewSet, DetalleUsuario
+from django.urls import path
+from .views import registrar_usuario
 
-# urlpatterns = [
-#     path('usuarios/', UsuarioViewSet.as_view(), name='usuarios'),
-#     path('usuarios/<int:pk>/', DetalleUsuario.as_view(), name='detalle_usuario'),
-#     ]
+urlpatterns = [
+    path('registrar/', registrar_usuario, name='registrar_usuario'),
+]
