@@ -1,0 +1,4 @@
+# Django cache y settings local
+*.pyc
+__pycache__/
+settings.py
