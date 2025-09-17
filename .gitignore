@@ -52,11 +52,10 @@ htmlcov/
 
 # Otros
 .idea/
-<<<<<<< HEAD
+
 .vscode/
 
 __pycache__/
 *.pyc
-=======
+
 .vscode/
->>>>>>> 201fa7df8284e25df0937bc6b2d34afefdcc04c1
