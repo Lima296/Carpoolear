@@ -1,0 +1,84 @@
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: #ffffff;
+}
+
+/* Estilos del navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #385773;
+    position: relative;
+    height: 70px; /* altura de la navbar */
+    align-items: center; /* centra verticalmente los elementos */
+}
+
+/* Contenedor izquierda (botón hamburguesa) */
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+/* Enlaces del menú (offcanvas) */
+.nav-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li a {
+    color: rgb(0, 0, 0);
+    margin-right: 15px;
+    text-decoration: none;
+}
+
+/* Logo a la derecha */
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+/* Botón hamburguesa */
+.menu-toggle {
+    display: flex;             /* se muestra siempre en móviles */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;               /* ancho del botón */
+    height: 22px;              /* alto del botón */
+    cursor: pointer;
+    background: none;          /* sin fondo */
+    border: none;
+    padding: 0;
+}
+
+.menu-toggle span {
+    display: block;
+    height: 4px;               /* grosor de las líneas */
+    width: 100%;               /* ancho de las líneas */
+    background-color: white;   /* color de las líneas */
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Animación al hacer click en el botón */
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Responsive: ocultar enlaces y mostrar menú hamburguesa en móviles */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* los enlaces normales se ocultan */
+    }
+}
