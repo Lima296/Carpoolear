@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from estado.views import EstadoViewSet
-from usuarios.views import UsuarioViewSet, DetalleUsuario
+from usuarios.views import UsuarioViewSet, DetalleUsuario, LoginView
 from provincias.views import PronviciasViewSet
 
 
@@ -27,6 +27,7 @@ urlpatterns = [
     path('usuarios/<int:pk>/', DetalleUsuario.as_view(), name='detalle_usuario'),
     path('provincias/', PronviciasViewSet.as_view(), name='provincias'),
     path('estado/', EstadoViewSet.as_view(), name='estado'),
+    path('login/', LoginView.as_view(), name='login'),
 ]
 """
 URL configuration for backend project.
@@ -44,13 +45,3 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
-from usuarios.views import UsuarioViewSet, DetalleUsuario
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('usuarios/', UsuarioViewSet.as_view(), name='usuarios'),
-    path('usuarios/<int:pk>/', DetalleUsuario.as_view(), name='detalle_usuario'),
-    path('estado/', EstadoViewSet.as_view(), name='estado'),
-]

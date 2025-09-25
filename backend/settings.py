@@ -27,6 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+REST_FRAMEWORK = {
+'DEFAULT_AUTHENTICATION_CLASSES': (
+'rest_framework_simplejwt.authentication.JWTAuthentication',
+)
+}
+
 
 # Application definition
 
@@ -87,7 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'viajar',           # nombre exacto de la base
         'USER': 'postgres',         # tu usuario PostgreSQL
-        'PASSWORD': '1610',     # sin caracteres raros
+        'PASSWORD': 'admin',     # sin caracteres raros
         'HOST': 'localhost',        # o IP de tu servidor
         'PORT': '5432',             # puerto por defecto de PostgreSQL
     }

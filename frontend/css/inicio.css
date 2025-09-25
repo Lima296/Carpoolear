@@ -6,7 +6,7 @@ body {
     align-items: center;     /* Centra verticalmente */
     background-color: #024873 !important;
   }
-  
+
 .iniciar_sesion {
     background-color: rgba(0, 0, 0, 0.595);
     padding: 20px;
@@ -15,7 +15,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0px;
-    width: 500px;
+    width: 450px;
     height: 370px;
 }
 
@@ -23,7 +23,7 @@ body {
     padding: 10px;
     border: none;
     border-radius: 4px;
-    background-color: #298db8b4;
+    background-color: #298EB8;
     color: white;
     cursor: pointer;
     font-size: 16px;
@@ -32,7 +32,7 @@ body {
 }
 .iniciar_sesion 
 .iniciar_sesion button:hover {
-    background-color: #298EB8;
+    background-color: #024873;
 }
 
 .iniciar_sesion p {
@@ -51,4 +51,10 @@ body {
     margin-bottom: 25px;
     font-size: 30px;
 } 
+.iniciar_sesion input {
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+}
+
   
