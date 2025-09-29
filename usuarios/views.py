@@ -43,7 +43,6 @@ class DetalleUsuario(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class LoginView(TokenObtainPairView):
-    serializer_class = UsuarioTokenObtainPairSerializer
-
+    serializer_class = UsuarioTokenObtainPairSerializer # Usamos nuestro serializer solo transformamos los datos y hago token
 
 

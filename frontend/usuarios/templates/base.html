@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;1,14..32,300&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
     <title>VIAJAR</title>
     <nav class="navbar bg-body-tertiary"> <!-- navbar -->
@@ -43,7 +44,7 @@
 
 
 <!-- Bootstrap JS local -->
-<script src="libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="js/usuarios.js"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/usuarios.js' %}"></script>
 </body>
 </html>
