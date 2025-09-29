@@ -7,7 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True) # Campo para recibir la contraseña en texto plano y que no se vea
 
     class Meta:
         model = Usuario
