@@ -10,15 +10,9 @@
     <title>Iniciar Sesión</title>
 </head>
 <body>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Iniciar Sesión
-      </button>
-      <span> BOTON </span>
-       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRegistro">
-        Registrarse
-      </button> 
+   
       <!--  -->
-   <!-- Modal para abrir iniciar sesión -->
+   <!-- Modal REGISTRO -->
 <div class="modal fade" id="exampleModal" >
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -27,35 +21,6 @@
             </div>
             <div class="modal-body">
                 <form id="loginForm">
-                    <div class="iniciar_sesion">
-                        <h1>Iniciá sesion en ViajAr</h1>
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="email" placeholder="name@example.com">
-                            <label for="floatingInput">Correo electrónico</label>
-                        </div>
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="password" placeholder="Password">
-                            <label for="floatingPassword">Contraseña</label>
-                            <p>Olvidé mi contraseña</p>
-                        </div>
-                        <button class="btn btn-primary" type="submit">Ingresar</button>
-                        <h3>¿No tenés cuenta? Hacé click para registrarte</h3>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-   <!-- Modal REGISTRO -->
-<div class="modal fade" id="modalRegistro" >
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="registroForm">
                     <div class="iniciar_sesion registro">
                         <h1>Registrate en ViajAr</h1>
                         <div class="form-floating mb-3">
@@ -63,7 +28,7 @@
                             <label for="floatingInput">Correo electrónico</label>
                         </div>
                          <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="check_email" placeholder="name@example.com">
+                            <input type="email" class="form-control" id="email" placeholder="name@example.com">
                             <label for="floatingInput">Repetir correo</label>
                         </div>
                         <div class="form-floating mb-3">
@@ -72,14 +37,15 @@
                         </div>
                         <div class="form-floating mb-3">
                             <input type="email" class="form-control" id="telefono" placeholder="name@example.com">
-                            <label for="floatingPhone">Teléfono</label>
+                            <label for="floatingInput">Teléfono</label>
                         </div>
-                        <div class="form-floating mb-3">
+                        <div class="form-floating">
                             <input type="password" class="form-control" id="password" placeholder="Password">
                             <label for="floatingPassword">Contraseña</label>
                         </div>
+                        
                         <div class="form-floating">
-                            <input type="password" class="form-control" id="check_password" placeholder="Password">
+                            <input type="password" class="form-control" id="password" placeholder="Password">
                             <label for="floatingPassword">Repetir contraseña</label>
                         </div>
                         <button class="btn btn-primary" type="submit">Ingresar</button>
