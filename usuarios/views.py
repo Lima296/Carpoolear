@@ -16,9 +16,23 @@ class UsuarioViewSet(APIView):
     def post(self, request):
         serializer = UsuarioSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            try:
+                serializer.save()
+                return Response({
+                    'mensaje': 'Usuario registrado exitosamente',
+                    'usuario': serializer.data
+                }, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({
+                    'error': 'Error al crear el usuario',
+                    'detalle': str(e)
+                }, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            # Devolvemos los errores de validación de forma más clara
+            return Response({
+                'error': 'Datos de registro inválidos',
+                'errores': serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
     def delete(self, request):
         Usuario.objects.all().delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
