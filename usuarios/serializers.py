@@ -13,12 +13,29 @@ class UsuarioSerializer(serializers.ModelSerializer):
         model = Usuario
         fields = ['id', 'nombre', 'correo', 'password', 'password_hash', 'token', 'creado', 'actualizado']
         read_only_fields = ['id', 'token', 'creado', 'actualizado','password_hash']
+    
+    def validate_correo(self, value):
+        """Validar que el correo no esté duplicado"""
+        if Usuario.objects.filter(correo=value).exists():
+            raise serializers.ValidationError("Este correo electrónico ya está registrado. Por favor, utiliza otro correo.")
+        return value
 
     def create(self, validated_data): # Método para crear un usuario
         password = validated_data.pop('password') # Sacamos la contraseña en texto plano
         validated_data['password_hash'] = make_password(password)
             # La convertimos en hash y guardamos en password_hash
-        return Usuario.objects.create(**validated_data) # Creamos el usuario en la DB
+        try:
+            return Usuario.objects.create(**validated_data)
+        except Exception as e:
+            # Detectar si es error de correo duplicado
+            if 'correo' in str(e).lower() or 'unique' in str(e).lower():
+                raise serializers.ValidationError({
+                    'correo': ['Este correo electrónico ya está registrado. Por favor, utiliza otro correo.']
+                })
+            else:
+                raise serializers.ValidationError({
+                    'non_field_errors': ['Error al crear el usuario. Inténtalo de nuevo.']
+                })
     
     def update(self, instance, validated_data): # Método para actualizar un usuario
         password = validated_data.pop('password', None)
