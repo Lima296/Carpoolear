@@ -1,0 +1,107 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center;     /* Centra verticalmente */
+    background-color: #024873 !important;
+  }
+.modal-content {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+.modal-header {
+    border: none !important;
+    padding: 0 !important;
+}
+.modal-body {
+    padding: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+.iniciar_sesion {
+    background-color: rgba(0, 0, 0, 0.595);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    width: 450px;
+    height: 370px;
+    transform: translateY(-100px); /* Mueve el modal 50px hacia arriba */
+}
+
+/* Modal de registro - se ajusta automáticamente al contenido */
+.iniciar_sesion.registro {
+    height: auto; /* Altura automática según el contenido */
+    min-height: 500px; /* Altura mínima para el modal de registro */
+    transform: translateY(-20px); /* Ajuste de posición para el modal más grande */
+}
+
+.iniciar_sesion button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #298EB8;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.iniciar_sesion 
+.iniciar_sesion button:hover {
+    background-color: #024873;
+}
+
+.iniciar_sesion p {
+    color: rgba(255, 255, 255, 0.645);
+    cursor: pointer;
+}
+.iniciar_sesion h3 {
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    text-align: center;
+}
+.iniciar_sesion h1 {
+    color: white;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 30px;
+} 
+.iniciar_sesion input {
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+}
+
+/* Estilo para el botón de cerrar del modal */
+.btn-close {
+    filter: brightness(0) invert(1) !important;
+    opacity: 1 !important;
+    position: absolute !important;
+    top: -80px !important;
+    right: 40px !important;
+    z-index: 10 !important;
+}
+
+.btn-close:hover {
+    filter: brightness(0) invert(1) !important;
+    opacity: 0.8 !important;
+}
+
+/* Botón de cerrar específico para modal de login */
+#exampleModal .btn-close {
+    top: -80px !important;
+}
+
+/* Botón de cerrar específico para modal de registro */
+#modalRegistro .btn-close {
+    top: 0px !important;
+}
+
+  

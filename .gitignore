@@ -31,8 +31,6 @@ db.sqlite3
 
 # Archivos de media y estáticos generados
 /media/
-staticfiles/
-static/
 
 # Archivos de node y frontend
 node_modules/
@@ -59,3 +57,18 @@ __pycache__/
 *.pyc
 
 .vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Django / entorno
+db.sqlite3
+.env
+*.log
+
+# Archivos temporales de sistema
+.DS_Store
+Thumbs.db
