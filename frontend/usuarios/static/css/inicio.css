@@ -1,107 +1,343 @@
-body {
+/* ===========================
+    inicio.css - estilos completos para modales login/registro
+    VERSIÓN FINAL Y CORREGIDA: Arreglo de overflow y posición de la cruz
+    =========================== */
+
+/* ---------- Variables y base ---------- */
+:root{
+    --bg: #024873;
+    --card-bg: rgba(0,0,0,0.62);
+    --accent: #298EB8;
+    --accent-dark: #024873;
+    --white: #ffffff;
+    --muted: rgba(255,255,255,0.75);
+}
+
+html, body {
+    height: 100%;
     margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center;     /* Centra verticalmente */
-    background-color: #024873 !important;
-  }
-.modal-content {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-}
-.modal-header {
-    border: none !important;
-    padding: 0 !important;
-}
-.modal-body {
-    padding: 0 !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-}
-.iniciar_sesion {
-    background-color: rgba(0, 0, 0, 0.595);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 0px;
-    width: 450px;
-    height: 370px;
-    transform: translateY(-100px); /* Mueve el modal 50px hacia arriba */
+    font-family: "Inter", "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--bg) !important;
+    color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Modal de registro - se ajusta automáticamente al contenido */
-.iniciar_sesion.registro {
-    height: auto; /* Altura automática según el contenido */
-    min-height: 500px; /* Altura mínima para el modal de registro */
-    transform: translateY(-20px); /* Ajuste de posición para el modal más grande */
-}
-
-.iniciar_sesion button {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #298EB8;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-.iniciar_sesion 
-.iniciar_sesion button:hover {
-    background-color: #024873;
-}
-
-.iniciar_sesion p {
-    color: rgba(255, 255, 255, 0.645);
-    cursor: pointer;
-}
-.iniciar_sesion h3 {
-    color: white;
-    cursor: pointer;
-    font-size: 15px;
-    text-align: center;
-}
-.iniciar_sesion h1 {
-    color: white;
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 30px;
-} 
-.iniciar_sesion input {
-    width: 100%;
-    height: 40px;
+/* Forzar box-sizing global */
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
-/* Estilo para el botón de cerrar del modal */
-.btn-close {
-    filter: brightness(0) invert(1) !important;
+/* ---------- Modal base ---------- */
+/* Asegura que la X se posicione respecto a modal-content */
+.modal-content {
+    position: relative;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow: visible; 
+}
+
+/* Contenedor del body del modal */
+.modal-body {
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ---------- Caja del formulario (login / registro) ---------- */
+/* Tarjeta base */
+.iniciar_sesion {
+    width: 480px;
+    max-width: 92vw;
+    background-color: var(--card-bg);
+    padding: 1.75rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    box-sizing: border-box;
+    text-align: center;
+    position: relative; 
+}
+
+/* Variante registro (base) */
+.iniciar_sesion.registro {
+    /* Permitimos que el tamaño se adapte al contenido */
+    width: 520px;
+    max-width: 96%;
+    padding-bottom: 1.5rem;
+    transform: translateY(0) !important;
+    min-height: auto; 
+}
+
+/* Titulos y textos */
+.iniciar_sesion h1 {
+    margin: 0;
+    padding: 0;
+    color: var(--white);
+    font-size: 1.6rem;
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+}
+
+.iniciar_sesion h3 {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1rem;
+    margin-top: 0.1rem;
+}
+
+/* Mensajes / alerts */
+.iniciar_sesion .alert,
+.registro .alert {
+    width: 100%;
+    margin: 0.25rem 0;
+}
+
+/* ---------- Inputs y floating labels ---------- */
+.form-floating {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.4rem;
+    position: relative;
+}
+
+.iniciar_sesion .form-control,
+.registro .form-control {
+    width: 80% !important;
+    margin: 0.25rem auto !important;
+    padding: 0.9rem 1rem !important;
+    border-radius: 8px !important;
+    border: 1px solid #e6e6e6 !important;
+    box-sizing: border-box !important;
+    background-color: #ffffff !important; 
+    color: #111111 !important;           
+    text-align: center !important;         
+    caret-color: #111111 !important;
+    box-shadow: none !important;
+}
+
+.iniciar_sesion .form-control::placeholder,
+.registro .form-control::placeholder {
+    color: #6c6c6c !important;
+    text-align: center !important;
     opacity: 1 !important;
+}
+
+.form-floating > label {
+    left: 50% !important;
+    transform: translateX(-50%) translateY(.02rem) scale(1) !important;
+    transform-origin: center left !important;
+    width: 80% !important;
+    text-align: center !important;
+    pointer-events: none !important;
+    color: #333333 !important;
+    padding: 0 0.5rem !important;
+}
+
+.form-floating .form-control:focus ~ label,
+.form-floating .form-control:not(:placeholder-shown) ~ label {
+    transform: translateX(-50%) translateY(-1.35rem) scale(0.85) !important;
+    left: 50% !important;
+    color: #333333 !important;
+}
+
+.iniciar_sesion .form-control:focus,
+.registro .form-control:focus {
+    outline: none !important;
+    box-shadow: 0 6px 18px rgba(41,142,184,0.12) !important;
+    background-color: #fff !important;
+}
+
+.iniciar_sesion input,
+.registro input {
+    box-sizing: border-box;
+}
+
+/* ---------- Botones ---------- */
+.iniciar_sesion .btn-primary,
+.registro .btn-primary {
+    width: 80% !important;
+    margin: 0.8rem auto 0.25rem auto !important;
+    display: block !important;
+    padding: 0.85rem 1rem !important;
+    border-radius: 8px !important;
+    border: none !important;
+    background-color: var(--accent) !important;
+    color: var(--white) !important;
+    font-size: 1rem !important;
+    text-align: center !important;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(41,142,184,0.12) !important;
+}
+
+.iniciar_sesion button,
+.registro button {
+    max-width: 80% !important;
+}
+
+.iniciar_sesion .btn-primary:hover,
+.registro .btn-primary:hover {
+    background-color: var(--accent-dark) !important;
+}
+
+/* Links / texto secundario */
+.iniciar_sesion p {
+    margin: 0.25rem 0;
+    color: rgba(255,255,255,0.9);
+    font-size: 0.95rem;
+}
+
+/* Links dentro del modal */
+.iniciar_sesion a,
+.registro a {
+    color: #cfeeff;
+    text-decoration: underline;
+}
+
+.iniciar_sesion a:hover,
+.registro a:hover {
+    color: #fff;
+}
+
+/* Evitar que bootstrap ponga width:100% en botones específicos */
+.modal .w-100 {
+    width: 100% !important;
+}
+
+/* =======================================================
+   AJUSTES CRÍTICOS: Posición y Scroll en Registro (Revisión Agresiva)
+   ======================================================= */
+
+/* 1. Dialog general del modal registro: Control de tamaño y posición */
+#modalRegistro .modal-dialog {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    
+    /* Subimos el modal */
+    padding-top: 0 !important;      
+    margin-top: 2rem !important;    /* Margen superior para la tarjeta */
+    
+    margin-bottom: 2rem !important; 
+    margin-left: auto !important;
+    margin-right: auto !important;
+    
+    width: 560px !important;       /* Ancho fijo para desktop */
+    max-width: 92% !important;
+    /* CLAVE: Altura automática para que no ocupe todo el espacio vertical. */
+    height: auto !important;         
+    max-height: calc(100vh - 4rem) !important; 
+    
+    /* Impedir scroll del diálogo principal */
+    overflow: hidden !important; 
+}
+
+/* 2. El modal-content debe ajustarse al tamaño */
+#modalRegistro .modal-content {
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important; /* No queremos scroll aquí */
+}
+
+/* 3. Ajusta la tarjeta interna de registro: Manejo de Scroll */
+.iniciar_sesion.registro {
+    margin-top: 0 !important; 
+    width: 100% !important; 
+    max-width: none !important;
+    min-height: auto !important;
+    
+    /* Permitimos scroll DENTRO de la tarjeta si el contenido es largo */
+    max-height: calc(100vh - 4rem) !important; 
+    overflow-y: auto !important;                 
+    overflow-x: hidden !important; /* EVITAMOS BARRA LATERAL */
+    
+    box-sizing: border-box !important;
+    padding-bottom: 1.5rem !important;
+}
+
+/* Responsive: pequeño (móviles) */
+@media (max-width: 576px) {
+    .iniciar_sesion {
+        width: 92% !important;
+        padding: 1.25rem !important;
+        border-radius: 10px !important;
+    }
+
+    .iniciar_sesion.registro {
+        width: 92% !important;
+        padding-bottom: 1.25rem !important;
+        margin-top: 0.5rem !important;
+        overflow: visible !important; 
+    }
+
+    #modalRegistro .modal-dialog {
+        padding-top: 0.6rem !important;
+        align-items: center !important;
+        height: auto !important;
+        margin-top: 0.6rem !important; /* Ajuste para móvil */
+        margin-bottom: 0.6rem !important; 
+    }
+
+    #modalRegistro .modal-body {
+        overflow: auto !important;
+        max-height: calc(100vh - 3.5rem) !important;
+    }
+}
+
+
+/* =======================================================
+   CRUZ BLANCA (✕) y Posición Consistente
+   ======================================================= */
+
+/* 1. Resetear el estilo base de Bootstrap y asegurar posición para todos */
+.modal-content .btn-close {
     position: absolute !important;
-    top: -80px !important;
-    right: 40px !important;
-    z-index: 10 !important;
+    /* Nueva posición: 15px + 20px = 35px abajo */
+    top: 35px !important; 
+    /* Nueva posición: 15px + 20px = 35px a la izquierda */
+    right: 35px !important; 
+    width: 30px !important;
+    height: 30px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    z-index: 9999 !important; 
+    filter: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: transform 0.15s ease;
 }
 
-.btn-close:hover {
-    filter: brightness(0) invert(1) !important;
-    opacity: 0.8 !important;
+/* 2. Aseguramos la posición de la cruz en el modal de registro. Es consistente con el de login. */
+#modalRegistro .modal-content .btn-close {
+    top: 35px !important; 
+    right: 35px !important;
 }
 
-/* Botón de cerrar específico para modal de login */
-#exampleModal .btn-close {
-    top: -80px !important;
+/* 3. Reemplazar el SVG de Bootstrap con el símbolo de cruz (✕) y darle color blanco */
+.modal-content .btn-close::before {
+    content: "✕"; /* Símbolo de cruz */
+    color: var(--white) !important; /* Color blanco */
+    font-size: 1.8rem; 
+    line-height: 1;
 }
 
-/* Botón de cerrar específico para modal de registro */
-#modalRegistro .btn-close {
-    top: 0px !important;
+/* 4. Comportamiento en hover */
+.modal-content .btn-close:hover {
+    background: none !important;
+    transform: scale(1.1);
 }
 
-  
+/* Fin de archivo */
