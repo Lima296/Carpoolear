@@ -24,5 +24,8 @@ urlpatterns = [
     
     # Rutas de Frontend (usando las vistas importadas de 'usuarios')
     path('inicio/', views.inicio_view, name='inicio'),
+<<<<<<< Updated upstream
     path('miperfil/', views.perfil_view, name='miperfil'),
+=======
+>>>>>>> Stashed changes
 ]

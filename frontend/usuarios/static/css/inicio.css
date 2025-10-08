@@ -1,6 +1,6 @@
 /* ===========================
     inicio.css - estilos completos para modales login/registro
-    VERSIÓN FINAL Y CORREGIDA: Arreglo de overflow y posición de la cruz
+    VERSIÓN FINAL Y CORREGIDA: Arreglo de ancho y centrado del contenedor principal
     =========================== */
 
 /* ---------- Variables y base ---------- */
@@ -21,6 +21,12 @@ html, body {
     color: var(--white);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+    /* CENTRADO DEL CONTENEDOR GRIS */
+    /* Estas propiedades fueron removidas para permitir el posicionamiento manual del contenedor_inicio. */
+    /* display: flex;       
+    justify-content: center; 
+    align-items: center; */
 }
 
 /* Forzar box-sizing global */
@@ -67,7 +73,6 @@ html, body {
 
 /* Variante registro (base) */
 .iniciar_sesion.registro {
-    /* Permitimos que el tamaño se adapte al contenido */
     width: 520px;
     max-width: 96%;
     padding-bottom: 1.5rem;
@@ -213,52 +218,39 @@ html, body {
 }
 
 /* =======================================================
-   AJUSTES CRÍTICOS: Posición y Scroll en Registro (Revisión Agresiva)
+   AJUSTES CRÍTICOS: Modales de Login/Registro
    ======================================================= */
 
-/* 1. Dialog general del modal registro: Control de tamaño y posición */
 #modalRegistro .modal-dialog {
     display: flex !important;
     align-items: flex-start !important;
     justify-content: center !important;
-    
-    /* Subimos el modal */
     padding-top: 0 !important;      
-    margin-top: 2rem !important;    /* Margen superior para la tarjeta */
-    
+    margin-top: 2rem !important;    
     margin-bottom: 2rem !important; 
     margin-left: auto !important;
     margin-right: auto !important;
-    
-    width: 560px !important;       /* Ancho fijo para desktop */
+    width: 560px !important;       
     max-width: 92% !important;
-    /* CLAVE: Altura automática para que no ocupe todo el espacio vertical. */
     height: auto !important;         
     max-height: calc(100vh - 4rem) !important; 
-    
-    /* Impedir scroll del diálogo principal */
     overflow: hidden !important; 
 }
 
-/* 2. El modal-content debe ajustarse al tamaño */
 #modalRegistro .modal-content {
     width: 100% !important;
     height: auto !important;
-    overflow: visible !important; /* No queremos scroll aquí */
+    overflow: visible !important; 
 }
 
-/* 3. Ajusta la tarjeta interna de registro: Manejo de Scroll */
 .iniciar_sesion.registro {
     margin-top: 0 !important; 
     width: 100% !important; 
     max-width: none !important;
     min-height: auto !important;
-    
-    /* Permitimos scroll DENTRO de la tarjeta si el contenido es largo */
     max-height: calc(100vh - 4rem) !important; 
     overflow-y: auto !important;                 
-    overflow-x: hidden !important; /* EVITAMOS BARRA LATERAL */
-    
+    overflow-x: hidden !important; 
     box-sizing: border-box !important;
     padding-bottom: 1.5rem !important;
 }
@@ -282,7 +274,7 @@ html, body {
         padding-top: 0.6rem !important;
         align-items: center !important;
         height: auto !important;
-        margin-top: 0.6rem !important; /* Ajuste para móvil */
+        margin-top: 0.6rem !important; 
         margin-bottom: 0.6rem !important; 
     }
 
@@ -294,16 +286,14 @@ html, body {
 
 
 /* =======================================================
-   CRUZ BLANCA (✕) y Posición Consistente
+   CRUZ BLANCA (✕) y Posición Consistente (35px)
    ======================================================= */
 
-/* 1. Resetear el estilo base de Bootstrap y asegurar posición para todos */
 .modal-content .btn-close {
     position: absolute !important;
-    /* Nueva posición: 15px + 20px = 35px abajo */
+    /* (15px original) + 20px (solicitado) = 35px */
     top: 35px !important; 
-    /* Nueva posición: 15px + 20px = 35px a la izquierda */
-    right: 35px !important; 
+    right: 35px !important;
     width: 30px !important;
     height: 30px !important;
     padding: 0 !important;
@@ -320,24 +310,59 @@ html, body {
     transition: transform 0.15s ease;
 }
 
-/* 2. Aseguramos la posición de la cruz en el modal de registro. Es consistente con el de login. */
 #modalRegistro .modal-content .btn-close {
     top: 35px !important; 
     right: 35px !important;
 }
 
-/* 3. Reemplazar el SVG de Bootstrap con el símbolo de cruz (✕) y darle color blanco */
 .modal-content .btn-close::before {
-    content: "✕"; /* Símbolo de cruz */
-    color: var(--white) !important; /* Color blanco */
+    content: "✕"; 
+    color: var(--white) !important; 
     font-size: 1.8rem; 
     line-height: 1;
 }
 
-/* 4. Comportamiento en hover */
 .modal-content .btn-close:hover {
     background: none !important;
     transform: scale(1.1);
 }
 
-/* Fin de archivo */
+/* =======================================================
+   CONTENEDOR INICIAL (RECIBE EL 90% DE ANCHO)
+   ======================================================= */
+
+.contenedor_inicio {
+    background-color: #333333;
+    
+    /* SOLUCIÓN AL PROBLEMA DE ANCHO */
+    width: 90% !important;
+    /* Evita que el Flexbox lo encoja demasiado en ventanas pequeñas */
+    flex-shrink: 0; 
+    /* Garantiza un tamaño mínimo para que no se vea "siempre pequeño" */
+    min-width: 300px;
+    
+    height: 80%;
+    
+    /* Limitador para pantallas grandes (desktop) */
+    max-width: 1000px; 
+    
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    
+    text-align: left; 
+    
+    /* EJEMPLO: Si quisieras centrarlo horizontalmente, pero posicionarlo verticalmente: */
+    /* margin: 50px auto; */
+}
+
+.contenido_inicio {
+margin-left: 200px;
+margin-top: 100px;
+}
+.contenido_inicio h1 {
+    font-size: 70px !important;
+    margin-bottom: 20px !important;
+    color: #ffffff;
+}
+
+
