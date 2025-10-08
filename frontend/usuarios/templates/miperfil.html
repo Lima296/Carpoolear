@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil de Usuario</title>
+    
+    <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'css/miperfil.css' %}">
+</head>
+<body>
+
+    {% include 'navbargeneral.html' %}
+    <div class="container my-5">
+        <div class="card p-4 shadow-sm">
+            <h2 class="card-title text-center mb-4">Mi Perfil de Usuario</h2>
+            
+            <div class="profile-info">
+                <p><strong>Nombre de Usuario:</strong> {{ user.username }}</p>
+                <p><strong>Correo Electrónico:</strong> {{ user.email }}</p>
+                
+                {% if user.profile %}
+                    <p><strong>Teléfono:</strong> {{ user.profile.telefono|default_if_none:"N/A" }}</p>
+                    <p><strong>Dirección:</strong> {{ user.profile.direccion|default_if_none:"N/A" }}</p>
+                {% else %}
+                    <p class="text-warning">Aún no tienes un perfil asociado.</p>
+                {% endif %}
+            </div>
+
+            <div class="mt-4 d-flex justify-content-start">
+                <button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#editarPerfilModal">
+                    Editar Perfil
+                </button>
+                
+                <a href="{% url 'cambiar_contraseña' %}" class="btn btn-outline-secondary">
+                    Cambiar Contraseña
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editarPerfilModal" tabindex="-1" aria-labelledby="editarPerfilModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarPerfilModalLabel">Editar mi Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarPerfil" method="POST" action="{% url 'editar_perfil_api' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_telefono" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="id_telefono" name="telefono" 
+                                value="{{ user.profile.telefono|default_if_none:'' }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_direccion" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="id_direccion" name="direccion" 
+                                value="{{ user.profile.direccion|default_if_none:'' }}">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/usuarios.js' %}"></script>
+</body>
+</html>
