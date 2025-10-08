@@ -15,15 +15,9 @@
 
 <nav class="navbar navbar-expand-lg navbar-custom d-flex justify-content-center align-items-center px-3" style="background-color: #298EB8 !important;">
   
-  <!-- Botón hamburguesa a la izquierda -->
-  <div class="menu-toggle" id="menu-toggle"data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu" style="position: absolute; left: 20px;">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
 
   <!-- Logo y título juntos en el centro -->
-  <div class="d-flex align-items-center">
+  <div class="d-flex align-items-center" style="position: absolute; right: 20px; margin-right: 50px;">
     <a href="#" class="logo me-2">
       <img src="{% static 'img/logo.png' %}" alt="Carpoolear" class="logo-img">
     </a>
@@ -33,7 +27,7 @@
   </div>
   
   <!-- Botones a la derecha -->
-  <div class="d-flex align-items-center gap-2" style="position: absolute; right: 20px;">
+  <div class="d-flex align-items-center gap-2" style="position: absolute; left: 50px;">
     <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
       Iniciar Sesión
     </button>
