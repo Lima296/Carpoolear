@@ -1,8 +1,6 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
-  
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;1,14..32,300&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbargeneral.css' %}">
 
     <title>VIAJAR</title>
 </head>
@@ -20,23 +18,23 @@
 
 <nav class="navbar d-flex justify-content-between align-items-center px-3">
   
-  <!-- Botón hamburguesa a la izquierda -->
-  <div class="menu-toggle" id="menu-toggle"data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
+    <div class="menu-toggle" id="menu-toggle" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 
-  <!-- Título en el centro de la navbar -->
-  <div class="navbar-title">
-    ViajAr
-  </div>
+    <div class="d-flex align-items-center"> 
+        
+        <div class="navbar-title me-3"> 
+            ViajAr
+        </div>
 
-  <!-- Logo a la derecha -->
-  <a href="#" class="logo">
-    <img src="{% static 'img/logo.png' %}" alt="Carpoolear" class="logo-img">
-  </a>
-  
+        <a href="#" class="logo">
+            <img src="{% static 'img/logo.png' %}" alt="Carpoolear" class="logo-img">
+        </a>
+    </div> 
+    
 </nav>
 
 <!-- Offcanvas menú -->

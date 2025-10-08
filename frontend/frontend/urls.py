@@ -24,7 +24,5 @@ urlpatterns = [
     
     # Rutas de Frontend (usando las vistas importadas de 'usuarios')
     path('inicio/', views.inicio_view, name='inicio'),
-    path('miperfil/', views.miperfil_view, name='miperfil'), 
-    path('cambiar-contraseña/', views.cambiar_contraseña_view, name='cambiar_contraseña'),
-    path('api/perfil/editar/', views.editar_perfil_api, name='editar_perfil_api'),
+    path('miperfil/', views.perfil_view, name='miperfil'),
 ]
