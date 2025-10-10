@@ -38,6 +38,7 @@ urlpatterns = [
     # Ahora que 'include' está importado, esta línea funcionará y reconocerá /miperfil/
     path('', include('usuarios.urls')), 
 ]
+
 """
 URL configuration for backend project.
 

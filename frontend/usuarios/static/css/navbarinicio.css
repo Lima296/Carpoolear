@@ -2,7 +2,6 @@
 
 body {
     font-family: 'Outfit', sans-serif; /* Fuente principal de la página */
-    background-color: #ffffff;       /* Fondo blanco */
 }
 
 
@@ -13,7 +12,7 @@ body {
     justify-content: space-between;    /* Espacia entre extremos (izq - der) */
     align-items: center;               /* Centra verticalmente los elementos */
     padding: 0 0px;                    /* Espaciado interno */
-    background-color: #385773;       /* Color de fondo azul/gris */
+    background-color: #024873 !important;       /* Color de fondo azul/gris */
     position: relative;                /* Contexto para elementos absolutos */
     height: 70px;                      /* Altura de la barra */
     align-items: center;               /* Asegura centrado vertical */
@@ -103,7 +102,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #385773;
+    background-color: #024873 !important;
     position: relative;
     height: 70px; /* altura de la navbar */
     align-items: center; /* centra verticalmente los elementos */
@@ -178,7 +177,7 @@ body {
 
 /* Encabezado del offcanvas */
 .offcanvas-header {
-    background-color: #385773;        /* Mismo color que la navbar */
+    background-color: #024873;        /* Mismo color que la navbar */
     height: 70px;                       /* Mismo alto que la navbar */
     display: flex;                      /* Alineación flexible */
     align-items: center;                /* Centra verticalmente */
@@ -190,7 +189,7 @@ body {
 .offcanvas-title {
     font-size: 24px;                    /* Tamaño grande del título */
     font-weight: bold;                  /* Texto en negrita */
-    color: white;                     /* Texto blanco como la navbar */
+    color: #024873;                     /* Texto blanco como la navbar */
     margin: 0;                          /* Sin márgenes extra */
 }
 
@@ -213,7 +212,7 @@ body {
 
 /* Efecto hover al pasar el mouse sobre los enlaces */
 .offcanvas-body .nav-links li a:hover {
-    color: #385773;                   /* Cambia color a azul/gris */
+    color: #024873;                   /* Cambia color a azul/gris */
 }
 
 
@@ -229,4 +228,4 @@ body {
     .nav-links {
         display: none; /* los enlaces normales se ocultan */
     }
-}
+}   

@@ -1,7 +1,7 @@
 /* ===========================
-    inicio.css - estilos completos para modales login/registro
-    VERSIÓN FINAL Y CORREGIDA: Arreglo de ancho y centrado del contenedor principal
-    =========================== */
+   inicio.css - estilos completos para modales login/registro
+   VERSIÓN FINAL Y CORREGIDA: Arreglo de ancho y centrado del contenedor principal
+   =========================== */
 
 /* ---------- Variables y base ---------- */
 :root{
@@ -17,16 +17,12 @@ html, body {
     height: 100%;
     margin: 0;
     font-family: "Inter", "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: var(--bg) !important;
+    background-color: #fff !important;
     color: var(--white);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    /* CENTRADO DEL CONTENEDOR GRIS */
-    /* Estas propiedades fueron removidas para permitir el posicionamiento manual del contenedor_inicio. */
-    /* display: flex;       
-    justify-content: center; 
-    align-items: center; */
+
 }
 
 /* Forzar box-sizing global */
@@ -124,7 +120,7 @@ html, body {
     box-sizing: border-box !important;
     background-color: #ffffff !important; 
     color: #111111 !important;           
-    text-align: center !important;         
+    text-align: center !important;          
     caret-color: #111111 !important;
     box-shadow: none !important;
 }
@@ -166,7 +162,7 @@ html, body {
     box-sizing: border-box;
 }
 
-/* ---------- Botones ---------- */
+/* ---------- Botones de Formulario (dentro de modales) ---------- */
 .iniciar_sesion .btn-primary,
 .registro .btn-primary {
     width: 80% !important;
@@ -175,8 +171,7 @@ html, body {
     padding: 0.85rem 1rem !important;
     border-radius: 8px !important;
     border: none !important;
-    background-color: var(--accent) !important;
-    color: var(--white) !important;
+    background-color: #024873 !important;
     font-size: 1rem !important;
     text-align: center !important;
     cursor: pointer;
@@ -190,7 +185,7 @@ html, body {
 
 .iniciar_sesion .btn-primary:hover,
 .registro .btn-primary:hover {
-    background-color: var(--accent-dark) !important;
+    background-color: #035e96 !important;
 }
 
 /* Links / texto secundario */
@@ -230,10 +225,10 @@ html, body {
     margin-bottom: 2rem !important; 
     margin-left: auto !important;
     margin-right: auto !important;
-    width: 560px !important;       
+    width: 560px !important;        
     max-width: 92% !important;
-    height: auto !important;         
-    max-height: calc(100vh - 4rem) !important; 
+    height: auto !important;          
+    max-height: calc(100vh - 4rem) !important;  
     overflow: hidden !important; 
 }
 
@@ -249,7 +244,7 @@ html, body {
     max-width: none !important;
     min-height: auto !important;
     max-height: calc(100vh - 4rem) !important; 
-    overflow-y: auto !important;                 
+    overflow-y: auto !important;                      
     overflow-x: hidden !important; 
     box-sizing: border-box !important;
     padding-bottom: 1.5rem !important;
@@ -328,7 +323,47 @@ html, body {
 }
 
 /* =======================================================
-   CONTENEDOR INICIAL (RECIBE EL 90% DE ANCHO)
+   Estilos de los botones de la Sección Principal (Hero)
+   ======================================================= */
+/* Estos estilos aplican a los botones de la bienvenida fuera de los modales. */
+
+.hero-buttons-container .btn {
+    /* Estilos base: tamaño, fuente y sombra */
+    font-weight: 600 !important;
+    font-size: 1.15rem !important; /* Más grande */
+    padding: 12px 25px !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 15px rgba(0, 72, 115, 0.2) !important;
+    transition: all 0.2s ease;
+}
+
+/* Estilo específico: Botón principal (ej. Iniciar Sesión) - Relleno azul */
+.btn-hero-primary {
+    background-color: var(--accent-dark) !important; /* Azul oscuro */
+    color: var(--white) !important;
+    border: 1px solid var(--accent-dark) !important;
+}
+
+.btn-hero-primary:hover {
+    background-color: #035e96 !important;
+    border-color: #035e96 !important;
+}
+
+/* Estilo específico: Botón secundario (ej. Registrarse) - Borde azul */
+.btn-hero-secondary {
+    background-color: transparent !important;
+    color: var(--accent-dark) !important; /* Azul oscuro para el texto */
+    border: 1px solid var(--accent-dark) !important;
+}
+
+.btn-hero-secondary:hover {
+    background-color: var(--accent-dark) !important;
+    color: var(--white) !important;
+}
+
+
+/* =======================================================
+   LAYOUT DEL CONTENIDO PRINCIPAL (Título vs Botones)
    ======================================================= */
 
 .contenedor_inicio {
@@ -356,13 +391,112 @@ html, body {
 }
 
 .contenido_inicio {
-margin-left: 200px;
-margin-top: 100px;
+    /* Posicionamiento manual solicitado */
+    margin-left: 200px;
+    margin-top: 100px;
+    
+    /* Configuración Flexbox para alinear el título y los botones horizontalmente */
+    display: flex;
+    justify-content: space-between; /* Empuja el título a la izquierda y los botones a la derecha */
+    align-items: center; /* Centra los elementos verticalmente */
+    width: calc(100% - 250px); /* Ajuste de ancho para no exceder la pantalla (100% - margen) */
+    max-width: 1150px; /* Limite de ancho para desktop */
+    padding-right: 20px; /* Pequeño padding para asegurar separación del borde derecho */
 }
-.contenido_inicio h1 {
+
+/* Estilos para el Título Principal */
+.contenido_inicio h1.hero-title { /* Usamos la clase hero-title de tu HTML para ser más específico */
     font-size: 70px !important;
     margin-bottom: 20px !important;
-    color: #ffffff;
+    color: var(--accent-dark) !important; /* Usamos la variable para el color azul */
+    line-height: 1.1; /* Ajuste visual para el salto de línea */
+    /* Permite que el título ocupe la mayor parte del espacio */
+    flex-grow: 1; 
+}
+.contenido_inicio h1.hero-title2 { /* Usamos la clase hero-title de tu HTML para ser más específico */
+    font-size: 40px !important;
+    margin-bottom: 20px !important;
+    color: var(--accent-dark) !important; /* Usamos la variable para el color azul */
+    line-height: 1.1; /* Ajuste visual para el salto de línea */
+    /* Permite que el título ocupe la mayor parte del espacio */
+    flex-grow: 1; 
+}
+.contenido_inicio h2.hero-title2 { /* Usamos la clase hero-title de tu HTML para ser más específico */
+    font-size: 25px !important;
+    margin-bottom: 20px !important;
+    color: var(--accent-dark) !important; /* Usamos la variable para el color azul */
+    line-height: 1.1; /* Ajuste visual para el salto de línea */
+    /* Permite que el título ocupe la mayor parte del espacio */
+    flex-grow: 1; 
 }
 
+/* Estilos para el contenedor de botones a la derecha */
+.hero-buttons-container {
+    flex-shrink: 0; /* Asegura que no se encoja cuando haya poco espacio */
+    padding-left: 30px; /* Espacio para separar de la palabra "Ahorrá." */
+}
 
+/* Estilo para el 'Ó' entre los botones */
+.hero-buttons-container .h-text-small {
+    font-size: 1.2rem;
+    color: var(--accent-dark); /* Color del título */
+    margin: 0 10px;
+    font-weight: 500;
+}
+
+/* Ajuste del navbar (mantenido) */
+.navbarinicio {
+    background-color: #024873 !important;
+}
+
+/* Responsive: pantallas medianas y pequeñas */
+@media (max-width: 768px) {
+    .contenido_inicio {
+        /* Vuelve a centrar el contenido y lo apila en móvil */
+        flex-direction: column;  
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        /* Remover márgenes de posicionamiento manual en móvil para evitar desbordamiento */
+        margin-left: 0;
+        margin-top: 0px; /* Pequeño margen superior */
+        padding: 0 20px;
+    }
+    
+    .hero-buttons-container {
+        padding-left: 0;
+        margin-bottom: 0px;
+        flex-direction: column;  
+        justify-content: center;
+        align-items: center;
+        width: 100%; /* Asegura que en móvil ocupe todo el ancho */
+    }
+
+    /* Regla para apilar los botones y el 'Ó' en móvil */
+    .hero-buttons-container > .d-flex {
+        flex-direction: column !important; /* Apilado vertical */
+        align-items: center !important;
+        width: 100%;
+    }
+
+    /* Dar ancho completo a los botones apilados */
+    .hero-buttons-container .btn {
+        width: 90% !important; /* Botones toman la mayor parte del ancho */
+        margin: 5px 0 !important; /* Espacio vertical entre los botones */
+    }
+
+    /* Ajustar margen del separador 'Ó' */
+    .hero-buttons-container .h-text-small {
+        margin: 0px 0 !important; /* Más espacio vertical para el separador */
+    }
+
+    .contenido_inicio h2.hero-title2 {
+        text-align: center;  
+        justify-content: center;
+    }
+    
+    .contenido_inicio h1.hero-title2 {
+        justify-content: center;
+        text-align: center;
+    }
+}
