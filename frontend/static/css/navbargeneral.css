@@ -62,6 +62,11 @@ body {
     height: 60px;                      /* Altura del logo */
     width: auto;                       /* Mantiene proporción */
 }
+.logo_titulo{
+    position: absolute;
+    right: 20px;
+    margin-right: 30px;
+}
 
 
 /* ------------- BOTÓN HAMBURGUESA ------------- */
