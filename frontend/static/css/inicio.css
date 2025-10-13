@@ -5,10 +5,10 @@
 
 /* ---------- Variables y base ---------- */
 :root{
-    --bg: #024873;
+    --bg: #ffffff;
     --card-bg: rgba(0,0,0,0.62);
     --accent: #298EB8;
-    --accent-dark: #024873;
+    --accent-dark: #ffffff;
     --white: #ffffff;
     --muted: rgba(255,255,255,0.75);
 }
@@ -17,7 +17,7 @@ html, body {
     height: 100%;
     margin: 0;
     font-family: "Inter", "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #fff !important;
+    background-color: #024873 !important;
     color: var(--white);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -340,25 +340,27 @@ html, body {
 /* Estilo específico: Botón principal (ej. Iniciar Sesión) - Relleno azul */
 .btn-hero-primary {
     background-color: var(--accent-dark) !important; /* Azul oscuro */
-    color: var(--white) !important;
-    border: 1px solid var(--accent-dark) !important;
+    color: #024873 !important;
 }
 
 .btn-hero-primary:hover {
-    background-color: #035e96 !important;
-    border-color: #035e96 !important;
+    background-color: #024873 !important;
+        border: 1px solid white !important;
+        color: #ffffff !important;
+
 }
 
 /* Estilo específico: Botón secundario (ej. Registrarse) - Borde azul */
 .btn-hero-secondary {
     background-color: transparent !important;
-    color: var(--accent-dark) !important; /* Azul oscuro para el texto */
+    color: var(--accent-dark) !important;
     border: 1px solid var(--accent-dark) !important;
 }
 
 .btn-hero-secondary:hover {
     background-color: var(--accent-dark) !important;
-    color: var(--white) !important;
+    color: #024873 !important;
+    border-color: #024873;
 }
 
 
