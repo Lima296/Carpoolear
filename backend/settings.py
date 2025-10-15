@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'provincias',
     'vehiculos',
     'estado',
+    'viajes',
+    'localidad',
 
 ]
 
@@ -93,7 +95,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'viajar',           # nombre exacto de la base
         'USER': 'postgres',         # tu usuario PostgreSQL
-        'PASSWORD': 'admin',     # sin caracteres raros
+        'PASSWORD': '1610',     # sin caracteres raros
         'HOST': 'localhost',        # o IP de tu servidor
         'PORT': '5432',             # puerto por defecto de PostgreSQL
     }

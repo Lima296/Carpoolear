@@ -1,14 +1,3 @@
-# Byte-compiled / optimizado / archivos de caché
-*.py[cod]
-__pycache__/
-*.so
-settings.cpython-313.pyc
-urls.cpython-313.pyc
-
-# Archivos de entorno virtual
-env/
-venv/
-ENV/
 .venv/
 env.bak/
 venv.bak/

@@ -15,20 +15,38 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from estado.views import EstadoViewSet
+from django.urls import include, path
 from usuarios.views import UsuarioViewSet, DetalleUsuario, LoginView
-from provincias.views import PronviciasViewSet
+from provincias.views import ProvinciaLista, ProvinciaDetalle
+from vehiculos.views import VehiculoDetalle, VehiculoLista
+from viajes.views import ViajeLista, ViajeDetalle
+from estado.views import EstadoLista, EstadoDetalle
+from localidad.views import LocalidadDetalle, LocalidadLista
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('usuarios/', UsuarioViewSet.as_view(), name='usuarios'),
-    path('usuarios/<int:pk>/', DetalleUsuario.as_view(), name='detalle_usuario'),
-    path('provincias/', PronviciasViewSet.as_view(), name='provincias'),
-    path('estado/', EstadoViewSet.as_view(), name='estado'),
-    path('login/', LoginView.as_view(), name='login'),
+    path('api/login/', LoginView.as_view(), name='login'),
+
+    path('api/usuarios/', UsuarioViewSet.as_view(), name='usuarios-lista'),
+    path('api/usuarios/<int:pk>/', DetalleUsuario.as_view(), name='detalle_usuario'),
+
+    path('api/provincias/', ProvinciaLista.as_view(), name='provincias-lista'),
+    path('api/provincias/<int:pk>/', ProvinciaDetalle.as_view(), name='provincias-detalle'),
+
+    path('api/viajes/', ViajeLista.as_view(), name='viaje-lista'),
+    path('api/viajes/<int:pk>/', ViajeDetalle.as_view(), name='viaje-detalle'),
+
+    path('api/estados/', EstadoLista.as_view(), name='estados-lista'),
+    path('api/estados/<int:pk>/', EstadoDetalle.as_view(), name='estados-detalle'),
+
+    path('api/vehiculos/', VehiculoLista.as_view(), name='vehiculo-lista'),
+    path('api/vehiculos/<int:pk>/', VehiculoDetalle.as_view(), name='vehiculo-detalle'),
+    
+    path('api/localidad/', LocalidadLista.as_view(), name='localidad-lista'),
+    path('api/localidad/<int:pk>/', LocalidadDetalle.as_view(), name='localidad-detalle'),
 ]
+
 """
 URL configuration for backend project.
 

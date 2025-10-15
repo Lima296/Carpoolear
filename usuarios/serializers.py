@@ -1,18 +1,18 @@
 from rest_framework import serializers
-from django.contrib.auth.models import make_password
+from .models import Usuario
+from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.hashers import check_password
-from .models import Usuario
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True) # Campo para recibir la contraseña en texto plano y que no se vea
+    password = serializers.CharField(write_only=True, required=True) # Campo para recibir la contraseña en texto plano y que no se vea
 
     class Meta:
         model = Usuario
-        fields = ['id', 'nombre', 'apellido', 'correo', 'password', 'password_hash', 'token', 'creado', 'actualizado']
-        read_only_fields = ['id', 'token', 'creado', 'actualizado','password_hash']
+        fields = '__all__' # Todos los campos del modelo
+        read_only_fields = ['id', 'token', 'creado', 'actualizado','password_hash'] # Campos que no se pueden modificar directamente
 
     def create(self, validated_data): # Método para crear un usuario
         password = validated_data.pop('password') # Sacamos la contraseña en texto plano
