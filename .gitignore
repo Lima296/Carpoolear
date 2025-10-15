@@ -2,7 +2,6 @@
 *.py[cod]
 __pycache__/
 *.so
-settings.cpython-313.pyc
 urls.cpython-313.pyc
 
 # Archivos de entorno virtual
@@ -15,7 +14,6 @@ venv.bak/
 
 # Archivos de configuración local
 *.env
-settings.py
 local_settings.py
 
 # Archivos de base de datos
