@@ -1,0 +1,70 @@
+/* --- CONTENEDOR PRINCIPAL DE LAS TARJETAS DE VIAJES --- */
+.contenedor_viajes {
+    margin-left: 100px;
+    margin-top: 130px;
+}
+
+/* --- ESTILO PARA LA NUEVA TARJETA INDIVIDUAL (250x500) --- */
+.custom-card-template {
+    width: 250px; 
+    height: 380px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    padding: 0;
+    /* CRÍTICO: Reemplazamos '20px auto' por un margin fijo de 20px en todas direcciones. */
+    /* Esto define el espacio ENTRE las tarjetas y el margen superior/inferior. */
+    margin: 10px; 
+    background-color: #fff;
+    display: flex;
+    flex-direction: column; 
+    overflow: hidden;
+}
+
+.card-header-svg {
+    height: 180px; /* Espacio definido para el SVG */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #298EB8, #4DADD7); /* Fondo degradado */
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-body-content {
+    padding: 5px;
+    flex-grow: 1; /* Permite que el cuerpo ocupe el espacio restante */
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0px;
+    padding: 5px 0;
+    border-bottom: 1px dashed #eee;
+}
+
+.detail-label {
+    font-weight: 500;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+}
+
+.detail-value {
+    font-weight: 500;
+    color: #343a40;
+}
+
+.places-available {
+    margin-top: 5px;
+    padding: 5px;
+    background-color: #e9f7ef;
+    border-radius: 8px;
+    text-align: center;
+}
+/* --- FIN ESTILO PARA LA NUEVA TARJETA INDIVIDUAL --- */
