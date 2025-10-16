@@ -19,32 +19,73 @@
 </head>
 <body>
     {% include 'includes/navbargeneral.html' %}
-<!-- <div class="contenedor_viajes">
-  <div class="card card_viaje" style="width: 18rem;">
-    <img src="{% static 'img/logo.png' %}" class="card-img-top" alt="...">
-    <div class="card-body">
 
-      <h5>Fecha: Lun, 13 de Octubre</h5>
-      <h5>Hora: 17:00</h5>
-      <h5>Precio: $10.000</h5>
-      <h5>Quedan 3 lugares</h5>
 
-      <a href="#" class="btn btn-primary">VER</a>
+<div class="contenedor_buscar">
+    
+    <div class="busqueda-grupo">
+        <span>Origen</span>
+        <div class="dropdown" id="dropdown-origen">
+            <input type="text" 
+                   class="form-control" 
+                   placeholder="Ciudad origen"
+                   data-bs-toggle="dropdown" 
+                   aria-expanded="false" 
+                   id="input-origen"
+                   autocomplete="off"> 
+            <div class="dropdown-menu">
+                <h6 class="dropdown-header">Ciudades Sugeridas</h6>
+                <a class="dropdown-item" href="#" data-value="Buenos Aires">Buenos Aires</a>
+                <a class="dropdown-item" href="#" data-value="Córdoba">Córdoba</a>
+            </div>
+        </div>
     </div>
-  </div>
-</div> -->
+
+    <div class="busqueda-grupo">
+        <span>Destino</span>
+        <div class="dropdown" id="dropdown-destino">
+            <input type="text" 
+                   class="form-control" 
+                   placeholder="Ciudad destino"
+                   data-bs-toggle="dropdown" 
+                   aria-expanded="false" 
+                   id="input-destino"
+                   autocomplete="off"> 
+            <div class="dropdown-menu">
+                <h6 class="dropdown-header">Ciudades Sugeridas</h6>
+                <a class="dropdown-item" href="#" data-value="Tucumán">Tucumán</a>
+                <a class="dropdown-item" href="#" data-value="Neuquén">Neuquén</a>
+            </div>
+        </div>
+    </div>
+    <div class="busqueda-grupo">
+        <span>Fecha</span>
+        <input type="date" 
+               class="form-control"
+               id="input-fecha"> 
+    </div>
+
+    
+
+    <button class="btn btn-warning" id="btn-buscar">Buscar</button>
+
+</div>
+        
+    </div>
+    </nav>
+</div>
+
 <div class="contenedor_viajes">
             <div class="custom-card-template">
                 <!-- 1. ZONA SVG/ICONO -->
                 <div class="card-header-svg">
                     <span style="font-size: 1.2rem; text-shadow: 0 0 5px rgba(0,0,0,0.3);">
-                        <img src="{% static 'img/location.svg' %}" alt="Ubicación" style="width: 25px;"> DESDE
+                        <img src="{% static 'img/location.svg' %}" alt="Ubicación" style="width: 25px;"> DESDE: <br>
+                        <img src="{% static 'img/flecha.svg' %}" alt="HASTA" style="width: 25px; margin-left: 0px; margin-top: 10px; margin-bottom: 5px;">
                         <br>
-                        <img src="{% static 'img/location.svg' %}" alt="Ubicación" style="width: 25px;"> HASTA
-                         </span>
-                    
-                </div>
-                
+                        <img src="{% static 'img/location.svg' %}" alt="Ubicación" style="width: 25px;"> HASTA:
+                    </span>
+            </div>
                 <!-- 2. CUERPO DE DETALLES -->
                 <div class="card-body-content">
                     
@@ -60,7 +101,7 @@
                     <div class="detail-row">
                         <span class="detail-label">
                             <!-- SVG para Reloj -->
-                            *SVG* Hora:
+                            <img src="{% static 'img/time.svg' %}" alt="Hora" style="width: 25px; margin-right: 10px;"> Hora:
                         </span>
                         <span class="detail-value">18:30 HS</span>
                     </div>
@@ -69,15 +110,16 @@
                     <div class="detail-row mb-3">
                         <span class="detail-label text-success">
                             <!-- SVG para Moneda -->
-                            *SVG* Costo:
+                            <img src="{% static 'img/money.svg' %}" alt="Costo" style="width: 25px; margin-right: 10px;"> Costo:
                         </span>
                         <span class="detail-value text-success fw-bolder">$ 5.000</span>
                     </div>
                     
                     <!-- Lugares Disponibles -->
                     <div class="places-available mt-auto">
-                        <p class="mb-1 text-secondary fw-semibold">LUGARES DISPONIBLES:</p>
-                        <p class="lead fw-bolder text-primary">3 / 4</p>
+                        
+                        <p class="mb-1 text-secondary fw-semibold"><img src="{% static 'img/asiento.svg' %}" alt="Costo" style="width: 25px; margin-right: 5px;">LUGARES DISPONIBLES:</p>
+                        <p class="lead fw-bolder text-primary">3 / 4 </p>
                     </div>
                     
                     <!-- Botón -->
@@ -86,6 +128,7 @@
             </div>
 </div>
 
-<script src="{% static 'lisbs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/filtro.js' %}"></script>
 </body>
 </html>
