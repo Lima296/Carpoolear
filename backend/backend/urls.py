@@ -16,13 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:backend/urls.py
+>>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
 from django.urls import include, path
 =======
 # 🔑 CORRECCIÓN 1: Asegúrate de importar 'include'
 from django.urls import path, include 
 # Importaciones de tus vistas de API
 from estado.views import EstadoViewSet
+<<<<<<< HEAD
 >>>>>>> main
+=======
+>>>>>>> main:backend/backend/urls.py
+>>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
 from usuarios.views import UsuarioViewSet, DetalleUsuario, LoginView
 from provincias.views import ProvinciaLista, ProvinciaDetalle
 from vehiculos.views import VehiculoDetalle, VehiculoLista
@@ -37,6 +45,10 @@ urlpatterns = [
     # Rutas de administración y APIs (las que ya tenías)
     path('admin/', admin.site.urls),
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:backend/urls.py
+>>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
     path('api/login/', LoginView.as_view(), name='login'),
 
     path('api/usuarios/', UsuarioViewSet.as_view(), name='usuarios-lista'),
@@ -66,7 +78,11 @@ urlpatterns = [
     # ✅ SOLUCIÓN AL 404: Incluye las URLs de la aplicación 'usuarios' en la ruta raíz.
     # Ahora que 'include' está importado, esta línea funcionará y reconocerá /miperfil/
     path('', include('usuarios.urls')), 
+<<<<<<< HEAD
 >>>>>>> main
+=======
+>>>>>>> main:backend/backend/urls.py
+>>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
 ]
 
 """

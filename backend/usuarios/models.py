@@ -4,8 +4,16 @@ import secrets #genera tokens seguros
 
 class Usuario(models.Model):
     nombre = models.CharField(max_length=100)
+<<<<<<< HEAD
     apellido = models.CharField(max_length=100, blank=True) #blank=true opcional
     dni = models.CharField(max_length=20, unique=True) #unique=true no se repite
+=======
+<<<<<<< HEAD:usuarios/models.py
+    apellido = models.CharField(max_length=100, blank=True) #blank=true opcional
+    dni = models.CharField(max_length=20, unique=True) #unique=true no se repite
+=======
+>>>>>>> main:backend/usuarios/models.py
+>>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
     correo = models.EmailField(unique=True)
     telefono = models.CharField(max_length=128, blank=True)
     password_hash = models.CharField(max_length=128) #almacena el hash de la contraseña

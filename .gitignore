@@ -1,10 +1,19 @@
+# Byte-compiled / optimizado / archivos de caché
+*.py[cod]
+__pycache__/
+*.so
+urls.cpython-313.pyc
+
+# Archivos de entorno virtual
+env/
+venv/
+ENV/
 .venv/
 env.bak/
 venv.bak/
 
 # Archivos de configuración local
 *.env
-settings.py
 local_settings.py
 
 # Archivos de base de datos
@@ -46,8 +55,11 @@ __pycache__/
 *.pyc
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 .vscode/
 =======
+=======
+>>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
 .vscode/
 
 # Python
@@ -63,5 +75,9 @@ db.sqlite3
 
 # Archivos temporales de sistema
 .DS_Store
+<<<<<<< HEAD
 Thumbs.db
 >>>>>>> main
+=======
+Thumbs.db
+>>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b

@@ -1,4 +1,8 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:provincias/urls.py
+>>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
 from django.urls import path
 from .views import ProvinciaDetalle, ProvinciaLista
 
@@ -15,5 +19,9 @@ router.register(r'provincias', ProvinciaViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+<<<<<<< HEAD
 >>>>>>> main
+=======
+>>>>>>> main:backend/provincias/urls.py
+>>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
 ]

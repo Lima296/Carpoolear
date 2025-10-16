@@ -12,6 +12,10 @@ class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:usuarios/serializers.py
+>>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
         fields = '__all__' # Todos los campos del modelo
         read_only_fields = ['id', 'token', 'creado', 'actualizado','password_hash'] # Campos que no se pueden modificar directamente
 =======
@@ -23,7 +27,11 @@ class UsuarioSerializer(serializers.ModelSerializer):
         if Usuario.objects.filter(correo=value).exists():
             raise serializers.ValidationError("Este correo electrónico ya está registrado. Por favor, utiliza otro correo.")
         return value
+<<<<<<< HEAD
 >>>>>>> main
+=======
+>>>>>>> main:backend/usuarios/serializers.py
+>>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
 
     def create(self, validated_data): # Método para crear un usuario
         password = validated_data.pop('password') # Sacamos la contraseña en texto plano
