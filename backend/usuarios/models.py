@@ -1,19 +1,10 @@
 from django.db import models
-<<<<<<< HEAD
 import secrets #genera tokens seguros
 
 class Usuario(models.Model):
     nombre = models.CharField(max_length=100)
-<<<<<<< HEAD
     apellido = models.CharField(max_length=100, blank=True) #blank=true opcional
     dni = models.CharField(max_length=20, unique=True) #unique=true no se repite
-=======
-<<<<<<< HEAD:usuarios/models.py
-    apellido = models.CharField(max_length=100, blank=True) #blank=true opcional
-    dni = models.CharField(max_length=20, unique=True) #unique=true no se repite
-=======
->>>>>>> main:backend/usuarios/models.py
->>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
     correo = models.EmailField(unique=True)
     telefono = models.CharField(max_length=128, blank=True)
     password_hash = models.CharField(max_length=128) #almacena el hash de la contraseña
@@ -29,32 +20,5 @@ class Usuario(models.Model):
 
     def __str__(self):
         return f"{self.nombre} {self.apellido} , ({self.correo})" #como se muestra en el admin
-=======
-import secrets
 
-class Usuario(models.Model):
-    nombre = models.CharField(max_length=100)
-    correo = models.EmailField(unique=True)
-    # Guardamos la contraseña hasheada acá (nunca en texto plano)
-    password_hash = models.CharField(max_length=128)
-    # Token propio por usuario (lo generamos automáticamente)
-    token = models.CharField(max_length=40, unique=True, editable=False)
-
-    creado = models.DateTimeField(auto_now_add=True)
-    actualizado = models.DateTimeField(auto_now=True)
-
-    def save(self, *args, **kwargs):
-        if not self.token:
-            self.token = secrets.token_hex(20) # 40 chars
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f"{self.nombre} ({self.correo})"
->>>>>>> main
-    
-# class Provincia(models.Model):
-#     nombre = models.CharField(max_length=100)
-
-#     def __str__(self):
-#         return self.nombre  
 
