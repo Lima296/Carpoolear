@@ -1,4 +1,5 @@
 from django.db import models
+<<<<<<< HEAD
 from usuarios.models import Usuario
 
 class Vehiculo(models.Model):
@@ -19,3 +20,7 @@ class Vehiculo(models.Model):
 
     def __str__(self):
         return f"{self.marca} {self.modelo} ({self.patente})" 
+=======
+
+# Create your models here.
+>>>>>>> main
