@@ -14,23 +14,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD:backend/urls.py
->>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
-from django.urls import include, path
-=======
-# 🔑 CORRECCIÓN 1: Asegúrate de importar 'include'
+
 from django.urls import path, include 
+from django.contrib import admin
 # Importaciones de tus vistas de API
-from estado.views import EstadoViewSet
-<<<<<<< HEAD
->>>>>>> main
-=======
->>>>>>> main:backend/backend/urls.py
->>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
+from estado.views import EstadoLista, EstadoDetalle
 from usuarios.views import UsuarioViewSet, DetalleUsuario, LoginView
 from provincias.views import ProvinciaLista, ProvinciaDetalle
 from vehiculos.views import VehiculoDetalle, VehiculoLista
@@ -44,11 +32,7 @@ from localidad.views import LocalidadDetalle, LocalidadLista
 urlpatterns = [
     # Rutas de administración y APIs (las que ya tenías)
     path('admin/', admin.site.urls),
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD:backend/urls.py
->>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
+
     path('api/login/', LoginView.as_view(), name='login'),
 
     path('api/usuarios/', UsuarioViewSet.as_view(), name='usuarios-lista'),
@@ -68,21 +52,6 @@ urlpatterns = [
     
     path('api/localidad/', LocalidadLista.as_view(), name='localidad-lista'),
     path('api/localidad/<int:pk>/', LocalidadDetalle.as_view(), name='localidad-detalle'),
-=======
-    path('usuarios/', UsuarioViewSet.as_view(), name='usuarios'),
-    path('usuarios/<int:pk>/', DetalleUsuario.as_view(), name='detalle_usuario'),
-    path('provincias/', PronviciasViewSet.as_view(), name='provincias'),
-    path('estado/', EstadoViewSet.as_view(), name='estado'),
-    path('login/', LoginView.as_view(), name='login'),
-    
-    # ✅ SOLUCIÓN AL 404: Incluye las URLs de la aplicación 'usuarios' en la ruta raíz.
-    # Ahora que 'include' está importado, esta línea funcionará y reconocerá /miperfil/
-    path('', include('usuarios.urls')), 
-<<<<<<< HEAD
->>>>>>> main
-=======
->>>>>>> main:backend/backend/urls.py
->>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
 ]
 
 """

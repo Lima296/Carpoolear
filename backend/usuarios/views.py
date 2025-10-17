@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-from django.shortcuts import render
-from rest_framework.views import APIView #permite crear vistas manualmente
-from rest_framework.response import Response #devuelve datos en JSON
-from rest_framework import status #tiene los codigos HTTP
-from django.shortcuts import get_object_or_404
-from .serializers import UsuarioSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import UsuarioTokenObtainPairSerializer
-from .models import Usuario
-
-class UsuarioViewSet(APIView):
-    def get(self, request):
-=======
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -76,23 +62,11 @@ class UsuarioViewSet(APIView):
     """
     def get(self, request):
         """Lista todos los usuarios."""
->>>>>>> main
         usuarios = Usuario.objects.all()
         serializer = UsuarioSerializer(usuarios, many=True)
         return Response(serializer.data)
     
     def post(self, request):
-<<<<<<< HEAD
-        serializer = UsuarioSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    
-class DetalleUsuario(APIView):
-    def get(self, request, pk):
-=======
         """Crea un nuevo usuario."""
         serializer = UsuarioSerializer(data=request.data)
         if serializer.is_valid():
@@ -124,16 +98,12 @@ class DetalleUsuario(APIView):
     """
     def get(self, request, pk):
         """Obtiene un usuario por su clave primaria (pk)."""
->>>>>>> main
         usuario = get_object_or_404(Usuario, pk=pk)
         serializer = UsuarioSerializer(usuario)
         return Response(serializer.data)
     
     def put(self, request, pk):
-<<<<<<< HEAD
-=======
         """Actualiza un usuario existente."""
->>>>>>> main
         usuario = get_object_or_404(Usuario, pk=pk)
         serializer = UsuarioSerializer(usuario, data=request.data)
         if serializer.is_valid():
@@ -142,23 +112,14 @@ class DetalleUsuario(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, pk):
-<<<<<<< HEAD
-=======
         """Elimina un usuario específico."""
->>>>>>> main
         usuario = get_object_or_404(Usuario, pk=pk)
         usuario.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class LoginView(TokenObtainPairView):
-<<<<<<< HEAD
-    serializer_class = UsuarioTokenObtainPairSerializer # Usamos nuestro serializer personalizado
-
-
-=======
     """
     Endpoint para obtener tokens JWT (Login). 
     Utiliza el serializer personalizado para la autenticación.
     """
     serializer_class = UsuarioTokenObtainPairSerializer
->>>>>>> main

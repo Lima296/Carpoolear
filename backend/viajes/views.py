@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -38,14 +37,3 @@ class ViajeDetalle(APIView):
         viaje = get_object_or_404(Viaje, pk=pk)
         viaje.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
-
-=======
-from rest_framework import viewsets
-from .models import Viaje
-from. serializers import ViajeSerializer
-
-class ViajeViewSet(viewsets.ModelViewSet):
-    queryset = Viaje.objects.all()
-    serializer_class = ViajeSerializer
->>>>>>> main

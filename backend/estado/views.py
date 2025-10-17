@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-from django.shortcuts import render
->>>>>>> main
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,26 +5,17 @@ from django.shortcuts import get_object_or_404
 from .models import Estado
 from .serializer import EstadoSerializer
 
-<<<<<<< HEAD
 class EstadoLista(APIView):
-=======
-class EstadoViewSet(APIView):
->>>>>>> main
     def get(self, request):
         estados = Estado.objects.all()
         serializer = EstadoSerializer(estados, many=True)
         return Response(serializer.data)
-<<<<<<< HEAD
-
-=======
->>>>>>> main
     def post(self, request):
         serializer = EstadoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-<<<<<<< HEAD
 
 class EstadoDetalle(APIView):
     def get(self, request, pk):
@@ -48,8 +35,3 @@ class EstadoDetalle(APIView):
         estado = get_object_or_404(Estado, pk=pk)
         estado.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-=======
-    def delete(self, request):
-        Estado.objects.all().delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
->>>>>>> main
