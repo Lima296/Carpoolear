@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import Provincia
+from .models import Localidad
 
-class ProvinciaSerializer(serializers.ModelSerializer):
+class LocalidadSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Provincia
+        model = Localidad
         fields = ['id', 'nombre'] # Incluye el campo 'id' además de 'nombre'
         read_only_fields = ['id'] # El campo 'id' es de solo lectura
