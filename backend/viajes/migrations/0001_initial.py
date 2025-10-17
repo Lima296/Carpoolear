@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('estado', '0002_estado_activo_estado_descripcion'),
+        ('usuarios', '0001_initial'),
         ('provincias', '0001_initial'),
         ('usuarios', '0001_initial'),
         ('vehiculos', '__first__'),
@@ -20,14 +20,15 @@ class Migration(migrations.Migration):
             name='Viaje',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('fecha_salida', models.DateTimeField()),
-                ('fecha_llegada', models.DateTimeField()),
-                ('asientos_disponibles', models.IntegerField()),
-                ('conductor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='viajes', to='usuarios.usuario')),
-                ('destino', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='viajes_destino', to='provincias.provincia')),
-                ('estado', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='estado.estado')),
-                ('origen', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='viajes_origen', to='provincias.provincia')),
-                ('vehiculo', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='vehiculos.vehiculo')),
+                ('origen', models.CharField(max_length=100)),
+                ('destino', models.CharField(max_length=100)),
+                ('fecha', models.DateField()),
+                ('hora', models.TimeField()),
+                ('asientos_disponibles', models.PositiveIntegerField()),
+                ('precio', models.DecimalField(decimal_places=2, max_digits=8)),
+                ('creado', models.DateTimeField(auto_now_add=True)),
+                ('actualizado', models.DateTimeField(auto_now=True)),
+                ('conductor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='viajes_creados', to='usuarios.usuario')),
             ],
         ),
     ]

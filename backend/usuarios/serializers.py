@@ -1,24 +1,25 @@
 from rest_framework import serializers
-from django.contrib.auth.models import make_password
+from .models import Usuario
+from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.hashers import check_password
-from .models import Usuario
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True) # Campo para recibir la contraseña en texto plano y que no se vea
+    password = serializers.CharField(write_only=True, required=True) # Campo para recibir la contraseña en texto plano y que no se vea
 
     class Meta:
         model = Usuario
-        fields = ['id', 'nombre', 'correo', 'password', 'password_hash', 'token', 'creado', 'actualizado']
-        read_only_fields = ['id', 'token', 'creado', 'actualizado','password_hash']
+        fields = '__all__' # Todos los campos del modelo
+        read_only_fields = ['id', 'token', 'creado', 'actualizado','password_hash'] # Campos que no se pueden modificar directamente
     
     def validate_correo(self, value):
         """Validar que el correo no esté duplicado"""
         if Usuario.objects.filter(correo=value).exists():
             raise serializers.ValidationError("Este correo electrónico ya está registrado. Por favor, utiliza otro correo.")
         return value
+
 
     def create(self, validated_data): # Método para crear un usuario
         password = validated_data.pop('password') # Sacamos la contraseña en texto plano
