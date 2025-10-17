@@ -2,7 +2,6 @@
 
 body {
     font-family: 'Outfit', sans-serif; /* Fuente principal de la página */
-    background-color: #ffffff;       /* Fondo blanco */
 }
 
 
@@ -13,7 +12,7 @@ body {
     justify-content: space-between;    /* Espacia entre extremos (izq - der) */
     align-items: center;               /* Centra verticalmente los elementos */
     padding: 0 0px;                    /* Espaciado interno */
-    background-color: #385773;       /* Color de fondo azul/gris */
+    background-color: #ffffff !important;       /* Color de fondo azul/gris */
     position: relative;                /* Contexto para elementos absolutos */
     height: 70px;                      /* Altura de la barra */
     align-items: center;               /* Asegura centrado vertical */
@@ -23,7 +22,7 @@ body {
 .navbar-title {
     font-size: 28px;                   /* Tamaño de letra del título */
     font-weight: bold;                 /* En negrita */
-    color: white;                    /* Color del texto */
+    color: #024873;                    /* Color del texto */
     text-align: center;                /* Centrado horizontal */
     flex: 1;                           /* Ocupa espacio entre botón y logo */
     display: flex;                     /* Activa flexbox */
@@ -83,7 +82,7 @@ body {
     display: block;                    /* Se comporta como bloque */
     height: 4px;                       /* Grosor de cada línea */
     width: 100%;                       /* Ocupa el ancho del botón */
-    background-color: white;         /* Color blanco */
+    background-color: #024873 !important;         /* Color blanco */
     border-radius: 2px;                /* Esquinas redondeadas */
     transition: all 0.3s ease;         /* Animación suave */
 }
@@ -94,7 +93,7 @@ body {
 /* Línea superior rota hacia diagonal */
 body {
     font-family: 'Outfit', sans-serif;
-    background-color: #ffffff;
+    background-color: #024873;
 }
 
 /* Estilos del navbar */
@@ -103,7 +102,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #385773;
+    background-color: #ffffff !important;
     position: relative;
     height: 70px; /* altura de la navbar */
     align-items: center; /* centra verticalmente los elementos */
@@ -152,7 +151,7 @@ body {
     display: block;
     height: 4px;               /* grosor de las líneas */
     width: 100%;               /* ancho de las líneas */
-    background-color: white;   /* color de las líneas */
+    background-color: #024873;   /* color de las líneas */
     border-radius: 2px;
     transition: all 0.3s ease;
 }
@@ -178,7 +177,7 @@ body {
 
 /* Encabezado del offcanvas */
 .offcanvas-header {
-    background-color: #385773;        /* Mismo color que la navbar */
+    background-color: #024873;        /* Mismo color que la navbar */
     height: 70px;                       /* Mismo alto que la navbar */
     display: flex;                      /* Alineación flexible */
     align-items: center;                /* Centra verticalmente */
@@ -190,7 +189,7 @@ body {
 .offcanvas-title {
     font-size: 24px;                    /* Tamaño grande del título */
     font-weight: bold;                  /* Texto en negrita */
-    color: white;                     /* Texto blanco como la navbar */
+    color: #024873;                     /* Texto blanco como la navbar */
     margin: 0;                          /* Sin márgenes extra */
 }
 
@@ -213,7 +212,7 @@ body {
 
 /* Efecto hover al pasar el mouse sobre los enlaces */
 .offcanvas-body .nav-links li a:hover {
-    color: #385773;                   /* Cambia color a azul/gris */
+    color: #024873;                   /* Cambia color a azul/gris */
 }
 
 
@@ -229,4 +228,4 @@ body {
     .nav-links {
         display: none; /* los enlaces normales se ocultan */
     }
-}
+}   

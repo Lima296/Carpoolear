@@ -54,6 +54,12 @@ htmlcov/
 __pycache__/
 *.pyc
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+.vscode/
+=======
+=======
+>>>>>>> 0368a8750a3b260f295241b7c161d90d8bb3728b
 .vscode/
 
 # Python
@@ -69,4 +75,8 @@ db.sqlite3
 
 # Archivos temporales de sistema
 .DS_Store
+<<<<<<< HEAD
+Thumbs.db
+>>>>>>> main
+=======
 Thumbs.db

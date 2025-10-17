@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'provincias',
     'vehiculos',
     'estado',
-
+    'viajes',
+    'localidad',
 ]
 
 MIDDLEWARE = [
