@@ -8,6 +8,14 @@ body {
     display: flex; /* Para que las tarjetas se alineen */
     flex-wrap: wrap; /* Para que se muevan a la siguiente línea */
 }
+.contenedor_viajes button {
+    background-color: #85C74D !important;
+    border-color: #85C74D  !important;
+}
+.contenedor_viajes button:hover {
+    background-color: #024873 !important;
+    border-color: #024873  !important;
+}
 
 
 
@@ -31,7 +39,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 15px;
+    padding-top: 15px;
+    padding-left: 10px;
     background: #ffffff !important;
     color: #024873;
     font-size: 1.5rem;
@@ -39,7 +48,7 @@ body {
     border-bottom: #024873 2px solid;
 }
 .card-body-content {
-    padding: 5px;
+    padding: 10px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -135,8 +144,8 @@ body {
 }
 
 .contenedor_buscar #btn-buscar:hover {
-    background-color: #013a5a; 
-    border-color: #013a5a;
+    background-color: #85C74D; 
+    border-color: #85C74D;
 }
 
 
