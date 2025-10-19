@@ -3,16 +3,17 @@ body {
     background-color: #024873 !important;
 }
 .contenedor_viajes {
+    align-self: center;
     margin-left: 158px;
     margin-top: 0px;
     display: flex; /* Para que las tarjetas se alineen */
     flex-wrap: wrap; /* Para que se muevan a la siguiente línea */
 }
-.contenedor_viajes button {
+.contenedor_viajes button:hover {
     background-color: #85C74D !important;
     border-color: #85C74D  !important;
 }
-.contenedor_viajes button:hover {
+.contenedor_viajes button {
     background-color: #024873 !important;
     border-color: #024873  !important;
 }
@@ -27,7 +28,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
     padding: 0;
-    margin: 10px; 
+    margin: 25px; 
     background-color: #fff;
     display: flex;
     flex-direction: column; 
@@ -77,7 +78,7 @@ body {
 }
 
 .places-available {
-    margin-top: 3px;
+
     padding: 0px;
     background-color: #e9f7ef;
     border-radius: 8px;
