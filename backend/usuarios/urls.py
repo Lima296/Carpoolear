@@ -7,3 +7,4 @@ urlpatterns = [
     path('api/usuarios/<int:pk>/', DetalleUsuario.as_view(), name='detalle_usuario'),    
 ]
 
+

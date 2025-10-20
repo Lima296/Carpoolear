@@ -48,7 +48,7 @@ if (registroForm) {
   console.log("Datos a enviar:", { nombre, correo, password });
   
   try {
-    const response = await fetch("http://127.0.0.1:8000/usuarios/", {
+    const response = await fetch("http://127.0.0.1:8000/api/usuarios/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -131,3 +131,4 @@ if (registroForm) {
 } else {
   console.error("No se encontró el formulario de registro");
 }
+

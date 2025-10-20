@@ -2,66 +2,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
-    <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
-    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+    <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
+    <title>Iniciar Sesión</title>
 </head>
 <body>
-   
-      <!--  -->
-   <!-- Modal REGISTRO -->
-<div class="modal fade" id="exampleModal" >
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="loginForm">
-                    <div class="iniciar_sesion registro">
-                        <h1>Registrate en ViajAr</h1>
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="email" placeholder="name@example.com">
-                            <label for="floatingInput">Correo electrónico</label>
-                        </div>
-                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="email" placeholder="name@example.com">
-                            <label for="floatingInput">Repetir correo</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="nombre" placeholder="name@example.com">
-                            <label for="floatingInput">Nombre y apellido</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="telefono" placeholder="name@example.com">
-                            <label for="floatingInput">Teléfono</label>
-                        </div>
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="password" placeholder="Password">
-                            <label for="floatingPassword">Contraseña</label>
-                        </div>
-                        
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="password" placeholder="Password">
-                            <label for="floatingPassword">Repetir contraseña</label>
-                        </div>
-                        <button class="btn btn-primary" type="submit">Ingresar</button>
-                        <h3>¿Ya tenés una cuenta? Hacé click para ingresar</h3>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+   
+<!-- Modal REGISTRO (ID corregido a 'modalRegistro') -->
+<div class="modal fade" id="modalRegistro" tabindex="-1" aria-labelledby="modalRegistroLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Contenedor de mensajes dentro del modal para mejor UX (el JS lo usa) -->
+                <div id="mensaje" class="alert" style="display: none;"></div> 
+                
+                <!-- Formulario de Registro (ID corregido a 'registroForm') -->
+                <form id="registroForm">
+                    <div class="iniciar_sesion registro">
+                        <h1>Registrate en ViajAr</h1>
+                        
+                        <!-- Correo Electrónico (ID corregido a 'reg_email') -->
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="reg_email" placeholder="name@example.com" required>
+                            <label for="reg_email">Correo electrónico</label>
+                        </div>
+
+                        <!-- Repetir Correo (ID corregido a 'reg_check_email') -->
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="reg_check_email" placeholder="name@example.com" required>
+                            <label for="reg_check_email">Repetir correo</label>
+                        </div>
+
+                        <!-- Nombre (ID corregido a 'reg_nombre' y type a 'text') -->
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="reg_nombre" placeholder="Nombre y apellido" required>
+                            <label for="reg_nombre">Nombre y apellido</label>
+                        </div>
+                        
+                        <!-- Contraseña (ID corregido a 'reg_password') -->
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="reg_password" placeholder="Password" required>
+                            <label for="reg_password">Contraseña</label>
+                        </div>
+                        
+                        <!-- Repetir Contraseña (ID corregido a 'reg_check_password') -->
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="reg_check_password" placeholder="Password" required>
+                            <label for="reg_check_password">Repetir contraseña</label>
+                        </div>
+                        
+                        <button class="btn btn-primary" type="submit">Registrarme</button>
+                        <h3>¿Ya tenés una cuenta? Hacé click para ingresar</h3>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div id="mensaje"></div>
-
 
 
 <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'js/login.js' %}"></script>
+<!-- IMPORTANTE: Aseguramos que se cargue el script de registro -->
+<script src="{% static 'js/registro.js' %}"></script>
 </body>
 </html>

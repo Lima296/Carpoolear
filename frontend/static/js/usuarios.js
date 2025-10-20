@@ -1,6 +1,6 @@
 async function cargarUsuarios() {
     try {
-        const response = await fetch ("http://127.0.0.1:8000/usuarios/")
+        const response = await fetch ("http://127.0.0.1:8000/api/usuarios/")
         const usuarios = await response.json();
 
         const tbody = document.querySelector("#tabla_usuarios tbody");
