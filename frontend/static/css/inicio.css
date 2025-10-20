@@ -344,23 +344,22 @@ html, body {
 }
 
 .btn-hero-primary:hover {
-    background-color: #024873 !important;
-        border: 1px solid white !important;
+    background-color: #85C74D !important;
+        border: 1px solid #85C74D !important;
         color: #ffffff !important;
 
 }
 
 /* Estilo específico: Botón secundario (ej. Registrarse) - Borde azul */
 .btn-hero-secondary {
-    background-color: transparent !important;
-    color: var(--accent-dark) !important;
-    border: 1px solid var(--accent-dark) !important;
+     background-color: var(--accent-dark) !important; /* Azul oscuro */
+    color: #024873 !important;
 }
 
 .btn-hero-secondary:hover {
-    background-color: var(--accent-dark) !important;
-    color: #024873 !important;
-    border-color: #024873;
+     background-color: #85C74D !important;
+        border: 1px solid #85C74D !important;
+        color: #ffffff !important;
 }
 
 
