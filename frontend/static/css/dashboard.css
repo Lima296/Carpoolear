@@ -1,4 +1,3 @@
-/* --- CONTENEDOR PRINCIPAL DE LAS TARJETAS DE VIAJES --- */
 body {
     background-color: #024873 !important;
 }
@@ -87,10 +86,16 @@ body {
 
 
 /* --- BARRA DE BÚSQUEDA (DESKTOP) --- */
+.busqueda-wrapper {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    width: 1300px; /* Adjust width as needed */
+    margin: 25px auto 40px auto !important;
+}
+
 .contenedor_buscar {
     /* Centrado Horizontal: auto es clave con un width fijo */
-    width: 1200px;
-    margin: 25px auto 40px auto !important; 
     padding: 15px 30px; 
     
     border-radius: 8px; 
@@ -148,6 +153,18 @@ body {
 .contenedor_buscar #btn-buscar:hover {
     background-color: #85C74D; 
     border-color: #85C74D;
+}
+
+#btn-crear-viaje {
+    background-color: #85C74D; 
+    border-color: #85C74D;
+    height: auto;
+}
+
+#btn-crear-viaje:hover {
+    background-color: #ffffff; 
+    border-color: #ffffff;
+    color: #024873;
 }
 
 

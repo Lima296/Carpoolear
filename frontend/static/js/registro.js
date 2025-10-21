@@ -48,7 +48,7 @@ if (registroForm) {
   console.log("Datos a enviar:", { nombre, correo, password });
   
   try {
-    const response = await fetch("http://127.0.0.1:8000/usuarios/", {
+    const response = await fetch("http://127.0.0.1:8000/api/usuarios/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ if (registroForm) {
       // Limpiar el formulario después del registro exitoso
       registroForm.reset();
       
-      // Cerrar el modal después de 2 segundos
+      // Cerrar el modal después de  2 segundos
       setTimeout(() => {
         const modal = bootstrap.Modal.getInstance(document.getElementById('modalRegistro'));
         if (modal) {
