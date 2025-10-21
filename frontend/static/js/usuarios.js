@@ -10,7 +10,7 @@ async function cargarUsuarios() {
             const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td>${element.id}</td>
-                <td>${element.nombre}</td>
+                <td>${element.nombre}</td>x 
                 <td>${element.apellido}</td>
                 <td>${element.correo}</td>
             `;

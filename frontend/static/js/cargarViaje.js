@@ -101,7 +101,7 @@ async function cargarViajes() {
         contenedorViajes.innerHTML = ''; // Limpiar mensaje de carga
 
         if (listaDeViajes.length === 0) {
-             contenedorViajes.innerHTML = '<p class="text-center text-secondary p-5">😔 No se encontraron viajes disponibles con los filtros actuales.</p>';
+             contenedorViajes.innerHTML = '<p class="text-center text-secondary p-5">No se encontraron viajes disponibles con los filtros actuales.</p>';
              return;
         }
 
