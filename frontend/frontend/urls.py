@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # Rutas de Frontend (usando las vistas importadas de 'usuarios')
+    path('', views.inicio_view, name='root_inicio'),
     path('inicio/', views.inicio_view, name='inicio'),
     path('miperfil/', views.perfil_view, name='miperfil'),
     path('dashboard/', dashboard_views.dashboard_view, name='dashboard.html'), 

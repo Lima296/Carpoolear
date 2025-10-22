@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import IsAuthenticated
 
 # Importaciones de tu backend (Modelos, Serializers)
 from .serializers import UsuarioTokenObtainPairSerializer
@@ -116,6 +117,35 @@ class DetalleUsuario(APIView):
         usuario = get_object_or_404(Usuario, pk=pk)
         usuario.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class PerfilUsuarioActual(APIView):
+    """
+    Maneja la obtención y actualización del perfil del usuario autenticado.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """Obtiene los datos del perfil del usuario actual."""
+        serializer = UsuarioSerializer(request.user)
+        return Response(serializer.data)
+
+    def put(self, request):
+        """Actualiza los datos del perfil del usuario actual."""
+        usuario = request.user
+        
+        # Clona los datos para poder modificarlos
+        data = request.data.copy()
+
+        # No permitir la actualización del correo electrónico
+        if 'correo' in data:
+            del data['correo']
+            
+        serializer = UsuarioSerializer(usuario, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class LoginView(TokenObtainPairView):
     """

@@ -18,4 +18,4 @@ class Vehiculo(models.Model):
     actualizado = models.DateTimeField(auto_now=True) #fecha de última actualización
 
     def __str__(self):
-        return f"{self.marca} {self.modelo} ({self.patente})" 
+        return f"{self.marca} {self.modelo} ({self.patente})"
