@@ -25,6 +25,7 @@ if (registroForm) {
   const correo = document.getElementById("reg_email").value;
   const check_correo = document.getElementById("reg_check_email").value;
   const nombre = document.getElementById("reg_nombre").value;
+  const apellido = document.getElementById("reg_apellido").value;
   const password = document.getElementById("reg_password").value;
   const check_password = document.getElementById("reg_check_password").value;
 
@@ -53,7 +54,7 @@ if (registroForm) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ nombre, correo, password}),
+      body: JSON.stringify({ nombre, apellido, correo, password}),
     });
 
     const data = await response.json();
@@ -98,7 +99,7 @@ if (registroForm) {
           mensajeError = data.errores.non_field_errors[0];
         }
       } else if (data.error) {
-        mensajeError = data.error;
+        mensajeError = data.error + (data.detalle ? `: ${data.detalle}` : '');
       } else if (data.detail) {
         mensajeError = data.detail;
       }

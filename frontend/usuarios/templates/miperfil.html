@@ -20,15 +20,10 @@
             <h2 class="card-title text-center mb-4">Mi Perfil de Usuario</h2>
             
             <div class="profile-info">
-                <p><strong>Nombre de Usuario:</strong> {{ user.username }}</p>
-                <p><strong>Correo Electrónico:</strong> {{ user.email }}</p>
-                
-                {% if user.profile %}
-                    <p><strong>Teléfono:</strong> {{ user.profile.telefono|default_if_none:"N/A" }}</p>
-                    <p><strong>Dirección:</strong> {{ user.profile.direccion|default_if_none:"N/A" }}</p>
-                {% else %}
-                    <p class="text-warning">Aún no tienes un perfil asociado.</p>
-                {% endif %}
+                <p><strong>Nombre:</strong> <span id="display-nombre">Cargando...</span></p>
+                <p><strong>Apellido:</strong> <span id="display-apellido">Cargando...</span></p>
+                <p><strong>Correo Electrónico:</strong> <span id="display-correo">Cargando...</span></p>
+                <p><strong>Teléfono:</strong> <span id="display-telefono">Cargando...</span></p>
             </div>
 
             <div class="mt-4 d-flex justify-content-start">
@@ -38,8 +33,41 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal para Editar Perfil -->
+    <div class="modal fade" id="editarPerfilModal" tabindex="-1" aria-labelledby="editarPerfilModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarPerfilModalLabel">Editar Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editarPerfilForm">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" id="apellido">
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="telefono">
+                        </div>
+                        <div id="edit-error-message" class="alert alert-danger" style="display: none;"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="guardarCambiosBtn">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
     </div>
+
     <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'js/usuarios.js' %}"></script>
+    <script src="{% static 'js/miperfil.js' %}"></script>
 </body>
 </html>

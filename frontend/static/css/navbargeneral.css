@@ -12,7 +12,7 @@ body {
     justify-content: space-between;    /* Espacia entre extremos (izq - der) */
     align-items: center;               /* Centra verticalmente los elementos */
     padding: 0 0px;                    /* Espaciado interno */
-    background-color: #024873 !important;       /* Color de fondo azul/gris */
+    background-color: #ffffff !important;       /* Color de fondo azul/gris */
     position: relative;                /* Contexto para elementos absolutos */
     height: 70px;                      /* Altura de la barra */
     align-items: center;               /* Asegura centrado vertical */
@@ -22,7 +22,7 @@ body {
 .navbar-title {
     font-size: 28px;                   /* Tamaño de letra del título */
     font-weight: bold;                 /* En negrita */
-    color: white;                    /* Color del texto */
+    color: #024873;                    /* Color del texto */
     text-align: center;                /* Centrado horizontal */
     flex: 1;                           /* Ocupa espacio entre botón y logo */
     display: flex;                     /* Activa flexbox */
@@ -42,7 +42,7 @@ body {
 /* ------------- LOGO ------------- */
 
 .logo-img {
-    height: 60px;                      /* Altura del logo */
+    height: 55px;                      /* Altura del logo */
     width: auto;     
     margin-left: 10px;                  /* Mantiene proporción */
 }
@@ -64,6 +64,8 @@ body {
     background: none;                  /* Sin fondo */
     border: none;                      /* Sin borde */
     padding: 0;                        /* Sin padding */
+    position: absolute;
+    left: 50px;
 }
 
 /* Cada barra dentro del botón hamburguesa */
@@ -71,7 +73,7 @@ body {
     display: block;                    /* Se comporta como bloque */
     height: 4px;                       /* Grosor de cada línea */
     width: 100%;                       /* Ocupa el ancho del botón */
-    background-color: white;         /* Color blanco */
+    background-color: #024873;         /* Color blanco */
     border-radius: 2px;                /* Esquinas redondeadas */
     transition: all 0.3s ease;         /* Animación suave */
 }
@@ -79,73 +81,8 @@ body {
 
 /* ------------- ANIMACIÓN DEL BOTÓN HAMBURGUESA ------------- */
 
-/* Línea superior rota hacia diagonal */
-body {
-    font-family: 'Outfit', sans-serif;
-    background-color: #ffffff;
-}
 
-/* Estilos del navbar */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #024873 !important;
-    position: relative;
-    height: 70px; /* altura de la navbar */
-    align-items: center; /* centra verticalmente los elementos */
-}
 
-/* Contenedor izquierda (botón hamburguesa) */
-.nav-left {
-    display: flex;
-    align-items: center;
-}
-
-/* Enlaces del menú (offcanvas) */
-.nav-links {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-links li a {
-    color: rgb(0, 0, 0);
-    margin-right: 15px;
-    text-decoration: none;
-}
-
-/* Logo a la derecha */
-.logo-img {
-    height: 50px;
-    width: auto;
-}
-
-/* Botón hamburguesa */
-.menu-toggle {
-    display: flex;             /* se muestra siempre en móviles */
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;               /* ancho del botón */
-    height: 22px;              /* alto del botón */
-    cursor: pointer;
-    background: none;          /* sin fondo */
-    border: none;
-    padding: 0;
-    position: absolute;
-    left: 50px;
-}
-
-.menu-toggle span {
-    display: block;
-    height: 4px;               /* grosor de las líneas */
-    width: 100%;               /* ancho de las líneas */
-    background-color: white;   /* color de las líneas */
-    border-radius: 2px;
-    transition: all 0.3s ease;
-}
 
 /* Animación al hacer click en el botón */
 .menu-toggle.active span:nth-child(1) {
@@ -227,10 +164,3 @@ body {
         left: 20px;
     }
 }
-
-/* Responsive: ocultar enlaces y mostrar menú hamburguesa en móviles */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none; /* los enlaces normales se ocultan */
-    }
-}   
