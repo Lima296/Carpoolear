@@ -14,7 +14,7 @@ body {
     padding: 0 0px;                    /* Espaciado interno */
     background-color: #ffffff !important;       /* Color de fondo azul/gris */
     position: relative;                /* Contexto para elementos absolutos */
-    height: 90px;                      /* Altura de la barra */
+    height: 70px;                      /* Altura de la barra */
     align-items: center;               /* Asegura centrado vertical */
 }
 
@@ -42,7 +42,7 @@ body {
 /* ------------- LOGO ------------- */
 
 .logo-img {
-    height: 100px;                      /* Altura del logo */
+    height: 55px;                      /* Altura del logo */
     width: auto;     
     margin-left: 10px;                  /* Mantiene proporción */
 }
@@ -110,7 +110,7 @@ body {
 /* Encabezado del offcanvas */
 .offcanvas-header {
     background-color: #024873;        /* Mismo color que la navbar */
-    height: 90px;                       /* Mismo alto que la navbar */
+    height: 70px;                       /* Mismo alto que la navbar */
     display: flex;                      /* Alineación flexible */
     align-items: center;                /* Centra verticalmente */
     justify-content: space-between;     /* Título a la izquierda, botón cerrar a la derecha */
