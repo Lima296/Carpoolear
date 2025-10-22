@@ -21,66 +21,70 @@
     {% include 'includes/navbargeneral.html' %}
 
 
-<div class="contenedor_buscar">
-    
-    <div class="busqueda-grupo">
-        <span>Origen</span>
-        <div class="dropdown" id="dropdown-origen">
-            <input type="text" 
-                   class="form-control" 
-                   placeholder="Ciudad origen"
-                   data-bs-toggle="dropdown" 
-                   aria-expanded="false" 
-                   id="input-origen"
-                   autocomplete="off"> 
-            <div class="dropdown-menu">
-                <h6 class="dropdown-header">Ciudades Sugeridas</h6>
-                <a class="dropdown-item" href="#" data-value="Buenos Aires">Buenos Aires</a>
-                <a class="dropdown-item" href="#" data-value="Córdoba">Córdoba</a>
+    <div class="busqueda-wrapper">
+        <div class="contenedor_buscar">
+
+        <div class="busqueda-grupo">
+            <span>Origen</span>
+            <div class="dropdown" id="dropdown-origen">
+                <input type="text" 
+                       class="form-control" 
+                       placeholder="Ciudad origen"
+                       data-bs-toggle="dropdown" 
+                       aria-expanded="false" 
+                       id="input-origen"
+                       autocomplete="off"> 
+                <div class="dropdown-menu">
+                    <h6 class="dropdown-header">Ciudades Sugeridas</h6>
+                    <a class="dropdown-item" href="#" data-value="Buenos Aires">Buenos Aires</a>
+                    <a class="dropdown-item" href="#" data-value="Córdoba">Córdoba</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="busqueda-grupo">
-        <span>Destino</span>
-        <div class="dropdown" id="dropdown-destino">
-            <input type="text" 
-                   class="form-control" 
-                   placeholder="Ciudad destino"
-                   data-bs-toggle="dropdown" 
-                   aria-expanded="false" 
-                   id="input-destino"
-                   autocomplete="off"> 
-            <div class="dropdown-menu">
-                <h6 class="dropdown-header">Ciudades Sugeridas</h6>
-                <a class="dropdown-item" href="#" data-value="Tucumán">Tucumán</a>
-                <a class="dropdown-item" href="#" data-value="Neuquén">Neuquén</a>
+        <div class="busqueda-grupo">
+            <span>Destino</span>
+            <div class="dropdown" id="dropdown-destino">
+                <input type="text" 
+                       class="form-control" 
+                       placeholder="Ciudad destino"
+                       data-bs-toggle="dropdown" 
+                       aria-expanded="false" 
+                       id="input-destino"
+                       autocomplete="off"> 
+                <div class="dropdown-menu">
+                    <h6 class="dropdown-header">Ciudades Sugeridas</h6>
+                    <a class="dropdown-item" href="#" data-value="Tucumán">Tucumán</a>
+                    <a class="dropdown-item" href="#" data-value="Neuquén">Neuquén</a>
+                </div>
             </div>
         </div>
+        <div class="busqueda-grupo">
+            <span>Fecha</span>
+            <input type="date" 
+                   class="form-control"
+                   id="input-fecha"> 
+        </div>
+
+        
+
+        <button class="btn btn-warning" id="btn-buscar">Buscar</button>
+
+
+        
     </div>
-    <div class="busqueda-grupo">
-        <span>Fecha</span>
-        <input type="date" 
-               class="form-control"
-               id="input-fecha"> 
+        <button class="btn btn-primary" id="btn-crear-viaje">Publicá tu viaje</button>
     </div>
 
-    
 
-    <button class="btn btn-warning" id="btn-buscar">Buscar</button>
-
-</div>
+    <!-- 
+        ESTE CONTENEDOR AHORA SE LLENARÁ DINÁMICAMENTE CON JAVASCRIPT.
+        EL CÓDIGO ESTATICO DE VIAJE QUE TENÍAS FUE ELIMINADO.
+    -->
+    <div class="contenedor_viajes">
+        <!-- El contenido de las tarjetas de viaje aparecerá aquí -->
     </div>
-    </nav>
-</div>
 
-<!-- 
-    ESTE CONTENEDOR AHORA SE LLENARÁ DINÁMICAMENTE CON JAVASCRIPT.
-    EL CÓDIGO ESTATICO DE VIAJE QUE TENÍAS FUE ELIMINADO.
--->
-<div class="contenedor_viajes">
-    <!-- El contenido de las tarjetas de viaje aparecerá aquí -->
-</div>
 
 
 <!-- Enlaces a scripts -->

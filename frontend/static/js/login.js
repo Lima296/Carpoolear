@@ -23,6 +23,8 @@ form.addEventListener("submit", async (e) => {
       // Guardar tokens en localStorage
       localStorage.setItem("access", data.access);  
       localStorage.setItem("refresh", data.refresh);
+      window.location.href = "/dashboard";
+      
     } else {
       mensajeElement.innerText = "Error: " +
         (data.detail || data.non_field_errors || "credenciales inválidas");
