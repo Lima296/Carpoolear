@@ -1,18 +1,20 @@
 from rest_framework import serializers
-from .models import Usuario
-from django.contrib.auth.hashers import make_password
+from .models import Usuario 
+from django.contrib.auth.hashers import make_password, check_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True) # Campo para recibir la contraseña en texto plano y que no se vea
+    # Campo para recibir la contraseña en texto plano (solo escritura)
+    password = serializers.CharField(write_only=True, required=True, min_length=8) 
 
     class Meta:
         model = Usuario
-        fields = '__all__' # Todos los campos del modelo
-        read_only_fields = ['id', 'token', 'creado', 'actualizado','password_hash'] # Campos que no se pueden modificar directamente
+        # El cambio clave para el 400 Bad Request: especificamos solo los campos que vienen en el registro.
+        fields = ['nombre', 'correo', 'password'] 
+        # Campos de solo lectura.
+        read_only_fields = ['id', 'token', 'creado', 'actualizado', 'password_hash'] 
     
     def validate_correo(self, value):
         """Validar que el correo no esté duplicado"""
@@ -23,20 +25,17 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data): # Método para crear un usuario
         password = validated_data.pop('password') # Sacamos la contraseña en texto plano
+        # La convertimos en hash y guardamos en password_hash
         validated_data['password_hash'] = make_password(password)
-            # La convertimos en hash y guardamos en password_hash
+            
         try:
             return Usuario.objects.create(**validated_data)
         except Exception as e:
-            # Detectar si es error de correo duplicado
-            if 'correo' in str(e).lower() or 'unique' in str(e).lower():
-                raise serializers.ValidationError({
-                    'correo': ['Este correo electrónico ya está registrado. Por favor, utiliza otro correo.']
-                })
-            else:
-                raise serializers.ValidationError({
-                    'non_field_errors': ['Error al crear el usuario. Inténtalo de nuevo.']
-                })
+            # Para cualquier otro error inesperado durante la creación
+            print(f"Error al crear usuario: {e}") 
+            raise serializers.ValidationError({
+                'non_field_errors': ['Error al crear el usuario. Inténtalo de nuevo.']
+            })
     
     def update(self, instance, validated_data): # Método para actualizar un usuario
         password = validated_data.pop('password', None)
