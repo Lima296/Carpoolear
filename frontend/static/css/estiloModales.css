@@ -207,7 +207,7 @@ body.modal-open {
 
 #successModal .modal-content {
     background-color: #ffffff; /* Color de éxito */
-    color: red;
+    color: #85C74D;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     border: none;
@@ -230,7 +230,7 @@ body.modal-open {
 
 #successModal2 .modal-content {
     background-color: #ffffff; /* Color de éxito */
-    color: #85C74D;
+    color: red;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     border: none;

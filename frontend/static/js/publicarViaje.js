@@ -122,6 +122,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('form-publicar-viaje');
 
     if (form) {
+        // --- TRADUCCIÓN DE MENSAJES DE VALIDACIÓN (CORREGIDO) ---
+        const inputs = form.querySelectorAll('input[required]');
+
+        inputs.forEach(input => {
+            // Se dispara cuando un campo no es válido
+            input.addEventListener('invalid', () => {
+                // NO usamos preventDefault() para permitir que el navegador muestre el mensaje
+                
+                if (input.validity.valueMissing) {
+                    input.setCustomValidity('Por favor, completa este campo.');
+                } else if (input.validity.typeMismatch) {
+                    let message = 'Por favor, introduce un valor válido.';
+                    if (input.type === 'date') {
+                        message = 'Por favor, introduce una fecha válida.';
+                    } else if (input.type === 'time') {
+                        message = 'Por favor, introduce una hora válida.';
+                    }
+                    input.setCustomValidity(message);
+                } else if (input.validity.rangeUnderflow) {
+                    input.setCustomValidity(`El valor debe ser como mínimo ${input.min}.`);
+                }
+            });
+
+            // Se dispara cuando el usuario empieza a escribir en el campo
+            input.addEventListener('input', () => {
+                // Borramos el mensaje de error personalizado
+                input.setCustomValidity('');
+            });
+        });
+
         form.addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevenimos el envío tradicional del formulario
 

@@ -31,8 +31,8 @@ const getStaticUrl = (path) => `${STATIC_URL_BASE}img/${path}`;
             <!-- 1. ZONA SVG/ICONO (Origen y Destino) -->
             <div class="card-header-svg">
                 <span style="font-size: 15px;">
-                    <img src="${getStaticUrl('ubiAzul.svg')}" alt="Ubicación" style="width: 25px;"> DESDE: <span style="color: #85C74D; font-size: 18px;"> ${origen.toUpperCase()}</span> <br>
-                    <img src="${getStaticUrl('ubiVerde.svg')}" alt="Ubicación" style="width: 25px;"> HASTA: <span style="color: #85C74D; font-size: 18px;"> ${destino.toUpperCase()}</span>
+                    <img src="${getStaticUrl('ubiAzul.svg')}" alt="Ubicación" style="width: 25px;"> Origen: <span style="color: #024873 ; font-size: 18px;"> ${origen.toLowerCase()}</span> <br>
+                    <img src="${getStaticUrl('ubiVerde.svg')}" alt="Ubicación" style="width: 25px;"> Destino: <span style="color: #024873; font-size: 18px;"> ${destino.toLowerCase()}</span>
                 </span>
             </div>
             <!-- 2. CUERPO DE DETALLES -->
@@ -68,7 +68,7 @@ const getStaticUrl = (path) => `${STATIC_URL_BASE}img/${path}`;
                 </div>
                 
                 <!-- Botón -->
-                <button class="btn btn-primary mt-3" onclick="window.location.href='/viaje/${viaje.id}'">VER</button>
+                <button class="btn btn-primary mt-3" onclick="window.location.href='/viajes/${viaje.id}'">VER</button>
             </div>
         </div>
     `;
