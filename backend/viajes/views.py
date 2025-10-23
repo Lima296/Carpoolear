@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from .models import Viaje
 from .serializers import ViajeSerializer
@@ -17,6 +18,15 @@ class ViajeLista(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED) #y devuelve el viaje creado
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) #tira error si los datos no son válidos
+
+class MisViajesLista(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        viajes = Viaje.objects.filter(conductor=self.request.user)
+        serializer = ViajeSerializer(viajes, many=True)
+        return Response(serializer.data)
+
 
 
 class ViajeDetalle(APIView):

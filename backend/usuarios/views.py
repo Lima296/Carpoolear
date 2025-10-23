@@ -1,7 +1,3 @@
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -13,43 +9,6 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import UsuarioTokenObtainPairSerializer
 from .models import Usuario
 from .serializers import UsuarioSerializer
-
-
-# =================================================================
-# VISTAS DEL FRONTEND (RENDERIZADO DE HTML)
-# Estas vistas devuelven plantillas HTML y requieren autenticación (@login_required).
-# =================================================================
-
-def inicio_view(request):
-    """Renderiza la plantilla de la página de inicio."""
-    return render(request, 'inicio.html')
-
-@login_required
-def miperfil_view(request):
-    """
-    Renderiza la plantilla del perfil de usuario. 
-    Solo accesible si el usuario está logueado.
-    """
-    return render(request, 'miperfil.html')
-
-@login_required
-def cambiar_contraseña_view(request):
-    """
-    Renderiza la plantilla para el formulario de cambio de contraseña.
-    La lógica real del formulario debe ser implementada aquí.
-    """
-    return render(request, 'cambiar_contraseña.html')
-
-@login_required
-@require_POST
-def editar_perfil_api(request):
-    """
-    Endpoint de API/Backend para manejar el guardado de datos del modal de edición de perfil.
-    Responde con JSON. Solo acepta método POST.
-    """
-    # ⚠️ Lógica pendiente: Aquí debes validar y guardar los datos (ej. teléfono, dirección)
-    # en el modelo Usuario o Profile asociado.
-    return JsonResponse({'success': True, 'message': 'Perfil actualizado (lógica de guardado pendiente).'})
 
 
 # =================================================================
@@ -135,10 +94,6 @@ class PerfilUsuarioActual(APIView):
         
         # Clona los datos para poder modificarlos
         data = request.data.copy()
-
-        # No permitir la actualización del correo electrónico
-        if 'correo' in data:
-            del data['correo']
             
         serializer = UsuarioSerializer(usuario, data=data, partial=True)
         if serializer.is_valid():

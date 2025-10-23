@@ -4,70 +4,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil de Usuario</title>
+    <title>Perfil de Usuario</title>
     
     <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
     
     <link rel="stylesheet" href="{% static 'css/miperfil.css' %}">
+    <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
         <link rel="stylesheet" href="{% static 'css/navbargeneral.css' %}">
 
 </head>
 <body>
 
     {% include 'includes/navbargeneral.html' %}
-    <div class="container my-5">
-        <div class="card p-4 shadow-sm">
-            <h2 class="card-title text-center mb-4">Mi Perfil de Usuario</h2>
-            
-            <div class="profile-info">
-                <p><strong>Nombre:</strong> <span id="display-nombre">Cargando...</span></p>
-                <p><strong>Apellido:</strong> <span id="display-apellido">Cargando...</span></p>
-                <p><strong>Correo Electrónico:</strong> <span id="display-correo">Cargando...</span></p>
-                <p><strong>Teléfono:</strong> <span id="display-telefono">Cargando...</span></p>
+    <div class="container profile-container my-5">
+        <div class="profile-card">
+            <div class="profile-header">
+                <!-- Imagen de cabecera o color de fondo -->
             </div>
-
-            <div class="mt-4 d-flex justify-content-start">
-                <button type="button" class="btn btn-primary me-3" data-bs-toggle="modal" data-bs-target="#editarPerfilModal">
-                    Editar Perfil
-                </button>
+            <div class="profile-body">
+                <div class="profile-picture-container">
+                    <img src="{% static 'img/default-avatar.svg' %}" alt="Foto de Perfil" class="profile-picture">
+                </div>
+                <div class="profile-main-info">
+                    <div class="username-container">
+                        <h2 id="display-nombre">Cargando...</h2>
+                        <h2 id="display-apellido">Cargando...</h2>
+                    </div>
+                </div>
+                <div class="profile-details">
+                    <div class="info-item">
+                        <span class="info-label">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/></svg>
+                            Teléfono:
+                        </span>
+                        <span id="display-telefono">Cargando...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.803V4.697l-5.803 3.558z"/></svg>
+                            Correo:
+                        </span>
+                        <span id="display-correo">Cargando...</span>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button type="button" class="btn btn-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editarPerfilModal">
+                        Editar Perfil
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Sección de Mis Viajes -->
+    <div class="container my-5">
+        <h2 class="text-white mb-4">Mis Viajes</h2>
+        <ul id="mis-viajes-container" class="list-group">
+            <!-- Las tarjetas de viaje se cargarán aquí -->
+        </ul>
+    </div>
+
     <!-- Modal para Editar Perfil -->
     <div class="modal fade" id="editarPerfilModal" tabindex="-1" aria-labelledby="editarPerfilModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editarPerfilModalLabel">Editar Perfil</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editarPerfilForm">
-                        <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-body d-flex justify-content-center align-items-center">
+                    <form id="editarPerfilForm" class="w-100">
+                        <div class="iniciar_sesion mx-auto">
+                            <h1>Editar Perfil</h1>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="apellido" placeholder="Apellido">
+                                <label for="apellido">Apellido</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="correo" placeholder="Correo Electrónico">
+                                <label for="correo">Correo Electrónico</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="telefono" placeholder="Teléfono">
+                                <label for="telefono">Teléfono</label>
+                            </div>
+                            <div id="edit-error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+                            <button type="button" class="btn btn-primary w-100 mt-3" id="guardarCambiosBtn">Guardar Cambios</button>
                         </div>
-                        <div class="mb-3">
-                            <label for="apellido" class="form-label">Apellido</label>
-                            <input type="text" class="form-control" id="apellido">
-                        </div>
-                        <div class="mb-3">
-                            <label for="telefono" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" id="telefono">
-                        </div>
-                        <div id="edit-error-message" class="alert alert-danger" style="display: none;"></div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="guardarCambiosBtn">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Añadir/Editar Vehículo -->
+    <div class="modal fade" id="vehiculoModal" tabindex="-1" aria-labelledby="vehiculoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-body d-flex justify-content-center align-items-center">
+                    <form id="vehiculoForm" class="w-100">
+                        <div class="iniciar_sesion mx-auto">
+                            <h1 id="vehiculoModalTitle">Añadir Vehículo</h1>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="marca" placeholder="Marca" required>
+                                <label for="marca">Marca</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="modelo" placeholder="Modelo" required>
+                                <label for="modelo">Modelo</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="patente" placeholder="Patente" required>
+                                <label for="patente">Patente</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="color" placeholder="Color" required>
+                                <label for="color">Color</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="ano" placeholder="Año" required>
+                                <label for="ano">Año</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="asientos" placeholder="Asientos" required>
+                                <label for="asientos">Asientos</label>
+                            </div>
+                            <div id="vehiculo-error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+                            <button type="submit" class="btn btn-primary w-100 mt-3" id="guardarVehiculoBtn">Guardar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
     <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script>
+        const STATIC_URL_BASE = "{% static '' %}"; 
+    </script>
     <script src="{% static 'js/miperfil.js' %}"></script>
+    <script src="{% static 'js/auth.js' %}"></script>
 </body>
 </html>
