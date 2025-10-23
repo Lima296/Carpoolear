@@ -29,8 +29,11 @@ async function getConductorDNI() {
     console.log('Access Token:', accessToken);
 
     if (!accessToken) {
-        console.error('No access token found. User not logged in.');
-        // Optionally redirect to login or show an error
+            console.log('No access token found. User not logged in.');
+         // 2. Mostrar el modal de iniciar sesion
+            const successModalElement2 = document.getElementById('successModal2');
+            const successBootstrapModal2 = new bootstrap.Modal(successModalElement2);
+            successBootstrapModal2.show();
         return null;
     }
 
@@ -164,8 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 2000);
 
             } catch (error) {
-                console.error('Ocurrió un error al publicar el viaje:', error);
-                alert(`No se pudo publicar el viaje. Error: ${error.message}`);
+                console.log('Ocurrió un error al publicar el viaje:', error);
             }
         });
     }
