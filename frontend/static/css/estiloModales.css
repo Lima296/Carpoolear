@@ -1,0 +1,258 @@
+/* ===========================
+   estiloModales.css - Estilos completos para modales.
+   =========================== */
+
+/* ---------- Variables y base ---------- */
+:root{
+    --card-bg: #000000e9; /* Fondo oscuro como se solicitó */
+    --white: #ffffff;
+}
+
+/* ---------- Modal base ---------- */
+/* Asegura que la X se posicione respecto a modal-content */
+.modal-content {
+    position: relative;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow-x: hidden; /* Evita el desbordamiento horizontal en el contenedor principal */
+}
+
+/* Contenedor del body del modal */
+.modal-body {
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+/* ---------- Caja del formulario (tarjeta) ---------- */
+.iniciar_sesion {
+    max-width: 92vw;
+    background-color: var(--card-bg);
+    padding: 1.75rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    box-sizing: border-box;
+    text-align: center;
+    position: relative; 
+    overflow-x: hidden; /* Evita la barra de desplazamiento horizontal */
+}
+
+/* Titulo */
+.iniciar_sesion h1 {
+    margin: 0;
+    padding: 0;
+    color: var(--white);
+    font-size: 1.6rem;
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+}
+
+/* ---------- Inputs y floating labels ---------- */
+.form-floating {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.4rem;
+    position: relative;
+}
+
+.iniciar_sesion .form-control {
+    width: 80% !important;
+    margin: 0.25rem auto !important;
+    padding: 0.9rem 1rem !important;
+    border-radius: 8px !important;
+    border: 1px solid #e6e6e6 !important;
+    box-sizing: border-box !important;
+    background-color: #ffffff !important; 
+    color: #111111 !important;           
+    text-align: center !important;          
+    caret-color: #111111 !important;
+    box-shadow: none !important;
+}
+
+.iniciar_sesion .form-control::placeholder {
+    color: #6c6c6c !important;
+    text-align: center !important;
+    opacity: 1 !important;
+    font-size: 1rem; /* Placeholder más grande */
+}
+
+.form-floating > label {
+    left: 50% !important;
+    transform: translateX(-50%) translateY(.02rem) scale(1) !important;
+    transform-origin: center left !important;
+    width: 80% !important;
+    text-align: center !important;
+    pointer-events: none !important;
+    color: #333333 !important;
+    padding: 0 0.5rem !important;
+}
+
+.form-floating .form-control:focus ~ label,
+.form-floating .form-control:not(:placeholder-shown) ~ label {
+    transform: translateX(-50%) translateY(-1.35rem) scale(0.85) !important;
+    left: 50% !important;
+    color: #ffffff !important; /* Etiqueta flotante blanca */
+}
+
+.iniciar_sesion .form-control:focus {
+    outline: none !important;
+    box-shadow: 0 6px 18px rgba(41,142,184,0.12) !important;
+    background-color: #fff !important;
+}
+
+/* ---------- Botón de Formulario ---------- */
+.iniciar_sesion .btn-primary {
+    width: 80% !important;
+    margin: 0.8rem auto 0.25rem auto !important;
+    display: block !important;
+    padding: 0.85rem 1rem !important;
+    border-radius: 8px !important;
+    border: none !important;
+    background-color: #024873 !important;
+    font-size: 1rem !important;
+    text-align: center !important;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(41,142,184,0.12) !important;
+    font-weight: bolder;
+
+}
+
+.iniciar_sesion .btn-primary:hover {        
+    background-color: #85C74D !important;
+    color: #ffffff !important;
+    font-weight: bolder;
+    
+}
+
+/* ---------- Cruz Blanca (Cerrar) ---------- */
+.modal-content .btn-close {
+    position: absolute !important;
+    top: 35px !important; 
+    right: 35px !important;
+    width: 30px !important;
+    height: 30px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    opacity: 1 !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    z-index: 9999 !important; 
+    filter: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: transform 0.15s ease;
+}
+
+.modal-content .btn-close::before {
+    content: "✕"; 
+    color: var(--white) !important; 
+    font-size: 1.8rem; 
+    line-height: 1;
+}
+
+.modal-content .btn-close:hover {
+    background: none !important;
+    transform: scale(1.1);
+}
+
+/* ---------- Estilos Responsivos ---------- */
+
+@media (max-width: 576px) {
+
+    .iniciar_sesion {
+
+        width: 92% !important;
+
+        padding: 1.25rem !important;
+
+    }
+
+}
+
+
+
+/*
+
+   =======================================================
+
+   FIX DEFINITIVO PARA SCROLL HORIZONTAL
+
+   Aplica overflow-x: hidden al body solo cuando un modal está abierto.
+
+   =======================================================
+
+*/
+
+body.modal-open {
+
+    overflow-x: hidden !important;
+
+}
+
+/* Estilos para el Modal de Éxito */    
+#successModal .modal-dialog {
+    max-width: 300px; /* Define un ancho máximo para el modal pequeño */
+    margin: auto !important; /* Centra el modal horizontalmente */
+}
+
+#successModal .modal-content {
+    background-color: #ffffff; /* Color de éxito */
+    color: red;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+}
+
+#successModal .modal-body {
+    height: 150px;
+    font-size: 25px;
+    font-weight: bolder;
+    text-align: center; /* Asegura el centrado del texto */
+    overflow-x: hidden; /* Previene el desbordamiento horizontal */
+}
+
+/* Estilos para el Modal de Iniciar sesion para publicar viaje */
+
+#successModal2 .modal-dialog {
+    max-width: 500px; /* Define un ancho máximo para el modal pequeño */
+    margin: auto !important; /* Centra el modal horizontalmente */
+}
+
+#successModal2 .modal-content {
+    background-color: #ffffff; /* Color de éxito */
+    color: #85C74D;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+}
+
+#successModal2 .modal-body {
+    height: 150px;
+    font-size: 25px;
+    font-weight: bolder;
+    text-align: center; /* Asegura el centrado del texto */
+    overflow-x: hidden; /* Previene el desbordamiento horizontal */
+}
+
+#botonSesion {
+    text-decoration: none;
+    font-size: bolder;
+    background-color: #024873;
+    color: #ffffff;
+    border: none;
+}
+#botonSesion:hover {
+    background-color: #85C74D;
+    color: #ffffff;
+    border: none;
+}

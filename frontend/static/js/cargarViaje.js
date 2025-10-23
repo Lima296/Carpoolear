@@ -1,6 +1,6 @@
 // ⚠️ IMPORTANTE: Define la URL base de tu API de Django aquí
 // Asegúrate de que este endpoint devuelve una LISTA de viajes.
-const API_LIST_URL = 'http://localhost:8000/api/viajes/'; 
+const API_LIST_URL = 'http://localhost:8000/api/viajes/';
 
 // Elementos del DOM
 const contenedorViajes = document.querySelector('.contenedor_viajes');

@@ -1,12 +1,18 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-color: #024873 !important;
 }
 .contenedor_viajes {
-    align-self: center;
-    margin-left: 158px;
-    margin-top: 0px;
-    display: flex; /* Para que las tarjetas se alineen */
-    flex-wrap: wrap; /* Para que se muevan a la siguiente línea */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 1px;
+    max-width: 1200px;
+    margin: 1px auto;
+    justify-content: center;
 }
 .contenedor_viajes button:hover {
     background-color: #85C74D !important;
@@ -89,9 +95,11 @@ body {
 .busqueda-wrapper {
     display: flex;
     align-items: stretch;
+    justify-content: center; 
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
     gap: 10px;
-    width: 1300px; /* Adjust width as needed */
-    margin: 25px auto 40px auto !important;
 }
 
 .contenedor_buscar {
@@ -108,6 +116,7 @@ body {
     grid-template-columns: 1fr 1fr 1fr auto; 
     align-items: center; 
     gap: 20px; 
+    
 }
 
 /* Estilo para los grupos de búsqueda (etiqueta + input) */
@@ -159,6 +168,7 @@ body {
     background-color: #85C74D; 
     border-color: #85C74D;
     height: auto;
+    font-weight: bolder;
 }
 
 #btn-crear-viaje:hover {
@@ -180,11 +190,9 @@ body {
 @media (max-width: 768px) {
     /* 1. Ajuste del contenedor de Viajes (Tarjetas) */
     .contenedor_viajes {
-        margin-left: 0;
-        margin-top: 80px; 
-        flex-direction: column; 
-        align-items: center; 
-        padding: 0 10px; 
+        grid-template-columns: 1fr; /* Apila las tarjetas en una sola columna */
+        margin-top: 20px;
+        padding: 10px;
     }
 
     /* 2. Ajuste de la tarjeta */
@@ -194,21 +202,36 @@ body {
     }
 
     /* 3. Ajuste del contenedor de Búsqueda (Sección Crítica) */
+    .busqueda-wrapper {
+        flex-direction: column; /* Apila los elementos verticalmente */
+        align-items: center; /* Centra los elementos horizontalmente */
+    }
+
     .contenedor_buscar {
-        width: 90% !important;
+        width: 95% !important;
         height: auto !important; 
         padding: 15px; 
         margin: 25px auto 30px auto !important; 
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
         
         /* LAYOUT VERTICAL: Apila todos los elementos en una columna */
         grid-template-columns: 1fr !important; 
         gap: 10px; 
     }
 
+    #btn-crear-viaje {
+        width: 95%; /* Ocupa casi todo el ancho */
+        margin-top: 5px;
+        margin-left: auto;
+        margin-right: auto; /* Centra el botón y añade margen vertical */
+        display: block; /* Asegura que margin: auto funcione para centrar */
+        height: 70px;
+    }
+
     /* 4. AJUSTE DE GRUPOS Y ELEMENTOS INTERNOS EN MÓVIL: */
     .busqueda-grupo {
         width: 100%;
-        margin-bottom: 5px; 
     }
 
     .busqueda-grupo .dropdown,

@@ -1,0 +1,71 @@
+<!-- Modal para Publicar Viaje con Estilo de Login -->
+<div class="modal fade" id="publicarViajeModal" tabindex="-1" aria-labelledby="publicarViajeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <button type="button" class="btn-close position-absolute top-0 end-0" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
+            <div class="modal-body d-flex justify-content-center align-items-center">
+                <form id="form-publicar-viaje" class="w-100">
+                    {% csrf_token %}
+                    <div class="iniciar_sesion mx-auto">
+                        <h1>Publicá tu viaje</h1>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="origen-publicar" placeholder="Ciudad de Origen" required>
+                            <label for="origen-publicar">Origen</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="destino-publicar" placeholder="Ciudad de Destino" required>
+                            <label for="destino-publicar">Destino</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="date" class="form-control" id="fecha-publicar" placeholder="Fecha de Salida" required>
+                            <label for="fecha-publicar">Fecha de Salida</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="time" class="form-control" id="hora-publicar" placeholder="Hora de Salida" required>
+                            <label for="hora-publicar">Hora de Salida</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="asientos-publicar" min="1" placeholder="Asientos Disponibles" required>
+                            <label for="asientos-publicar">Asientos Disponibles</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="precio-publicar" step="100" min="0" placeholder="Precio por Asiento" required>
+                            <label for="precio-publicar">Precio por Asiento</label>
+                        </div>
+
+                        <button class="btn btn-primary w-100" type="submit">Publicar Viaje</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Éxito (Pequeño y Simple) -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <p class="mb-0">¡Viaje publicado exitosamente!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="successModal2" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <p class="mb-0">¡Inicia sesión para poder publicar un viaje!</p>
+                <a href="http://127.0.0.1:8001/inicio" class="btn btn-warning" role="button" id="botonSesion">INICIAR SESIÓN</a>
+            </div>
+        </div>
+    </div>
+</div>
