@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-color: #024873 !important;
 }
@@ -198,21 +202,36 @@ body {
     }
 
     /* 3. Ajuste del contenedor de Búsqueda (Sección Crítica) */
+    .busqueda-wrapper {
+        flex-direction: column; /* Apila los elementos verticalmente */
+        align-items: center; /* Centra los elementos horizontalmente */
+    }
+
     .contenedor_buscar {
-        width: 90% !important;
+        width: 95% !important;
         height: auto !important; 
         padding: 15px; 
         margin: 25px auto 30px auto !important; 
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
         
         /* LAYOUT VERTICAL: Apila todos los elementos en una columna */
         grid-template-columns: 1fr !important; 
         gap: 10px; 
     }
 
+    #btn-crear-viaje {
+        width: 95%; /* Ocupa casi todo el ancho */
+        margin-top: 5px;
+        margin-left: auto;
+        margin-right: auto; /* Centra el botón y añade margen vertical */
+        display: block; /* Asegura que margin: auto funcione para centrar */
+        height: 70px;
+    }
+
     /* 4. AJUSTE DE GRUPOS Y ELEMENTOS INTERNOS EN MÓVIL: */
     .busqueda-grupo {
         width: 100%;
-        margin-bottom: 5px; 
     }
 
     .busqueda-grupo .dropdown,
