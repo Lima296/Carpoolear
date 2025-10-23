@@ -1,3 +1,6 @@
+
+
+
 /**
  * Función para obtener el valor de una cookie por su nombre.
  * Esencial para la protección CSRF de Django.
@@ -19,6 +22,51 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+async function getConductorDNI() {
+    const userProfileUrl = 'http://127.0.0.1:8000/api/perfil/';
+    const accessToken = localStorage.getItem('access');
+    console.log('Access Token:', accessToken);
+
+    if (!accessToken) {
+        console.error('No access token found. User not logged in.');
+        // Optionally redirect to login or show an error
+        return null;
+    }
+
+    try {
+        const response = await fetch(userProfileUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+        });
+        console.log('Profile API Response Status:', response.status);
+        console.log('Profile API Response OK:', response.ok);
+
+        if (response.status === 401) {
+            console.error('Access token expired or invalid.');
+            localStorage.removeItem('access');
+            localStorage.removeItem('refresh');
+            // Optionally redirect to login
+            return null;
+        }
+
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Profile API Data:', data);
+        return data.id; // Using 'id' as 'dni' is not available in profile data
+    } catch (error) {
+        console.error('Error fetching conductor DNI:', error);
+        return null;
+    }
+}
+
+
 
 /**
  * Envía los datos de un nuevo viaje a la API a través de una solicitud POST.
@@ -87,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // ¡IMPORTANTE! Debes obtener el ID del usuario que ha iniciado sesión.
                     // Esto es solo un ejemplo. No dejes el valor "1" fijo.
-                    conductor: 1 
+                    conductor: await getConductorDNI() 
                 };
 
                 console.log("Enviando los siguientes datos a la API:", datosDelViaje);
@@ -95,11 +143,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 const nuevoViaje = await publicarViaje(datosDelViaje);
                 
                 console.log('Viaje publicado con éxito:', nuevoViaje);
-                alert('¡Tu viaje ha sido publicado exitosamente!');
-                
-                // Opcional: limpiar el formulario o redirigir al usuario.
-                // form.reset();
-                // window.location.href = '/dashboard/'; // Por ejemplo
+
+                // 1. Ocultar el modal de publicación de viaje
+                const publicarViajeModalElement = document.getElementById('publicarViajeModal');
+                const publicarViajeBootstrapModal = bootstrap.Modal.getInstance(publicarViajeModalElement);
+                if (publicarViajeBootstrapModal) {
+                    publicarViajeBootstrapModal.hide();
+                }
+
+                // 2. Mostrar el modal de éxito
+                const successModalElement = document.getElementById('successModal');
+                const successBootstrapModal = new bootstrap.Modal(successModalElement);
+                successBootstrapModal.show();
+
+                // 3. Limpiar el formulario
+                form.reset();
+                // 4. Cerrar el modal de éxito automáticamente después de 2 segundos
+                setTimeout(() => {
+                    successBootstrapModal.hide();
+                }, 2000);
 
             } catch (error) {
                 console.error('Ocurrió un error al publicar el viaje:', error);

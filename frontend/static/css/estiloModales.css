@@ -125,7 +125,7 @@
 
 }
 
-.iniciar_sesion .btn-primary:hover {
+.iniciar_sesion .btn-primary:hover {        
     background-color: #85C74D !important;
     color: #ffffff !important;
     font-weight: bolder;
@@ -197,4 +197,26 @@ body.modal-open {
 
     overflow-x: hidden !important;
 
+}
+
+/* Estilos para el Modal de Éxito */    
+#successModal .modal-dialog {
+    max-width: 300px; /* Define un ancho máximo para el modal pequeño */
+    margin: auto !important; /* Centra el modal horizontalmente */
+}
+
+#successModal .modal-content {
+    background-color: #ffffff; /* Color de éxito */
+    color: #85C74D;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+}
+
+#successModal .modal-body {
+    height: 150px;
+    font-size: 25px;
+    font-weight: bolder;
+    text-align: center; /* Asegura el centrado del texto */
+    overflow-x: hidden; /* Previene el desbordamiento horizontal */
 }
