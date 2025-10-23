@@ -13,12 +13,14 @@
 
     <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-    <link rel="stylesheet" href="{% static 'css/navbarDashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbargeneral.css' %}">
+    <link rel="stylesheet" href="{% static 'css/estiloModales.css' %}">
 
     <title>ViajAr</title>
 </head>
 <body>
     {% include 'includes/navbargeneral.html' %}
+    {% include 'includes/publicarViaje.html' %}
 
 
     <div class="busqueda-wrapper">
@@ -73,7 +75,7 @@
 
         
     </div>
-        <button class="btn btn-primary" id="btn-crear-viaje">Publicá tu viaje</button>
+        <button class="btn btn-primary" id="btn-crear-viaje" data-bs-toggle="modal" data-bs-target="#publicarViajeModal">Publicá tu viaje</button>
     </div>
 
 
@@ -90,6 +92,7 @@
 <!-- Enlaces a scripts -->
 <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'js/filtro.js' %}"></script>
+<script src="{% static 'js/publicarViaje.js' %}"></script>
 <!-- 
     AQUÍ ENLAZAMOS EL NUEVO SCRIPT QUE CARGA LOS DATOS DE LA API 
     (Asegúrate de que la ruta sea correcta en tu estructura de archivos estáticos) 
