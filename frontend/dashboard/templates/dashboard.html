@@ -38,8 +38,7 @@
                        autocomplete="off"> 
                 <div class="dropdown-menu">
                     <h6 class="dropdown-header">Ciudades Sugeridas</h6>
-                    <a class="dropdown-item" href="#" data-value="Buenos Aires">Buenos Aires</a>
-                    <a class="dropdown-item" href="#" data-value="Córdoba">Córdoba</a>
+                    <!-- Las localidades se cargarán aquí dinámicamente -->
                 </div>
             </div>
         </div>
@@ -56,8 +55,7 @@
                        autocomplete="off"> 
                 <div class="dropdown-menu">
                     <h6 class="dropdown-header">Ciudades Sugeridas</h6>
-                    <a class="dropdown-item" href="#" data-value="Tucumán">Tucumán</a>
-                    <a class="dropdown-item" href="#" data-value="Neuquén">Neuquén</a>
+                    <!-- Las localidades se cargarán aquí dinámicamente -->
                 </div>
             </div>
         </div>
@@ -89,6 +87,7 @@
 
 <!-- Enlaces a scripts -->
 <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/localidad.js' %}"></script> <!-- Carga de localidades -->
 <script src="{% static 'js/filtro.js' %}"></script>
 <script src="{% static 'js/publicarViaje.js' %}"></script>
 <!-- 
