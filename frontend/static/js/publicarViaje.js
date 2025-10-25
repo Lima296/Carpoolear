@@ -247,6 +247,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const successBootstrapModal = new bootstrap.Modal(successModalElement);
                 successBootstrapModal.show();
 
+                // Actualizar la lista de viajes en el dashboard
+                if (typeof cargarViajes === 'function') {
+                    cargarViajes();
+                }
+
                 form.reset();
                 setTimeout(() => {
                     successBootstrapModal.hide();

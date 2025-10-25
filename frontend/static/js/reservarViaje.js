@@ -120,6 +120,12 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(data => {
             mostrarFeedback('¡Reserva realizada con éxito! El conductor ha sido notificado.', 'success');
+            
+            // Actualizar la lista de viajes en el dashboard
+            if (typeof cargarViajes === 'function') {
+                cargarViajes();
+            }
+
             setTimeout(() => {
                 const modal = bootstrap.Modal.getInstance(document.getElementById('reservarViajeModal'));
                 if (modal) modal.hide();

@@ -18,10 +18,31 @@ function crearTarjetaViaje(viaje) {
     // Función de ayuda para obtener la ruta estática (simulación en JS)
     const getStaticUrl = (path) => `${STATIC_URL_BASE}img/${path}`; 
 
+    const formatDate = (dateString) => {
+        if (!dateString) return 'N/A';
+        
+        const date = new Date(dateString + 'T00:00:00'); // Forzar a que se interprete como local
+        
+        const options = { 
+            weekday: 'short', 
+            day: 'numeric', 
+            month: 'long', 
+            year: 'numeric',
+            timeZone: 'UTC' // Usar UTC para evitar corrimientos de día
+        };
+
+        // Capitalizar el resultado y ajustar formato
+        let formattedDate = new Intl.DateTimeFormat('es-ES', options).format(date);
+        formattedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+        
+        return formattedDate.replace('.', ''); // Eliminar el punto final del día de la semana si existe
+    };
+
+
     // Aseguramos que los valores sean seguros y formateados
     const origen = viaje.origen || 'Origen Desconocido';
     const destino = viaje.destino || 'Destino Desconocido';
-    const fecha = viaje.fecha || 'N/A';
+    const fecha = formatDate(viaje.fecha);
     const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
     const precio = viaje.precio ? `$ ${parseFloat(viaje.precio).toFixed(3)}` : 'N/A'; // Usamos toFixed(3) por si es un precio grande
     const asientos_disponibles = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
@@ -42,14 +63,14 @@ function crearTarjetaViaje(viaje) {
                 <!-- Fecha y Hora -->
                 <div class="detail-row">
                     <span class="detail-label">
-                        <img src="${getStaticUrl('fecha2.svg')}" alt="Fecha" style="width: 25px; margin-right: 10px;"> Fecha:
+                        <img src="${getStaticUrl('fecha2.svg')}" alt="Fecha" style="width: 23px; margin-right: 5px;"> Fecha:
                     </span>
                     <span class="detail-value">${fecha}</span>
                 </div>
 
                 <div class="detail-row">
                     <span class="detail-label">
-                        <img src="${getStaticUrl('reloj2.svg')}" alt="Hora" style="width: 25px; margin-right: 10px;"> Hora:
+                        <img src="${getStaticUrl('reloj2.svg')}" alt="Hora" style="width: 23px; margin-right: 5px;"> Hora:
                     </span>
                     <span class="detail-value">${hora}</span>
                 </div>
@@ -57,14 +78,14 @@ function crearTarjetaViaje(viaje) {
                 <!-- Costo -->
                 <div class="detail-row mb-3">
                     <span class="detail-label">
-                        <img src="${getStaticUrl('money2.svg')}" alt="Costo" style="width: 25px; margin-right: 10px;"> Costo:
+                        <img src="${getStaticUrl('money2.svg')}" alt="Costo" style="width: 23px; margin-right: 5px;"> Costo:
                     </span>
                     <span class="detail-value text-success fw-bolder">${precio}</span>
                 </div>
                 
                 <!-- Lugares Disponibles -->
                 <div class="places-available mt-auto">
-                    <p class="mb-1 text-secondary fw-semibold"><img src="${getStaticUrl('asiento.svg')}" alt="Costo" style="width: 25px; margin-right: 5px;">LUGARES DISPONIBLES:</p>
+                    <p class="mb-1 text-secondary fw-semibold"><img src="${getStaticUrl('asiento.svg')}" alt="Costo" style="width: 23px; margin-right: 5px;">LUGARES DISPONIBLES:</p>
                     <p class="lead fw-bolder text-primary">${asientos_disponibles} 
                 </div>
                 
@@ -101,6 +122,9 @@ async function cargarViajes() {
         // 4. Parsear los datos a JSON
         const listaDeViajes = await response.json();
         
+        // 4.1. Ordenar los viajes por el campo 'actualizado' (más recientes primero)
+        listaDeViajes.sort((a, b) => new Date(b.actualizado) - new Date(a.actualizado));
+
         // 5. Renderizar los viajes o el mensaje de no hay resultados
         contenedorViajes.innerHTML = ''; // Limpiar mensaje de carga
 
