@@ -1,0 +1,37 @@
+<!-- Modal para Reservar Viaje -->
+<div class="modal fade" id="reservarViajeModal" tabindex="-1" aria-labelledby="reservarViajeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reservarViajeModalLabel">Reserva tu asiento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Contenedor para los detalles del viaje -->
+        <div id="modal-viaje-contenido">
+          <p><strong>Conductor:</strong> <span id="modal-conductor-nombre"></span></p>
+            <p><strong>Viajes realizados:</strong> <span id="modal-conductor-nombre"></span></p>
+            <p><strong>Calificación:</strong> <span id="modal-conductor-nombre"></span></p>
+
+          <hr>
+          <p><strong>Origen:</strong> <span id="modal-viaje-origen"></span></p>
+          <p><strong>Destino:</strong> <span id="modal-viaje-destino"></span></p>
+          <p><strong>Fecha:</strong> <span id="modal-viaje-fecha"></span></p>
+          <p><strong>Hora:</strong> <span id="modal-viaje-hora"></span></p>
+          <p><strong>Precio por asiento:</strong> <span id="modal-viaje-precio"></span></p>
+          <hr>
+          <div class="mb-3">
+            <label for="cantidadAsientos" class="form-label">¿Cuántos asientos quieres solicitar?</label>
+            <input type="number" id="cantidadAsientos" class="form-control" value="1" min="1">
+          </div>
+        </div>
+        <!-- Contenedor para mensajes de feedback (éxito/error) -->
+        <div id="modal-reserva-feedback" style="display: none;"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" id="btn-solicitar-asiento">Solicita Asiento</button>
+      </div>
+    </div>
+  </div>
+</div>

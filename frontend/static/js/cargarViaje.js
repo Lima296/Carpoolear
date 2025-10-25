@@ -16,7 +16,7 @@ function crearTarjetaViaje(viaje) {
     // Usaremos un placeholder simplificado para las rutas estáticas.
     
     // Función de ayuda para obtener la ruta estática (simulación en JS)
-const getStaticUrl = (path) => `${STATIC_URL_BASE}img/${path}`; 
+    const getStaticUrl = (path) => `${STATIC_URL_BASE}img/${path}`; 
 
     // Aseguramos que los valores sean seguros y formateados
     const origen = viaje.origen || 'Origen Desconocido';
@@ -25,14 +25,15 @@ const getStaticUrl = (path) => `${STATIC_URL_BASE}img/${path}`;
     const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
     const precio = viaje.precio ? `$ ${parseFloat(viaje.precio).toFixed(3)}` : 'N/A'; // Usamos toFixed(3) por si es un precio grande
     const asientos_disponibles = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
+    const conductorNombre = (viaje.conductor && viaje.conductor.first_name) ? `${viaje.conductor.first_name} ${viaje.conductor.last_name}` : 'No disponible';
 
     return `
         <div class="custom-card-template">
             <!-- 1. ZONA SVG/ICONO (Origen y Destino) -->
             <div class="card-header-svg">
                 <span style="font-size: 15px;">
-                    <img src="${getStaticUrl('ubiAzul.svg')}" alt="Ubicación" style="width: 25px;"> Origen: <span style="color: #024873 ; font-size: 18px;"> ${origen.toLowerCase()}</span> <br>
-                    <img src="${getStaticUrl('ubiVerde.svg')}" alt="Ubicación" style="width: 25px;"> Destino: <span style="color: #024873; font-size: 18px;"> ${destino.toLowerCase()}</span>
+                    <img src="${getStaticUrl('ubiAzul.svg')}" alt="Ubicación" style="width: 25px;"> Origen: <span style="color: #024873 ; font-size: 18px;"> ${origen}</span> <br>
+                    <img src="${getStaticUrl('ubiVerde.svg')}" alt="Ubicación" style="width: 25px;"> Destino: <span style="color: #024873; font-size: 18px;"> ${destino}</span>
                 </span>
             </div>
             <!-- 2. CUERPO DE DETALLES -->
@@ -68,10 +69,13 @@ const getStaticUrl = (path) => `${STATIC_URL_BASE}img/${path}`;
                 </div>
                 
                 <!-- Botón -->
-                <button class="btn btn-primary mt-3" onclick="window.location.href='/viajes/${viaje.id}'">VER</button>
-            </div>
+                <button class="btn btn-primary mt-3" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#reservarViajeModal"
+                        data-viaje-id="${viaje.id}">VER</button>
+             </div>
         </div>
-    `;
+    `;  
 }
 
 /**
