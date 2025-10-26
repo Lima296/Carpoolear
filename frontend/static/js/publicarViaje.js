@@ -230,6 +230,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     hora: document.getElementById('hora-publicar').value,
                     asientos_disponibles: parseInt(document.getElementById('asientos-publicar').value, 10),
                     precio: parseFloat(document.getElementById('precio-publicar').value),
+                    detalle_viaje: document.getElementById('detalle_viaje').value,
                     conductor: await getConductorDNI()
                 };
 

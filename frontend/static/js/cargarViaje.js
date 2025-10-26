@@ -102,13 +102,25 @@ function crearTarjetaViaje(viaje) {
 /**
  * Función principal para obtener los datos de la API y renderizarlos.
  */
-async function cargarViajes() {
+async function cargarViajes(filters = {}) {
     // 1. Limpiar contenedor y mostrar mensaje de carga/spinner
     contenedorViajes.innerHTML = '<p class="text-center text-secondary p-4">Cargando viajes disponibles...</p>';
 
+    // Construir la URL con los filtros
+    const url = new URL(API_LIST_URL);
+    if (filters.origen && filters.origen.trim() !== '') {
+        url.searchParams.append('origen', filters.origen);
+    }
+    if (filters.destino && filters.destino.trim() !== '') {
+        url.searchParams.append('destino', filters.destino);
+    }
+    if (filters.fecha && filters.fecha.trim() !== '') {
+        url.searchParams.append('fecha', filters.fecha);
+    }
+
     try {
         // 2. Realizar la solicitud Fetch
-        const response = await fetch(API_LIST_URL);
+        const response = await fetch(url);
 
         // 3. Verificar si la respuesta es OK (200-299)
         if (!response.ok) {

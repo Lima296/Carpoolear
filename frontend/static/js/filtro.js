@@ -101,24 +101,24 @@ document.addEventListener('DOMContentLoaded', async function() { // Make it asyn
         btnBuscar.addEventListener('click', function(e) {
             e.preventDefault(); 
             
-            // Captura de los 3 valores (vacíos si no se seleccionan)
             const origen = document.getElementById('input-origen').value;
             const destino = document.getElementById('input-destino').value;
             const fecha = document.getElementById('input-fecha').value; 
-            
-            // VERIFICACIÓN FLEXIBLE: Aseguramos que al menos un campo esté lleno.
-            if (!origen && !destino && !fecha) {
-                console.warn('Advertencia: Debe ingresar al menos un criterio de búsqueda.');
-                // Puedes agregar aquí una alerta visual para el usuario si todos están vacíos.
-                return; 
+
+            const filters = {};
+            if (origen && origen.trim() !== '') {
+                filters.origen = origen;
             }
+            if (destino && destino.trim() !== '') {
+                filters.destino = destino;
+            }
+            if (fecha && fecha.trim() !== '') {
+                filters.fecha = fecha;
+            }
+
+            console.log(`Búsqueda iniciada con filtros:`, filters);
             
-            console.log(`Búsqueda iniciada con filtros: Origen='${origen}', Destino='${destino}', Fecha='${fecha}'`);
-            
-            // Lógica final de búsqueda (ej. enviar formulario o AJAX)
-            // Esta lógica ahora acepta cualquier combinación de filtros.
-            // Ejemplo de URL:
-            // window.location.href = `/viajes/buscar/?origen=${origen}&destino=${destino}&fecha=${fecha}`;
+            cargarViajes(filters);
         });
     }
 

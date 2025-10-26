@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('modal-viaje-fecha').textContent = viajeData.fecha;
                 document.getElementById('modal-viaje-hora').textContent = viajeData.hora ? viajeData.hora.substring(0, 5) + ' HS' : 'N/A';
                 document.getElementById('modal-viaje-precio').textContent = `$ ${parseFloat(viajeData.precio).toFixed(2)}`;
+                document.getElementById('modal-viaje-detalles').textContent = viajeData.detalle_viaje || 'No hay detalles disponibles.';
 
                 inputAsientos.value = 1;
                 inputAsientos.max = viajeData.asientos_disponibles;
