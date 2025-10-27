@@ -1,0 +1,31 @@
+<!-- Modal para Ver Detalles de Mi Viaje -->
+<div class="modal fade" id="verMiViajeModal" tabindex="-1" aria-labelledby="verMiViajeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="verMiViajeModalLabel">Detalles de Mi Viaje</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Contenedor para feedback o errores -->
+                <div id="modal-mi-viaje-feedback"></div>
+
+                <!-- Contenido principal del modal -->
+                <div id="modal-mi-viaje-contenido">
+                    <div class="mb-4">
+                        <h4><span id="mi-viaje-origen"></span> → <span id="mi-viaje-destino"></span></h4>
+                        <p class="text-muted"><span id="mi-viaje-fecha"></span> a las <span id="mi-viaje-hora"></span>hs</p>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="mt-4">Pasajeros Confirmados</h5>
+                    <div id="lista-pasajeros-container">
+                        <!-- La lista de pasajeros se cargará aquí dinámicamente -->
+                        <p class="text-white-50">Cargando pasajeros...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
