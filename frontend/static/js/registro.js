@@ -26,6 +26,7 @@ if (registroForm) {
   const check_correo = document.getElementById("reg_check_email").value;
   const nombre = document.getElementById("reg_nombre").value;
   const apellido = document.getElementById("reg_apellido").value;
+  const telefono = document.getElementById("reg_telefono").value;
   const password = document.getElementById("reg_password").value;
   const check_password = document.getElementById("reg_check_password").value;
 
@@ -54,7 +55,7 @@ if (registroForm) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ nombre, apellido, correo, password}),
+      body: JSON.stringify({ nombre, apellido, correo, telefono, password}),
     });
 
     const data = await response.json();

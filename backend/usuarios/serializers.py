@@ -8,7 +8,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
         # Excluir campos que no deben ser enviados al frontend o que son manejados por el sistema
-        exclude = ('groups', 'user_permissions', 'is_superuser', 'is_staff', 'last_login')
+        fields = ['id', 'nombre', 'apellido', 'correo', 'telefono', 'password', 'token', 'creado', 'actualizado']
         read_only_fields = ['id', 'token', 'creado', 'actualizado']
 
     def validate_correo(self, value):
