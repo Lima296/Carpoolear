@@ -22,7 +22,7 @@ from estado.views import EstadoLista, EstadoDetalle
 from usuarios.views import UsuarioViewSet, DetalleUsuario, LoginView, PerfilUsuarioActual
 from provincias.views import ProvinciaLista, ProvinciaDetalle
 from vehiculos.views import VehiculoDetalle, VehiculoLista
-from viajes.views import ViajeLista, ViajeDetalle
+from viajes.views import ViajeLista, ViajeDetalle, MisViajesLista
 from estado.views import EstadoLista, EstadoDetalle
 from localidad.views import LocalidadDetalle, LocalidadLista
 from reservas.views import ReservaLista, ReservaDetalle
@@ -45,6 +45,7 @@ urlpatterns = [
 
     path('api/viajes/', ViajeLista.as_view(), name='viaje-lista'),
     path('api/viajes/<int:pk>/', ViajeDetalle.as_view(), name='viaje-detalle'),
+    path('api/mis-viajes/', MisViajesLista.as_view(), name='mis-viajes-lista'),
 
     path('api/estados/', EstadoLista.as_view(), name='estados-lista'),
     path('api/estados/<int:pk>/', EstadoDetalle.as_view(), name='estados-detalle'),

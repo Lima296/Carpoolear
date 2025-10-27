@@ -2,26 +2,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const userProfileUrl = 'http://127.0.0.1:8000/api/perfil/';
     const accessToken = localStorage.getItem('access');
 
-    // Elementos de la página para mostrar datos
+    // --- Elementos del DOM ---
     const nombreDisplay = document.getElementById('display-nombre');
     const apellidoDisplay = document.getElementById('display-apellido');
     const correoDisplay = document.getElementById('display-correo');
     const telefonoDisplay = document.getElementById('display-telefono');
-
-    // Formulario del modal
-    const form = document.getElementById('editarPerfilForm');
-    const nombreInput = document.getElementById('nombre');
-    const apellidoInput = document.getElementById('apellido');
-    const telefonoInput = document.getElementById('telefono');
-    const guardarBtn = document.getElementById('guardarCambiosBtn');
-    const errorMessage = document.getElementById('edit-error-message');
+    const misViajesContainer = document.getElementById('mis-viajes-container');
 
     if (!accessToken) {
-        // Si no hay token, redirigir al inicio o mostrar mensaje
-        window.location.href = '/'; // O la página de login
+        window.location.href = '/';
         return;
     }
 
+    // --- Carga de datos del perfil ---
     async function loadProfileData() {
         try {
             const response = await fetch(userProfileUrl, {
@@ -31,78 +24,87 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Content-Type': 'application/json'
                 },
             });
-
             if (response.status === 401) {
-                // Token inválido o expirado
                 localStorage.removeItem('access');
                 localStorage.removeItem('refresh');
-                window.location.href = '/'; // Redirigir a login
+                window.location.href = '/';
                 return;
             }
-
-            if (!response.ok) {
-                throw new Error(`Error del servidor: ${response.status}`);
-            }
-
+            if (!response.ok) throw new Error(`Error del servidor: ${response.status}`);
             const data = await response.json();
             
-            // Poblar la vista principal
             nombreDisplay.textContent = data.nombre || 'N/A';
             apellidoDisplay.textContent = data.apellido || 'N/A';
             correoDisplay.textContent = data.correo || 'N/A';
             telefonoDisplay.textContent = data.telefono || 'N/A';
-
-            // Poblar el formulario del modal
-            nombreInput.value = data.nombre || '';
-            apellidoInput.value = data.apellido || '';
-            telefonoInput.value = data.telefono || '';
-
         } catch (error) {
             console.error('Error al cargar los datos del perfil:', error);
-            // Manejar el error en la UI si es necesario
         }
     }
 
-    async function saveProfileData(event) {
-        event.preventDefault();
-        errorMessage.style.display = 'none';
+    // --- Creación de filas de viaje ---
+    function crearFilaViaje(viaje) {
+        const origen = viaje.origen || 'N/A';
+        const destino = viaje.destino || 'N/A';
+        const fecha = viaje.fecha || 'N/A';
+        const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
+        const precio = viaje.precio ? `$${parseFloat(viaje.precio).toFixed(2)}` : 'N/A';
+        const asientos = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
 
-        const updatedData = {
-            nombre: nombreInput.value,
-            apellido: apellidoInput.value,
-            telefono: telefonoInput.value,
-        };
+        return `
+            <li class="list-group-item list-group-item-action" data-viaje-id="${viaje.id}">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">${origen} → ${destino}</h5>
+                    <small class="text-muted">${fecha}</small>
+                </div>
+                <p class="mb-1">Hora: ${hora} - Precio: <span class="fw-bold text-success">${precio}</span></p>
+                <small>Asientos disponibles: ${asientos}</small>
+                <div class="btn-group float-end" role="group">
+                    <button class="btn btn-primary btn-sm edit-viaje-btn">Editar</button>
+                    <button class="btn btn-danger btn-sm delete-viaje-btn">Eliminar</button>
+                </div>
+            </li>
+        `;
+    }
+
+    // --- Carga de los viajes del usuario ---
+    async function loadMisViajes() {
+        const misViajesUrl = 'http://127.0.0.1:8000/api/mis-viajes/';
+        
+        if (!misViajesContainer) return;
+
+        misViajesContainer.innerHTML = '<li class="list-group-item text-center">Cargando mis viajes...</li>';
 
         try {
-            const response = await fetch(userProfileUrl, {
-                method: 'PUT',
+            const response = await fetch(misViajesUrl, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(updatedData)
+                }
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(JSON.stringify(errorData));
+            if (!response.ok) throw new Error(`Error del servidor: ${response.status}`);
+
+            const viajes = await response.json();
+            misViajesContainer.innerHTML = '';
+
+            if (viajes.length === 0) {
+                misViajesContainer.innerHTML = '<li class="list-group-item text-center">Aún no has creado ningún viaje.</li>';
+                return;
             }
 
-            // Si la actualización fue exitosa, recargar los datos y cerrar el modal
-            await loadProfileData();
-            const modal = bootstrap.Modal.getInstance(document.getElementById('editarPerfilModal'));
-            modal.hide();
+            viajes.forEach(viaje => {
+                const filaHTML = crearFilaViaje(viaje);
+                misViajesContainer.insertAdjacentHTML('beforeend', filaHTML);
+            });
 
         } catch (error) {
-            errorMessage.textContent = `Error al guardar: ${error.message}`;
-            errorMessage.style.display = 'block';
-            console.error('Error al guardar los datos del perfil:', error);
+            console.error('Error al cargar mis viajes:', error);
+            misViajesContainer.innerHTML = '<li class="list-group-item list-group-item-danger text-center">No se pudieron cargar tus viajes.</li>';
         }
     }
 
-    // Cargar los datos cuando la página esté lista
+    // --- Inicialización ---
     loadProfileData();
-
-    // Añadir el listener al botón de guardar
-    guardarBtn.addEventListener('click', saveProfileData);
+    loadMisViajes();
 });
