@@ -7,7 +7,19 @@ from .serializers import ViajeSerializer
 
 class ViajeLista(APIView):
     def get(self, request):
+        origen = request.query_params.get('origen')
+        destino = request.query_params.get('destino')
+        fecha = request.query_params.get('fecha')
+
         viajes = Viaje.objects.all()
+
+        if origen and origen.strip():
+            viajes = viajes.filter(origen__icontains=origen)
+        if destino and destino.strip():
+            viajes = viajes.filter(destino__icontains=destino)
+        if fecha and fecha.strip():
+            viajes = viajes.filter(fecha=fecha)
+
         serializer = ViajeSerializer(viajes, many=True)
         return Response(serializer.data)
 
