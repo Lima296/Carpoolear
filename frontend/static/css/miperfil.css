@@ -96,17 +96,24 @@ body {
     border-color: #76b341;
 }
 
-/* Estilos para la lista de Mis Viajes */
 #mis-viajes-container .list-group-item {
-    background-color: rgba(255, 255, 255, 0.05); /* Fondo semi-transparente */
-    border-color: rgba(255, 255, 255, 0.1);
-    color: #f8f9fa; /* Texto claro */
+    background-color: #ffffff; /* Fondo blanco */
+    border-color: #dee2e6; /* Borde estándar */
+    color: #212529; /* Texto oscuro */
+    margin-bottom: 1rem; /* Espacio entre elementos */
+    border-radius: 0.5rem; /* Bordes redondeados */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sombra sutil */
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+#mis-viajes-container .list-group-item:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra más pronunciada al pasar el mouse */
 }
 
 #mis-viajes-container .list-group-item h5 {
-    color: #ffffff; /* Título del viaje más blanco */
+    color: #024873; /* Color del título oscuro */
 }
 
 #mis-viajes-container .list-group-item .text-muted {
-    color: #ced4da !important; /* Fecha un poco más visible */
+    color: #6c757d !important; /* Color de texto silenciado estándar */
 }

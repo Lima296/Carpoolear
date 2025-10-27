@@ -7,12 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const apellidoDisplay = document.getElementById('display-apellido');
     const correoDisplay = document.getElementById('display-correo');
     const telefonoDisplay = document.getElementById('display-telefono');
-    const nombreInput = document.getElementById('nombre');
-    const apellidoInput = document.getElementById('apellido');
-    const telefonoInput = document.getElementById('telefono');
-    const correoInput = document.getElementById('correo');
-    const guardarBtn = document.getElementById('guardarCambiosBtn');
-    const errorMessage = document.getElementById('edit-error-message');
+    const misViajesContainer = document.getElementById('mis-viajes-container');
 
     if (!accessToken) {
         window.location.href = '/';
@@ -42,46 +37,8 @@ document.addEventListener('DOMContentLoaded', function() {
             apellidoDisplay.textContent = data.apellido || 'N/A';
             correoDisplay.textContent = data.correo || 'N/A';
             telefonoDisplay.textContent = data.telefono || 'N/A';
-
-            nombreInput.value = data.nombre || '';
-            apellidoInput.value = data.apellido || '';
-            telefonoInput.value = data.telefono || '';
-            correoInput.value = data.correo || '';
         } catch (error) {
             console.error('Error al cargar los datos del perfil:', error);
-        }
-    }
-
-    // --- Guardado de datos del perfil ---
-    async function saveProfileData(event) {
-        event.preventDefault();
-        errorMessage.style.display = 'none';
-        const updatedData = {
-            correo: correoInput.value,
-            nombre: nombreInput.value,
-            apellido: apellidoInput.value,
-            telefono: telefonoInput.value,
-        };
-        try {
-            const response = await fetch(userProfileUrl, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(updatedData)
-            });
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(JSON.stringify(errorData));
-            }
-            await loadProfileData();
-            const modal = bootstrap.Modal.getInstance(document.getElementById('editarPerfilModal'));
-            modal.hide();
-        } catch (error) {
-            errorMessage.textContent = `Error al guardar: ${error.message}`;
-            errorMessage.style.display = 'block';
-            console.error('Error al guardar los datos del perfil:', error);
         }
     }
 
@@ -95,13 +52,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const asientos = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
 
         return `
-            <li class="list-group-item list-group-item-action">
+            <li class="list-group-item list-group-item-action" data-viaje-id="${viaje.id}">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">${origen} → ${destino}</h5>
                     <small class="text-muted">${fecha}</small>
                 </div>
                 <p class="mb-1">Hora: ${hora} - Precio: <span class="fw-bold text-success">${precio}</span></p>
                 <small>Asientos disponibles: ${asientos}</small>
+                <div class="btn-group float-end" role="group">
+                    <button class="btn btn-primary btn-sm edit-viaje-btn">Editar</button>
+                    <button class="btn btn-danger btn-sm delete-viaje-btn">Eliminar</button>
+                </div>
             </li>
         `;
     }
@@ -109,11 +70,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Carga de los viajes del usuario ---
     async function loadMisViajes() {
         const misViajesUrl = 'http://127.0.0.1:8000/api/mis-viajes/';
-        const container = document.getElementById('mis-viajes-container');
+        
+        if (!misViajesContainer) return;
 
-        if (!container) return;
-
-        container.innerHTML = '<li class="list-group-item text-center">Cargando mis viajes...</li>';
+        misViajesContainer.innerHTML = '<li class="list-group-item text-center">Cargando mis viajes...</li>';
 
         try {
             const response = await fetch(misViajesUrl, {
@@ -126,27 +86,25 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!response.ok) throw new Error(`Error del servidor: ${response.status}`);
 
             const viajes = await response.json();
-            container.innerHTML = '';
+            misViajesContainer.innerHTML = '';
 
             if (viajes.length === 0) {
-                container.innerHTML = '<li class="list-group-item text-center">Aún no has creado ningún viaje.</li>';
+                misViajesContainer.innerHTML = '<li class="list-group-item text-center">Aún no has creado ningún viaje.</li>';
                 return;
             }
 
             viajes.forEach(viaje => {
                 const filaHTML = crearFilaViaje(viaje);
-                container.insertAdjacentHTML('beforeend', filaHTML);
+                misViajesContainer.insertAdjacentHTML('beforeend', filaHTML);
             });
 
         } catch (error) {
             console.error('Error al cargar mis viajes:', error);
-            container.innerHTML = '<li class="list-group-item list-group-item-danger text-center">No se pudieron cargar tus viajes.</li>';
+            misViajesContainer.innerHTML = '<li class="list-group-item list-group-item-danger text-center">No se pudieron cargar tus viajes.</li>';
         }
     }
 
     // --- Inicialización ---
     loadProfileData();
     loadMisViajes();
-
-    guardarBtn.addEventListener('click', saveProfileData);
 });

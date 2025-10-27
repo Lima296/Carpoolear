@@ -8,7 +8,7 @@
     
     <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
     
-    <link rel="stylesheet" href="{% static 'css/miperfil.css' %}">
+    <link rel="stylesheet" href="{% static 'css/miperfil.css' %}?v=1.1">
     <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
         <link rel="stylesheet" href="{% static 'css/navbargeneral.css' %}">
 
@@ -47,11 +47,6 @@
                         <span id="display-correo">Cargando...</span>
                     </div>
                 </div>
-                <div class="profile-actions">
-                    <button type="button" class="btn btn-primary edit-btn" data-bs-toggle="modal" data-bs-target="#editarPerfilModal">
-                        Editar Perfil
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -62,78 +57,6 @@
         <ul id="mis-viajes-container" class="list-group">
             <!-- Las tarjetas de viaje se cargarán aquí -->
         </ul>
-    </div>
-
-    <!-- Modal para Editar Perfil -->
-    <div class="modal fade" id="editarPerfilModal" tabindex="-1" aria-labelledby="editarPerfilModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-body d-flex justify-content-center align-items-center">
-                    <form id="editarPerfilForm" class="w-100">
-                        <div class="iniciar_sesion mx-auto">
-                            <h1>Editar Perfil</h1>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="apellido" placeholder="Apellido">
-                                <label for="apellido">Apellido</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="correo" placeholder="Correo Electrónico">
-                                <label for="correo">Correo Electrónico</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="telefono" placeholder="Teléfono">
-                                <label for="telefono">Teléfono</label>
-                            </div>
-                            <div id="edit-error-message" class="alert alert-danger mt-3" style="display: none;"></div>
-                            <button type="button" class="btn btn-primary w-100 mt-3" id="guardarCambiosBtn">Guardar Cambios</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para Añadir/Editar Vehículo -->
-    <div class="modal fade" id="vehiculoModal" tabindex="-1" aria-labelledby="vehiculoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-body d-flex justify-content-center align-items-center">
-                    <form id="vehiculoForm" class="w-100">
-                        <div class="iniciar_sesion mx-auto">
-                            <h1 id="vehiculoModalTitle">Añadir Vehículo</h1>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="marca" placeholder="Marca" required>
-                                <label for="marca">Marca</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="modelo" placeholder="Modelo" required>
-                                <label for="modelo">Modelo</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="patente" placeholder="Patente" required>
-                                <label for="patente">Patente</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="color" placeholder="Color" required>
-                                <label for="color">Color</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="number" class="form-control" id="ano" placeholder="Año" required>
-                                <label for="ano">Año</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="number" class="form-control" id="asientos" placeholder="Asientos" required>
-                                <label for="asientos">Asientos</label>
-                            </div>
-                            <div id="vehiculo-error-message" class="alert alert-danger mt-3" style="display: none;"></div>
-                            <button type="submit" class="btn btn-primary w-100 mt-3" id="guardarVehiculoBtn">Guardar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>

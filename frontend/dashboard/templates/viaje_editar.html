@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Viaje</title>
+    <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Editar Viaje</h2>
+        <form id="edit-viaje-form">
+            <div class="mb-3">
+                <label for="origen" class="form-label">Origen</label>
+                <input type="text" class="form-control" id="origen" required>
+            </div>
+            <div class="mb-3">
+                <label for="destino" class="form-label">Destino</label>
+                <input type="text" class="form-control" id="destino" required>
+            </div>
+            <div class="mb-3">
+                <label for="fecha" class="form-label">Fecha</label>
+                <input type="date" class="form-control" id="fecha" required>
+            </div>
+            <div class="mb-3">
+                <label for="hora" class="form-label">Hora</label>
+                <input type="time" class="form-control" id="hora" required>
+            </div>
+            <div class="mb-3">
+                <label for="precio" class="form-label">Precio</label>
+                <input type="number" class="form-control" id="precio" required>
+            </div>
+            <div class="mb-3">
+                <label for="asientos" class="form-label">Asientos Disponibles</label>
+                <input type="number" class="form-control" id="asientos" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+    </div>
+    {{ viaje_id|json_script:"viaje_id" }}
+    <script src="{% static 'js/viaje_editar.js' %}"></script>
+</body>
+</html>
