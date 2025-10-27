@@ -3,12 +3,12 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 import secrets
 
 class UsuarioManager(BaseUserManager):
-    def create_user(self, correo, nombre, password=None, **extra_fields):
+    def create_user(self, correo, nombre, password=None, telefono=None, **extra_fields):
         if not correo:
             raise ValueError('El usuario debe tener un correo electrónico')
         
         correo = self.normalize_email(correo)
-        user = self.model(correo=correo, nombre=nombre, **extra_fields)
+        user = self.model(correo=correo, nombre=nombre, telefono=telefono, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user

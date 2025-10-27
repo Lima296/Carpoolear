@@ -9,14 +9,22 @@
                     <div class="iniciar_sesion mx-auto">
                         <h1>Publicá tu viaje</h1>
 
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="origen-publicar" placeholder="Ciudad de Origen" required>
+                        <div class="form-floating mb-3 dropdown" id="dropdown-origen-publicar">
+                            <input type="text" class="form-control" id="origen-publicar" placeholder="Ciudad de Origen" data-bs-toggle="dropdown" required autocomplete="off">
                             <label for="origen-publicar">Origen</label>
+                            <div class="dropdown-menu w-100">
+                                <h6 class="dropdown-header">Ciudades Sugeridas</h6>
+                                <!-- Dinámicamente llenado -->
+                            </div>
                         </div>
 
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="destino-publicar" placeholder="Ciudad de Destino" required>
+                        <div class="form-floating mb-3 dropdown" id="dropdown-destino-publicar">
+                            <input type="text" class="form-control" id="destino-publicar" placeholder="Ciudad de Destino" data-bs-toggle="dropdown" required autocomplete="off">
                             <label for="destino-publicar">Destino</label>
+                            <div class="dropdown-menu w-100">
+                                <h6 class="dropdown-header">Ciudades Sugeridas</h6>
+                                <!-- Dinámicamente llenado -->
+                            </div>
                         </div>
 
                         <div class="form-floating mb-3">
@@ -37,6 +45,11 @@
                         <div class="form-floating mb-3">
                             <input type="number" class="form-control" id="precio-publicar" step="100" min="0" placeholder="Precio por Asiento" required>
                             <label for="precio-publicar">Precio por Asiento</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="detalle_viaje" placeholder="Detalles del viaje" maxlength="200" style="height: 100px"></textarea>
+                            <label for="detalle_viaje">Detalles del viaje</label>
                         </div>
 
                         <button class="btn btn-primary w-100" type="submit">Publicar Viaje</button>
