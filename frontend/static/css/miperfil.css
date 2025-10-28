@@ -117,3 +117,53 @@ body {
 #mis-viajes-container .list-group-item .text-muted {
     color: #6c757d !important; /* Color de texto silenciado estándar */
 }
+
+#edit-profile-btn {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    min-width: 100px;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    line-height: 1.5;
+}
+
+/* Botón de Edición (Perfil y Viaje) */
+.btn-edit {
+    background-color: #024873 !important;
+    color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+}
+
+.btn-edit:hover {
+    background-color: #85C74D !important;
+    color: #ffffff !important;
+    border: 1px solid #85C74D !important;
+}
+
+/* Botón de Eliminación */
+.btn-delete {
+    background-color: #dc3545 !important; /* Rojo de Bootstrap */
+    color: #ffffff !important;
+    border: 1px solid #dc3545 !important;
+}
+
+.btn-delete:hover {
+    background-color: #c82333 !important; /* Rojo más oscuro */
+    border: 1px solid #c82333 !important;
+}
+
+.viaje-actions {
+    display: flex;
+    gap: 0.5rem;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+}
+
+.viaje-actions .btn {
+    padding: 0.5rem 1rem;
+    line-height: 1.5;
+    min-width: 100px;
+    text-align: center;
+}
