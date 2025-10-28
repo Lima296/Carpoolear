@@ -8,6 +8,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const correoDisplay = document.getElementById('display-correo');
     const telefonoDisplay = document.getElementById('display-telefono');
     const misViajesContainer = document.getElementById('mis-viajes-container');
+    const editProfileBtn = document.getElementById('edit-profile-btn');
+    const editProfileModalEl = document.getElementById('editProfileModal');
+    const editProfileModal = new bootstrap.Modal(editProfileModalEl);
+    const editProfileForm = document.getElementById('edit-profile-form');
+    const editNombreInput = document.getElementById('edit-nombre');
+    const editApellidoInput = document.getElementById('edit-apellido');
+    const editTelefonoInput = document.getElementById('edit-telefono');
+    const editCorreoInput = document.getElementById('edit-correo');
+
+    // Modales de viaje
+    const editViajeModalEl = document.getElementById('editViajeModal');
+    const editViajeModal = new bootstrap.Modal(editViajeModalEl);
+    const editViajeForm = document.getElementById('edit-viaje-form');
+    const deleteViajeModalEl = document.getElementById('deleteViajeModal');
+    const deleteViajeModal = new bootstrap.Modal(deleteViajeModalEl);
+    const deleteViajeForm = document.getElementById('delete-viaje-form');
+    let currentViajeId = null;
 
     if (!accessToken) {
         window.location.href = '/';
@@ -37,9 +54,69 @@ document.addEventListener('DOMContentLoaded', function() {
             apellidoDisplay.textContent = data.apellido || 'N/A';
             correoDisplay.textContent = data.correo || 'N/A';
             telefonoDisplay.textContent = data.telefono || 'N/A';
+
+            // Llenar el formulario de edición
+            editNombreInput.value = data.nombre || '';
+            editApellidoInput.value = data.apellido || '';
+            editTelefonoInput.value = data.telefono || '';
+            editCorreoInput.value = data.correo || '';
         } catch (error) {
             console.error('Error al cargar los datos del perfil:', error);
         }
+    }
+
+    // --- Evento para abrir el modal de edición de perfil ---
+    if (editProfileBtn) {
+        editProfileBtn.addEventListener('click', () => {
+            editProfileModal.show();
+        });
+    }
+
+    // --- Evento para guardar los cambios del perfil ---
+    if (editProfileForm) {
+        editProfileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!editNombreInput.value || !editApellidoInput.value || !editTelefonoInput.value) {
+                alert('Por favor, complete todos los campos.');
+                return;
+            }
+
+            const updatedData = {
+                nombre: editNombreInput.value,
+                apellido: editApellidoInput.value,
+                telefono: editTelefonoInput.value,
+            };
+
+            try {
+                const response = await fetch(userProfileUrl, {
+                    method: 'PATCH',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedData)
+                });
+
+                if (!response.ok) throw new Error(`Error del servidor: ${response.status}`);
+
+                const responseData = await response.json();
+                nombreDisplay.textContent = responseData.nombre || 'N/A';
+                apellidoDisplay.textContent = responseData.apellido || 'N/A';
+                telefonoDisplay.textContent = responseData.telefono || 'N/A';
+
+                editProfileModal.hide();
+            } catch (error) {
+                console.error('Error al actualizar el perfil:', error);
+            }
+        });
+    }
+
+    // --- Evento para resetear el formulario al cerrar el modal de perfil ---
+    if (editProfileModalEl) {
+        editProfileModalEl.addEventListener('hidden.bs.modal', () => {
+            loadProfileData();
+        });
     }
 
     // --- Creación de filas de viaje ---
@@ -59,10 +136,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <p class="mb-1">Hora: ${hora} - Precio: <span class="fw-bold text-success">${precio}</span></p>
                 <small>Asientos disponibles: ${asientos}</small>
-                <div class="btn-group float-end" role="group">
-                    <button class="btn btn-info btn-sm detalles-viaje-btn" data-bs-toggle="modal" data-bs-target="#verMiViajeModal" data-viaje-id="${viaje.id}">Detalles</button>
-                    <button class="btn btn-primary btn-sm edit-viaje-btn">Editar</button>
-                    <button class="btn btn-danger btn-sm delete-viaje-btn">Eliminar</button>
+                <div class="viaje-actions">
+                    <button class="btn btn-edit edit-viaje-btn">Editar</button>
+                    <button class="btn btn-delete delete-viaje-btn">Eliminar</button>
                 </div>
             </li>
         `;
@@ -104,6 +180,92 @@ document.addEventListener('DOMContentLoaded', function() {
             misViajesContainer.innerHTML = '<li class="list-group-item list-group-item-danger text-center">No se pudieron cargar tus viajes.</li>';
         }
     }
+
+    // --- Lógica para Editar y Eliminar Viajes ---
+    misViajesContainer.addEventListener('click', async (e) => {
+        const target = e.target;
+        const viajeLi = target.closest('.list-group-item');
+        if (!viajeLi) return;
+
+        const viajeId = viajeLi.dataset.viajeId;
+
+        if (target.classList.contains('edit-viaje-btn')) {
+            currentViajeId = viajeId;
+            const response = await fetch(`http://127.0.0.1:8000/api/viajes/${viajeId}/`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+            const viaje = await response.json();
+
+            document.getElementById('edit-viaje-id').value = viaje.id;
+            document.getElementById('edit-origen').value = viaje.origen;
+            document.getElementById('edit-destino').value = viaje.destino;
+            document.getElementById('edit-fecha').value = viaje.fecha;
+            document.getElementById('edit-hora').value = viaje.hora;
+            document.getElementById('edit-asientos').value = viaje.asientos_disponibles;
+            document.getElementById('edit-precio').value = viaje.precio;
+
+            editViajeModal.show();
+        }
+
+        if (target.classList.contains('delete-viaje-btn')) {
+            currentViajeId = viajeId;
+            deleteViajeModal.show();
+        }
+    });
+
+    // --- Evento para guardar los cambios del viaje ---
+    editViajeForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const viajeId = document.getElementById('edit-viaje-id').value;
+        const updatedData = {
+            origen: document.getElementById('edit-origen').value,
+            destino: document.getElementById('edit-destino').value,
+            fecha: document.getElementById('edit-fecha').value,
+            hora: document.getElementById('edit-hora').value,
+            asientos_disponibles: document.getElementById('edit-asientos').value,
+            precio: document.getElementById('edit-precio').value,
+        };
+
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/viajes/${viajeId}/`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedData)
+            });
+
+            if (!response.ok) throw new Error('Error al actualizar el viaje');
+
+            editViajeModal.hide();
+            loadMisViajes();
+        } catch (error) {
+            console.error(error);
+        }
+    });
+
+    // --- Evento para confirmar la eliminación del viaje ---
+    deleteViajeForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/viajes/${currentViajeId}/`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+
+            if (!response.ok) throw new Error('Error al eliminar el viaje');
+
+            deleteViajeModal.hide();
+            loadMisViajes();
+        } catch (error) {
+            console.error(error);
+        }
+    });
 
     // --- Inicialización ---
     loadProfileData();

@@ -10,6 +10,7 @@
     
     <link rel="stylesheet" href="{% static 'css/miperfil.css' %}?v=1.1">
     <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+    <link rel="stylesheet" href="{% static 'css/estiloModales.css' %}">
         <link rel="stylesheet" href="{% static 'css/navbargeneral.css' %}">
 
 </head>
@@ -48,6 +49,7 @@
                         <span id="display-correo">Cargando...</span>
                     </div>
                 </div>
+                <button id="edit-profile-btn" class="btn btn-edit">Editar Perfil</button>
             </div>
         </div>
     </div>
@@ -68,6 +70,96 @@
                 <h2 class="text-white mb-4">Reservas Pendientes</h2>
                 <div id="reservas-pendientes-container" class="list-group">
                     <!-- Las reservas pendientes se cargarán aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Editar Perfil -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form id="edit-profile-form" class="iniciar_sesion">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h1>Editar Perfil</h1>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="edit-nombre" placeholder="Nombre" required>
+                            <label for="edit-nombre">Nombre</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="edit-apellido" placeholder="Apellido" required>
+                            <label for="edit-apellido">Apellido</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="edit-telefono" placeholder="Teléfono" required>
+                            <label for="edit-telefono">Teléfono</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="edit-correo" placeholder="Correo" disabled>
+                            <label for="edit-correo">Correo</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Editar Viaje -->
+    <div class="modal fade" id="editViajeModal" tabindex="-1" aria-labelledby="editViajeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form id="edit-viaje-form" class="iniciar_sesion">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h1>Editar Viaje</h1>
+                        <input type="hidden" id="edit-viaje-id">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="edit-origen" placeholder="Origen" required>
+                            <label for="edit-origen">Origen</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="edit-destino" placeholder="Destino" required>
+                            <label for="edit-destino">Destino</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="date" class="form-control" id="edit-fecha" placeholder="Fecha" required>
+                            <label for="edit-fecha">Fecha</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="time" class="form-control" id="edit-hora" placeholder="Hora" required>
+                            <label for="edit-hora">Hora</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="number" class="form-control" id="edit-asientos" placeholder="Asientos Disponibles" required>
+                            <label for="edit-asientos">Asientos Disponibles</label>
+                        </div>
+                        <div class="form-floating">
+                            <input type="number" class="form-control" id="edit-precio" placeholder="Precio" required>
+                            <label for="edit-precio">Precio</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Confirmar Eliminación -->
+    <div class="modal fade" id="deleteViajeModal" tabindex="-1" aria-labelledby="deleteViajeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form id="delete-viaje-form" class="iniciar_sesion">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h1>Confirmar Eliminación</h1>
+                        <p>¿Estás seguro de que quieres eliminar este viaje?</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
