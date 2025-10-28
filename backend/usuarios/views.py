@@ -88,7 +88,7 @@ class PerfilUsuarioActual(APIView):
         serializer = UsuarioSerializer(request.user)
         return Response(serializer.data)
 
-    def put(self, request):
+    def patch(self, request):
         """Actualiza los datos del perfil del usuario actual."""
         usuario = request.user
         
