@@ -17,6 +17,7 @@
 <body>
 
     {% include 'includes/navbargeneral.html' %}
+    {% include 'includes/verMiViaje.html' %} //MODAL NUEVO
     <div class="container profile-container my-5">
         <div class="profile-card">
             <div class="profile-header">
@@ -53,12 +54,25 @@
         </div>
     </div>
 
-    <!-- Sección de Mis Viajes -->
+    <!-- Sección de Contenido Principal: Mis Viajes y Reservas Pendientes -->
     <div class="container my-5">
-        <h2 class="text-white mb-4">Mis Viajes</h2>
-        <ul id="mis-viajes-container" class="list-group">
-            <!-- Las tarjetas de viaje se cargarán aquí -->
-        </ul>
+        <div class="row">
+            <!-- Columna Izquierda: Mis Viajes -->
+            <div class="col-md-8">
+                <h2 class="text-white mb-4">Mis Viajes</h2>
+                <ul id="mis-viajes-container" class="list-group">
+                    <!-- Las tarjetas de viaje se cargarán aquí -->
+                </ul>
+            </div>
+
+            <!-- Columna Derecha: Reservas Pendientes -->
+            <div class="col-md-4">
+                <h2 class="text-white mb-4">Reservas Pendientes</h2>
+                <div id="reservas-pendientes-container" class="list-group">
+                    <!-- Las reservas pendientes se cargarán aquí -->
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modal para Editar Perfil -->
@@ -156,6 +170,8 @@
         const STATIC_URL_BASE = "{% static '' %}"; 
     </script>
     <script src="{% static 'js/miperfil.js' %}"></script>
+    <script src="{% static 'js/verMiViaje.js' %}"></script>
+    <script src="{% static 'js/gestionarReservas.js' %}"></script>
     <script src="{% static 'js/auth.js' %}"></script>
 </body>
 </html>

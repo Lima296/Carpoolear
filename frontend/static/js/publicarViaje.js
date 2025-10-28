@@ -117,17 +117,112 @@ async function publicarViaje(viajeData) {
 // --- Ejemplo de Uso ---
 // El siguiente código se ejecutará cuando el DOM esté completamente cargado.
 // Espera encontrar un formulario con el id "form-publicar-viaje".
-document.addEventListener('DOMContentLoaded', () => {
-    // Cuando crees tu formulario, asígnale el id "form-publicar-viaje"
-    const form = document.getElementById('form-publicar-viaje');
+document.addEventListener('DOMContentLoaded', async () => {
 
+    // 1. Cargar localidades para el autocompletado
+    let todasLasLocalidades = [];
+    try {
+        todasLasLocalidades = await getLocalidades(); // getLocalidades() viene de localidad.js
+        if (!todasLasLocalidades) {
+            throw new Error('La lista de localidades está vacía o es nula.');
+        }
+    } catch (error) {
+        console.error("No se pudieron cargar las localidades para el formulario de publicación.", error);
+    }
+
+    // 2. Función de autocompletado
+    function setupAutocomplete(inputId, dropdownId, localidades) {
+        const inputElement = document.getElementById(inputId);
+        const dropdownContainer = document.getElementById(dropdownId);
+        
+        if (!inputElement || !dropdownContainer) {
+            console.error(`Error: No se encontró el input o dropdown con ID: ${inputId} o ${dropdownId}`);
+            return;
+        }
+
+        const dropdownMenu = dropdownContainer.querySelector('.dropdown-menu');
+        
+        dropdownMenu.innerHTML = '<h6 class="dropdown-header">Ciudades Sugeridas</h6>';
+        localidades.forEach(localidad => {
+            const item = document.createElement('a');
+            item.classList.add('dropdown-item');
+            item.href = '#';
+            item.textContent = localidad.nombre;
+            item.setAttribute('data-value', localidad.nombre);
+            dropdownMenu.appendChild(item);
+        });
+
+        const items = dropdownMenu.querySelectorAll('.dropdown-item');
+        const dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(inputElement);
+
+        inputElement.addEventListener('keyup', function() {
+            const filter = inputElement.value.toLowerCase();
+            let hasVisibleItems = false;
+            
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    item.style.display = 'block';
+                    hasVisibleItems = true;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            if (filter.length > 0 && hasVisibleItems) {
+                 dropdownInstance.show();
+            } else {
+                 dropdownInstance.hide();
+            }
+        });
+
+        items.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                inputElement.value = this.getAttribute('data-value');
+                dropdownInstance.hide();
+            });
+        });
+        
+        dropdownMenu.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+    }
+
+    // 3. Inicializar autocompletado en el formulario de publicar viaje
+    setupAutocomplete('origen-publicar', 'dropdown-origen-publicar', todasLasLocalidades);
+    setupAutocomplete('destino-publicar', 'dropdown-destino-publicar', todasLasLocalidades);
+
+    // 4. Lógica existente del formulario (validación y envío)
+    const form = document.getElementById('form-publicar-viaje');
     if (form) {
+        // --- TRADUCCIÓN DE MENSAJES DE VALIDACIÓN (CORREGIDO) ---
+        const inputs = form.querySelectorAll('input[required]');
+
+        inputs.forEach(input => {
+            input.addEventListener('invalid', () => {
+                if (input.validity.valueMissing) {
+                    input.setCustomValidity('Por favor, completa este campo.');
+                } else if (input.validity.typeMismatch) {
+                    let message = 'Por favor, introduce un valor válido.';
+                    if (input.type === 'date') message = 'Por favor, introduce una fecha válida.';
+                    else if (input.type === 'time') message = 'Por favor, introduce una hora válida.';
+                    input.setCustomValidity(message);
+                } else if (input.validity.rangeUnderflow) {
+                    input.setCustomValidity(`El valor debe ser como mínimo ${input.min}.`);
+                }
+            });
+
+            input.addEventListener('input', () => {
+                input.setCustomValidity('');
+            });
+        });
+
+        // --- LISTENER PARA EL ENVÍO DEL FORMULARIO ---
         form.addEventListener('submit', async (event) => {
-            event.preventDefault(); // Prevenimos el envío tradicional del formulario
+            event.preventDefault();
 
             try {
-                // Aquí recolectarías los datos de tus inputs.
-                // Asegúrate de que los IDs de tus inputs coincidan.
                 const datosDelViaje = {
                     origen: document.getElementById('origen-publicar').value,
                     destino: document.getElementById('destino-publicar').value,
@@ -135,33 +230,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     hora: document.getElementById('hora-publicar').value,
                     asientos_disponibles: parseInt(document.getElementById('asientos-publicar').value, 10),
                     precio: parseFloat(document.getElementById('precio-publicar').value),
-                    
-                    // ¡IMPORTANTE! Debes obtener el ID del usuario que ha iniciado sesión.
-                    // Esto es solo un ejemplo. No dejes el valor "1" fijo.
-                    conductor: await getConductorDNI() 
+                    detalle_viaje: document.getElementById('detalle_viaje').value,
+                    conductor: await getConductorDNI()
                 };
 
                 console.log("Enviando los siguientes datos a la API:", datosDelViaje);
-
                 const nuevoViaje = await publicarViaje(datosDelViaje);
-                
                 console.log('Viaje publicado con éxito:', nuevoViaje);
 
-                // 1. Ocultar el modal de publicación de viaje
                 const publicarViajeModalElement = document.getElementById('publicarViajeModal');
                 const publicarViajeBootstrapModal = bootstrap.Modal.getInstance(publicarViajeModalElement);
                 if (publicarViajeBootstrapModal) {
                     publicarViajeBootstrapModal.hide();
                 }
 
-                // 2. Mostrar el modal de éxito
                 const successModalElement = document.getElementById('successModal');
                 const successBootstrapModal = new bootstrap.Modal(successModalElement);
                 successBootstrapModal.show();
 
-                // 3. Limpiar el formulario
+                // Actualizar la lista de viajes en el dashboard
+                if (typeof cargarViajes === 'function') {
+                    cargarViajes();
+                }
+
                 form.reset();
-                // 4. Cerrar el modal de éxito automáticamente después de 2 segundos
                 setTimeout(() => {
                     successBootstrapModal.hide();
                 }, 2000);

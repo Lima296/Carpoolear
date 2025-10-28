@@ -207,7 +207,7 @@ body.modal-open {
 
 #successModal .modal-content {
     background-color: #ffffff; /* Color de éxito */
-    color: red;
+    color: #85C74D;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     border: none;
@@ -230,7 +230,7 @@ body.modal-open {
 
 #successModal2 .modal-content {
     background-color: #ffffff; /* Color de éxito */
-    color: #85C74D;
+    color: red;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     border: none;
@@ -253,6 +253,31 @@ body.modal-open {
 }
 #botonSesion:hover {
     background-color: #85C74D;
+    color: #ffffff;
+    border: none;
+}
+
+#reservarViajeModal .modal-dialog {
+    max-width: 500px; /* Define un ancho máximo para el modal pequeño */
+    margin: auto !important; /* Centra el modal horizontalmente */
+}
+
+#reservarViajeModal .modal-content {
+    background-color: #ffffff;
+    color: #024873;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+}
+#btn-solicitar-asiento {
+    text-decoration: none;
+    font-size: bolder;
+    background-color: #85C74D;
+    color: #ffffff;
+    border: none;
+}
+#btn-solicitar-asiento:hover {
+    background-color: #024873;
     color: #ffffff;
     border: none;
 }
