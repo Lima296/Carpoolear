@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // --- Función para formatear precios ---
+    function formatPriceWithDot(price) {
+        if (price === null || isNaN(parseFloat(price))) {
+            return 'N/A';
+        }
+        const number = Math.round(parseFloat(price));
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
     const userProfileUrl = 'http://127.0.0.1:8000/api/perfil/';
     const accessToken = localStorage.getItem('access');
 
@@ -125,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const destino = viaje.destino || 'N/A';
         const fecha = viaje.fecha || 'N/A';
         const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
-        const precio = viaje.precio ? `$${parseFloat(viaje.precio).toFixed(2)}` : 'N/A';
+        const precio = viaje.precio ? `$${formatPriceWithDot(viaje.precio)}` : 'N/A';
         const asientos = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
 
         return `

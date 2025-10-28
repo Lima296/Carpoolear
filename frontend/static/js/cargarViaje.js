@@ -5,6 +5,15 @@ const API_LIST_URL = 'http://localhost:8000/api/viajes/';
 // Elementos del DOM
 const contenedorViajes = document.querySelector('.contenedor_viajes');
 
+// --- Función para formatear precios ---
+function formatPriceWithDot(price) {
+    if (price === null || isNaN(parseFloat(price))) {
+        return 'N/A';
+    }
+    const number = Math.round(parseFloat(price));
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 /**
  * Función para crear el HTML de una tarjeta de viaje.
  * @param {Object} viaje - Objeto JSON de un solo viaje de la API.
@@ -44,7 +53,7 @@ function crearTarjetaViaje(viaje) {
     const destino = viaje.destino || 'Destino Desconocido';
     const fecha = formatDate(viaje.fecha);
     const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
-    const precio = viaje.precio ? `$ ${parseFloat(viaje.precio).toFixed(3)}` : 'N/A'; // Usamos toFixed(3) por si es un precio grande
+    const precio = viaje.precio ? `$ ${formatPriceWithDot(viaje.precio)}` : 'N/A';
     const asientos_disponibles = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
     const conductorNombre = (viaje.conductor && viaje.conductor.first_name) ? `${viaje.conductor.first_name} ${viaje.conductor.last_name}` : 'No disponible';
 

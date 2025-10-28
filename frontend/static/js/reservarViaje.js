@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // --- Función para formatear precios ---
+    function formatPriceWithDot(price) {
+        if (price === null || isNaN(parseFloat(price))) {
+            return 'N/A';
+        }
+        const number = Math.round(parseFloat(price));
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
     const reservarViajeModal = document.getElementById('reservarViajeModal');
     
     if (reservarViajeModal) {
@@ -38,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('modal-viaje-destino').textContent = viajeData.destino;
                 document.getElementById('modal-viaje-fecha').textContent = viajeData.fecha;
                 document.getElementById('modal-viaje-hora').textContent = viajeData.hora ? viajeData.hora.substring(0, 5) + ' HS' : 'N/A';
-                document.getElementById('modal-viaje-precio').textContent = `$ ${parseFloat(viajeData.precio).toFixed(2)}`;
+                document.getElementById('modal-viaje-precio').textContent = `$ ${formatPriceWithDot(viajeData.precio)}`;
                 document.getElementById('modal-viaje-detalles').textContent = viajeData.detalle_viaje || 'No hay detalles disponibles.';
 
                 inputAsientos.value = 1;
