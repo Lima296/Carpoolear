@@ -1,10 +1,10 @@
 <!-- Modal para Ver Detalles de Mi Viaje -->
 <div class="modal fade" id="verMiViajeModal" tabindex="-1" aria-labelledby="verMiViajeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content bg-dark text-white">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content bg-white">
             <div class="modal-header">
                 <h5 class="modal-title" id="verMiViajeModalLabel">Detalles de Mi Viaje</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Contenedor para feedback o errores -->
@@ -22,9 +22,12 @@
                     <h5 class="mt-4">Pasajeros Confirmados</h5>
                     <div id="lista-pasajeros-container">
                         <!-- La lista de pasajeros se cargará aquí dinámicamente -->
-                        <p class="text-white-50">Cargando pasajeros...</p>
+                        <p class="text-muted">Cargando pasajeros...</p>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

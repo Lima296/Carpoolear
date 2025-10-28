@@ -137,6 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p class="mb-1">Hora: ${hora} - Precio: <span class="fw-bold text-success">${precio}</span></p>
                 <small>Asientos disponibles: ${asientos}</small>
                 <div class="viaje-actions">
+                    <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#verMiViajeModal" data-viaje-id="${viaje.id}">Detalles</button>
                     <button class="btn btn-edit edit-viaje-btn">Editar</button>
                     <button class="btn btn-delete delete-viaje-btn">Eliminar</button>
                 </div>

@@ -13,7 +13,8 @@ body {
     align-items: center;               /* Centra verticalmente los elementos */
     padding: 0 0px;                    /* Espaciado interno */
     background-color: #ffffff !important;       /* Color de fondo azul/gris */
-    position: relative;                /* Contexto para elementos absolutos */
+    position: sticky;   
+    top: 0;             /* Contexto para elementos absolutos */
     height: 70px;                      /* Altura de la barra */
     align-items: center;               /* Asegura centrado vertical */
 }

@@ -93,7 +93,8 @@ function renderPasajeros(pasajeros, container) {
     pasajeros.forEach(reserva => {
         const pasajero = reserva.usuario;
         const item = document.createElement('li');
-        item.className = 'list-group-item bg-secondary text-white d-flex justify-content-between align-items-center';
+        item.className = 'list-group-item text-white d-flex justify-content-between align-items-center';
+        item.style.backgroundColor = '#024873';
         item.innerHTML = `
             <div>
                 <strong>${pasajero.nombre} ${pasajero.apellido} (${reserva.cantidad_asientos} ${reserva.cantidad_asientos > 1 ? 'cupos' : 'cupo'})</strong>
