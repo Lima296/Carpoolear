@@ -269,3 +269,15 @@ body.modal-open {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     border: none;
 }
+#btn-solicitar-asiento {
+    text-decoration: none;
+    font-size: bolder;
+    background-color: #85C74D;
+    color: #ffffff;
+    border: none;
+}
+#btn-solicitar-asiento:hover {
+    background-color: #024873;
+    color: #ffffff;
+    border: none;
+}

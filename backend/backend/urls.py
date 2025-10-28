@@ -25,7 +25,7 @@ from vehiculos.views import VehiculoDetalle, VehiculoLista
 from viajes.views import ViajeLista, ViajeDetalle, MisViajesLista
 from estado.views import EstadoLista, EstadoDetalle
 from localidad.views import LocalidadDetalle, LocalidadLista
-from reservas.views import ReservaLista, ReservaDetalle
+from reservas.views import ReservaLista, ReservaDetalle, ReservasPendientesView, ViajeReservasListView
 
 # 🔑 CORRECCIÓN 2: Eliminamos 'from . import views' (causaba error) y no es necesario 
 # si usamos 'include' para delegar las rutas de frontend.
@@ -45,6 +45,7 @@ urlpatterns = [
 
     path('api/viajes/', ViajeLista.as_view(), name='viaje-lista'),
     path('api/viajes/<int:pk>/', ViajeDetalle.as_view(), name='viaje-detalle'),
+    path('api/viajes/<int:viaje_id>/reservas/', ViajeReservasListView.as_view(), name='viaje-reservas-lista'),
     path('api/mis-viajes/', MisViajesLista.as_view(), name='mis-viajes-lista'),
 
     path('api/estados/', EstadoLista.as_view(), name='estados-lista'),
@@ -57,7 +58,8 @@ urlpatterns = [
     path('api/localidad/<int:pk>/', LocalidadDetalle.as_view(), name='localidad-detalle'),
 
     path('api/reservas/', ReservaLista.as_view(), name='reserva-lista'),
-    path('api/reservas/<int:pk>/', ReservaDetalle.as_view(), name='reserva-detalle'),
+    path('api/reservas/pendientes/', ReservasPendientesView.as_view(), name='reservas-pendientes'),
+    path('api/reservas/<uuid:uuid>/', ReservaDetalle.as_view(), name='reserva-detalle'),
 ]
 
 """

@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p class="mb-1">Hora: ${hora} - Precio: <span class="fw-bold text-success">${precio}</span></p>
                 <small>Asientos disponibles: ${asientos}</small>
                 <div class="btn-group float-end" role="group">
+                    <button class="btn btn-info btn-sm detalles-viaje-btn" data-bs-toggle="modal" data-bs-target="#verMiViajeModal" data-viaje-id="${viaje.id}">Detalles</button>
                     <button class="btn btn-primary btn-sm edit-viaje-btn">Editar</button>
                     <button class="btn btn-danger btn-sm delete-viaje-btn">Eliminar</button>
                 </div>

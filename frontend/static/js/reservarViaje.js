@@ -120,17 +120,34 @@ document.addEventListener('DOMContentLoaded', function () {
             return response.json();
         })
         .then(data => {
-            mostrarFeedback('¡Reserva realizada con éxito! El conductor ha sido notificado.', 'success');
-            
-            // Actualizar la lista de viajes en el dashboard
-            if (typeof cargarViajes === 'function') {
-                cargarViajes();
+            const telefonoConductor = data.viaje?.conductor?.telefono;
+            let urlWhatsapp = '#'; // URL por defecto
+
+            if (telefonoConductor) {
+                const mensaje = `Hola ${data.viaje.conductor.nombre}, te he enviado una solicitud de reserva para tu viaje a ${data.viaje.destino}. Puedes gestionarla desde tu perfil: http://127.0.0.1:5500/miperfil/`;
+                urlWhatsapp = `https://wa.me/${telefonoConductor}?text=${encodeURIComponent(mensaje)}`;
             }
 
-            setTimeout(() => {
-                const modal = bootstrap.Modal.getInstance(document.getElementById('reservarViajeModal'));
-                if (modal) modal.hide();
-            }, 2500);
+            // Mostrar mensaje de éxito con el botón de WhatsApp
+            const feedbackHtml = `
+                <div class="alert alert-success">¡Reserva realizada con éxito!</div>
+                <p class="text-center mt-3">Contacta al conductor para coordinar.</p>
+                <button id="btn-enviar-whatsapp" class="btn btn-success w-100 mt-2">Enviar WhatsApp</button>
+            `;
+            mostrarFeedback(feedbackHtml, 'success');
+
+            // Añadir el listener al nuevo botón
+            const btnWhatsapp = document.getElementById('btn-enviar-whatsapp');
+            if (btnWhatsapp) {
+                if (telefonoConductor) {
+                    btnWhatsapp.addEventListener('click', () => {
+                        window.location.href = urlWhatsapp;
+                    });
+                } else {
+                    btnWhatsapp.textContent = 'No se pudo obtener contacto';
+                    btnWhatsapp.disabled = true;
+                }
+            }
         })
         .catch(error => {
             mostrarFeedback(error.message, 'danger');
