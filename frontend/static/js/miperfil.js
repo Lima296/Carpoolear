@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // --- Función para formatear precios ---
+    function formatPriceWithDot(price) {
+        if (price === null || isNaN(parseFloat(price))) {
+            return 'N/A';
+        }
+        const number = Math.round(parseFloat(price));
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
     const userProfileUrl = 'http://127.0.0.1:8000/api/perfil/';
     const accessToken = localStorage.getItem('access');
 
@@ -125,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const destino = viaje.destino || 'N/A';
         const fecha = viaje.fecha || 'N/A';
         const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
-        const precio = viaje.precio ? `$${parseFloat(viaje.precio).toFixed(2)}` : 'N/A';
+        const precio = viaje.precio ? `$${formatPriceWithDot(viaje.precio)}` : 'N/A';
         const asientos = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
 
         return `
@@ -137,6 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p class="mb-1">Hora: ${hora} - Precio: <span class="fw-bold text-success">${precio}</span></p>
                 <small>Asientos disponibles: ${asientos}</small>
                 <div class="viaje-actions">
+                    <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#verMiViajeModal" data-viaje-id="${viaje.id}">Detalles</button>
                     <button class="btn btn-edit edit-viaje-btn">Editar</button>
                     <button class="btn btn-delete delete-viaje-btn">Eliminar</button>
                 </div>

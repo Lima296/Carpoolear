@@ -17,7 +17,7 @@
 <body>
 
     {% include 'includes/navbargeneral.html' %}
-    {% include 'includes/verMiViaje.html' %} //MODAL NUEVO
+    {% include 'includes/verMiViaje.html' %}
     <div class="container profile-container my-5">
         <div class="profile-card">
             <div class="profile-header">
@@ -57,19 +57,29 @@
     <!-- Sección de Contenido Principal: Mis Viajes y Reservas Pendientes -->
     <div class="container my-5">
         <div class="row">
-            <!-- Columna Izquierda: Mis Viajes -->
-            <div class="col-md-8">
-                <h2 class="text-white mb-4">Mis Viajes</h2>
-                <ul id="mis-viajes-container" class="list-group">
-                    <!-- Las tarjetas de viaje se cargarán aquí -->
-                </ul>
+            <!-- Columna Izquierda: Reservas Pendientes -->
+            <div class="col-md-4">
+                <a class="h2 text-white mb-4 text-decoration-none d-flex align-items-center collapsible-header" data-bs-toggle="collapse" href="#collapseReservas" role="button" aria-expanded="true" aria-controls="collapseReservas">
+                    Reservas Pendientes
+                    <span class="collapse-arrow">▼</span>
+                </a>
+                <div class="collapse show" id="collapseReservas">
+                    <div id="reservas-pendientes-container" class="list-group">
+                        <!-- Las reservas pendientes se cargarán aquí -->
+                    </div>
+                </div>
             </div>
 
-            <!-- Columna Derecha: Reservas Pendientes -->
-            <div class="col-md-4">
-                <h2 class="text-white mb-4">Reservas Pendientes</h2>
-                <div id="reservas-pendientes-container" class="list-group">
-                    <!-- Las reservas pendientes se cargarán aquí -->
+            <!-- Columna Derecha: Mis Viajes -->
+            <div class="col-md-8">
+                <a class="h2 text-white mb-4 text-decoration-none d-flex align-items-center collapsible-header" data-bs-toggle="collapse" href="#collapseViajes" role="button" aria-expanded="true" aria-controls="collapseViajes">
+                    Mis Viajes
+                    <span class="collapse-arrow">▼</span>
+                </a>
+                <div class="collapse show" id="collapseViajes">
+                    <ul id="mis-viajes-container" class="list-group">
+                        <!-- Las tarjetas de viaje se cargarán aquí -->
+                    </ul>
                 </div>
             </div>
         </div>

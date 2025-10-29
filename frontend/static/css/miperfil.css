@@ -167,3 +167,26 @@ body {
     min-width: 100px;
     text-align: center;
 }
+
+.collapsible-header .collapse-arrow {
+    transition: transform 0.2s ease-in-out;
+    font-size: 1.2rem; /* Ajusta el tamaño de la flecha si es necesario */
+    margin-left: 3px;
+}
+
+.collapsible-header[aria-expanded="false"] .collapse-arrow {
+    transform: rotate(-90deg);
+}
+
+@media (max-width: 576px) {
+    #mis-viajes-container .list-group-item {
+        /* Añade padding en la parte inferior para que los botones no se peguen al texto */
+        padding-bottom: 1rem;
+    }
+
+    .viaje-actions {
+        position: static; /* Anula el posicionamiento absoluto */
+        margin-top: 1rem; /* Crea un espacio con el texto de arriba */
+        justify-content: center; /* Centra los botones */
+    }
+}
