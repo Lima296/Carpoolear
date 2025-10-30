@@ -137,6 +137,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const precio = viaje.precio ? `$${formatPriceWithDot(viaje.precio)}` : 'N/A';
         const asientos = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
 
+        const hoy = new Date();
+        const fechaViaje = new Date(viaje.fecha);
+        let estado = 'Creado';
+
+        hoy.setHours(0, 0, 0, 0);
+        fechaViaje.setHours(0, 0, 0, 0);
+
+        if (fechaViaje < hoy) {
+            estado = 'Finalizado';
+        } else if (fechaViaje.getTime() === hoy.getTime()) {
+            estado = 'En Curso';
+        }
+
         return `
             <li class="list-group-item list-group-item-action" data-viaje-id="${viaje.id}">
                 <div class="d-flex w-100 justify-content-between">
@@ -144,6 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <small class="text-muted">${fecha}</small>
                 </div>
                 <p class="mb-1">Hora: ${hora} - Precio: <span class="fw-bold text-success">${precio}</span></p>
+                <p class="mb-1">Estado: <span class="fw-bold">${estado}</span></p>
                 <small>Asientos disponibles: ${asientos}</small>
                 <div class="viaje-actions">
                     <button class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#verMiViajeModal" data-viaje-id="${viaje.id}">Detalles</button>
@@ -188,6 +202,38 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error('Error al cargar mis viajes:', error);
             misViajesContainer.innerHTML = '<li class="list-group-item list-group-item-danger text-center">No se pudieron cargar tus viajes.</li>';
+        }
+    }
+
+    // --- Carga de datos del vehículo ---
+    async function loadVehicleData() {
+        const miVehiculoUrl = 'http://127.0.0.1:8000/api/mi-vehiculo/';
+        try {
+            const response = await fetch(miVehiculoUrl, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.status === 404) {
+                document.getElementById('display-marca').textContent = 'No registrado';
+                document.getElementById('display-modelo').textContent = 'No registrado';
+                document.getElementById('display-patente').textContent = 'No registrado';
+                document.getElementById('display-color').textContent = 'No registrado';
+                return;
+            }
+
+            if (!response.ok) throw new Error(`Error del servidor: ${response.status}`);
+
+            const vehiculo = await response.json();
+            document.getElementById('display-marca').textContent = vehiculo.marca;
+            document.getElementById('display-modelo').textContent = vehiculo.modelo;
+            document.getElementById('display-patente').textContent = vehiculo.patente;
+            document.getElementById('display-color').textContent = vehiculo.color;
+
+        } catch (error) {
+            console.error('Error al cargar los datos del vehículo:', error);
         }
     }
 
@@ -278,6 +324,27 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // --- Inicialización ---
-    loadProfileData();
+    Promise.all([loadProfileData(), loadVehicleData()]).then(() => {
+        equalizeCardHeights();
+    });
     loadMisViajes();
+
+    function equalizeCardHeights() {
+        const userCard = document.querySelector('.col-lg-6:nth-child(1) .profile-card');
+        const vehicleCard = document.querySelector('.col-lg-6:nth-child(2) .profile-card');
+
+        if (userCard && vehicleCard) {
+            userCard.style.height = 'auto';
+            vehicleCard.style.height = 'auto';
+
+            const userCardHeight = userCard.offsetHeight;
+            const vehicleCardHeight = vehicleCard.offsetHeight;
+
+            if (userCardHeight > vehicleCardHeight) {
+                vehicleCard.style.height = `${userCardHeight}px`;
+            } else {
+                userCard.style.height = `${vehicleCardHeight}px`;
+            }
+        }
+    }
 });

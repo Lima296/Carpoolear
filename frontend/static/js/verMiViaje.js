@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
             
             // Resetear modal
             feedbackContainer.innerHTML = '';
-            pasajerosContainer.innerHTML = '<p class="text-white-50">Cargando pasajeros...</p>';
+            pasajerosContainer.innerHTML = '<p class="text-muted">Cargando pasajeros...</p>';
 
             try {
                 // Cargar detalles del viaje y pasajeros en paralelo
@@ -26,6 +26,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('mi-viaje-destino').textContent = viajeData.destino;
                 document.getElementById('mi-viaje-fecha').textContent = viajeData.fecha;
                 document.getElementById('mi-viaje-hora').textContent = viajeData.hora.substring(0, 5);
+
+                const hoy = new Date();
+                const fechaViaje = new Date(viajeData.fecha);
+                let estado = 'Creado';
+
+                hoy.setHours(0, 0, 0, 0);
+                fechaViaje.setHours(0, 0, 0, 0);
+
+                if (fechaViaje < hoy) {
+                    estado = 'Finalizado';
+                } else if (fechaViaje.getTime() === hoy.getTime()) {
+                    estado = 'En Curso';
+                }
+                document.getElementById('mi-viaje-estado').textContent = estado;
 
                 // Poblar lista de pasajeros
                 renderPasajeros(pasajerosData, pasajerosContainer);
@@ -52,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // Si no quedan pasajeros, mostrar mensaje
                     if (pasajerosContainer.children.length === 0) {
-                        pasajerosContainer.innerHTML = '<p class="text-white-50">No hay pasajeros confirmados en este viaje.</p>';
+                        pasajerosContainer.innerHTML = '<p class="text-muted">No hay pasajeros confirmados en este viaje.</p>';
                     }
 
                 } catch (error) {
@@ -83,7 +97,7 @@ async function fetchPasajeros(viajeId) {
 function renderPasajeros(pasajeros, container) {
     container.innerHTML = '';
     if (pasajeros.length === 0) {
-        container.innerHTML = '<p class="text-white-50">No hay pasajeros confirmados en este viaje.</p>';
+        container.innerHTML = '<p class="text-muted">No hay pasajeros confirmados en este viaje.</p>';
         return;
     }
 

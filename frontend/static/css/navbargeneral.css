@@ -11,12 +11,11 @@ body {
     display: flex;                     /* Distribuye elementos en fila */
     justify-content: space-between;    /* Espacia entre extremos (izq - der) */
     align-items: center;               /* Centra verticalmente los elementos */
-    padding: 0 0px;                    /* Espaciado interno */
+    padding: 0 20px;                    /* Espaciado interno */
     background-color: #ffffff !important;       /* Color de fondo azul/gris */
     position: sticky;   
     top: 0;             /* Contexto para elementos absolutos */
     height: 70px;                      /* Altura de la barra */
-    align-items: center;               /* Asegura centrado vertical */
 }
 
 /* Título dentro de la navbar */
@@ -49,107 +48,29 @@ body {
 }
 
 .logo_titulo{
-    position: absolute;
-    right: 40px;
-}
-
-/* ------------- BOTÓN HAMBURGUESA ------------- */
-
-.menu-toggle {
-    display: flex;                     /* Siempre visible como flex */
-    flex-direction: column;            /* Barras una debajo de otra */
-    justify-content: space-between;    /* Espaciado entre líneas */
-    width: 30px;                       /* Ancho del botón */
-    height: 22px;                      /* Alto del botón */
-    cursor: pointer;                   /* Cursor de "mano" */
-    background: none;                  /* Sin fondo */
-    border: none;                      /* Sin borde */
-    padding: 0;                        /* Sin padding */
-    position: absolute;
-    left: 50px;
-}
-
-/* Cada barra dentro del botón hamburguesa */
-.menu-toggle span {
-    display: block;                    /* Se comporta como bloque */
-    height: 4px;                       /* Grosor de cada línea */
-    width: 100%;                       /* Ocupa el ancho del botón */
-    background-color: #024873;         /* Color blanco */
-    border-radius: 2px;                /* Esquinas redondeadas */
-    transition: all 0.3s ease;         /* Animación suave */
+    
 }
 
 
-/* ------------- ANIMACIÓN DEL BOTÓN HAMBURGUESA ------------- */
-
-
-
-
-/* Animación al hacer click en el botón */
-.menu-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-
-
-/* Línea del medio desaparece */
-.menu-toggle.active span:nth-child(2) {
-    opacity: 0;
-}
-
-/* Línea inferior rota hacia la otra diagonal */
-.menu-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
-}
-
-
-/* ------------- OFFCANVAS (MENÚ LATERAL) ------------- */
-
-.offcanvas {
-    width: 350px !important;                       /* Ancho del menú lateral */
-}
-
-/* Encabezado del offcanvas */
-.offcanvas-header {
-    background-color: #024873;        /* Mismo color que la navbar */
-    height: 70px;                       /* Mismo alto que la navbar */
-    display: flex;                      /* Alineación flexible */
-    align-items: center;                /* Centra verticalmente */
-    justify-content: space-between;     /* Título a la izquierda, botón cerrar a la derecha */
-    padding: 0 15px;                    /* Espacio interno horizontal */
-}
-
-/* Estilo del título del menú (ej: "Menú") */
-.offcanvas-title {
-    font-size: 30px;                    /* Tamaño grande del título */
-    font-weight: bold;                  /* Texto en negrita */
-    color: white;                     /* Texto blanco como la navbar */
-    margin: 0;                          /* Sin márgenes extra */
-}
-
-/* Botón cerrar en blanco para que contraste */
-.offcanvas-header .btn-close {
-    filter: invert(1);                  /* Lo convierte blanco */
-}
-
-/* Contenedor de los enlaces debajo del título */
-.offcanvas-body .nav-links {
-    margin-top: 10px;                   /* Separa los links del título */
-}
-
-/* Estilo de los enlaces dentro del menú lateral */
-.offcanvas-body .nav-links li a {
-    font-size: 20px;                    /* Tamaño de letra de los links */
-    color: #000;                      /* Texto negro */
-    text-decoration: none;              /* Sin subrayado */
-}
-
-/* Efecto hover al pasar el mouse sobre los enlaces */
-.offcanvas-body .nav-links li a:hover {
-    color: #024873;                   /* Cambia color a azul/gris */
-}
 
 
 /* ------------- RESPONSIVE (MÓVILES) ------------- */
+
+.nav-link {
+    margin: 0 10px;
+}
+
+.profile-link {
+    color: #024873;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar-profile-icon {
+    border-radius: 50%;
+    border: 2px solid #024873;
+    width: 24px;
+}
 
 @media (max-width: 768px) {
     .nav-links {
