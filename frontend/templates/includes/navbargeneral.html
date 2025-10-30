@@ -1,6 +1,6 @@
 {% load static %}
 
-<nav class="navbar navbar-expand-lg navbar-custom d-flex justify-content-between align-items-center px-3">
+<nav class="navbar navbar-expand-lg navbar-custom d-flex justify-content-between align-items-center fixed-top">
 
   <div class="d-flex align-items-center">
     <a href="#" class="logo">
@@ -9,19 +9,19 @@
     <div class="navbar-title">
       ViajAr
     </div>
+
   </div>
 
   <div class="d-flex align-items-center">
-    <a href="/dashboard/" class="nav-link">Inicio</a>
-    <a href="#" class="nav-link">Contacto</a>
-    <a href="#" class="nav-link">Ayuda</a>
-  </div>
-
-  <div class="nav-right d-flex align-items-center">
-    <a href="/miperfil/" class="profile-link d-flex align-items-center">
-      Mi Perfil
-      <img src="{% static 'img/default-avatar.svg' %}" alt="Perfil" class="ms-2 navbar-profile-icon" style="height: 24px;">
-    </a>
-    <a href="#" id="logout-btn" class="nav-link text-danger ms-3">Cerrar Sesión</a>
+    <div class="dropdown me-3">
+      <a href="#" class="profile-link d-flex align-items-center dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Usuario
+        <img src="{% static 'img/default-avatar.svg' %}" alt="Perfil" class="ms-2 navbar-profile-icon" style="height: 32px; width: 32px;">
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="/miperfil/">Mi Perfil</a></li>
+        <li><a class="dropdown-item text-danger" href="#" id="logout-btn">Cerrar Sesión</a></li>
+      </ul>
+    </div>
   </div>
 </nav>
