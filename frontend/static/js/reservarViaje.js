@@ -47,6 +47,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById('modal-viaje-destino').textContent = viajeData.destino;
                 document.getElementById('modal-viaje-fecha').textContent = viajeData.fecha;
                 document.getElementById('modal-viaje-hora').textContent = viajeData.hora ? viajeData.hora.substring(0, 5) + ' HS' : 'N/A';
+
+                const hoy = new Date();
+                const fechaViaje = new Date(viajeData.fecha);
+                let estado = 'Creado';
+
+                hoy.setHours(0, 0, 0, 0);
+                fechaViaje.setHours(0, 0, 0, 0);
+
+                if (fechaViaje < hoy) {
+                    estado = 'Finalizado';
+                } else if (fechaViaje.getTime() === hoy.getTime()) {
+                    estado = 'En Curso';
+                }
+                document.getElementById('modal-viaje-estado').textContent = estado;
+
                 document.getElementById('modal-viaje-precio').textContent = `$ ${formatPriceWithDot(viajeData.precio)}`;
                 document.getElementById('modal-viaje-detalles').textContent = viajeData.detalle_viaje || 'No hay detalles disponibles.';
 
