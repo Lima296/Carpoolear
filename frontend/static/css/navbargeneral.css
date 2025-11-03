@@ -4,6 +4,7 @@
 /* --- FUENTES --- */
 body {
     font-family: 'Outfit', sans-serif;
+    padding-top: 75px; /* Para evitar que la navbar fija se superponga al contenido */
 }
 
 /* --- BARRA DE NAVEGACIÓN PRINCIPAL --- */
