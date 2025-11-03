@@ -56,14 +56,17 @@ body {
 
 /* ------------- RESPONSIVE (MÓVILES) ------------- */
 
-.nav-link {
+.navbar .nav-link {
     margin: 0 10px;
+    color: #024873; /* Color del texto de los enlaces */
+    font-size: 20px;
 }
 
 .profile-link {
     color: #024873;
     text-decoration: none;
     font-weight: bold;
+    font-size: 20px;
 }
 
 .navbar-profile-icon {
@@ -85,4 +88,13 @@ body {
     .menu-toggle{
         left: 20px;
     }
+}
+
+/* Helper class para forzar el centrado de los botones de navegación */
+.force-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px; /* Espacio entre botones */
 }
