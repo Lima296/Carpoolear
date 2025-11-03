@@ -6,13 +6,13 @@ body {
     background-color: #024873 !important;
 }
 .contenedor_viajes {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
     padding: 1px;
     max-width: 1200px;
     margin: 1px auto;
-    justify-content: center;
 }
 .contenedor_viajes button:hover {
     background-color: #85C74D !important;
@@ -256,4 +256,30 @@ body {
         margin-top: 5px; 
         margin-bottom: 5px; 
     }
+}
+
+.mensaje-carga-estilo {
+    background-color: white;
+    color: #024873;
+    border: 1px solid #024873;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    margin: 20px auto;
+}
+
+.animacion-auto-contenedor {
+    position: relative;
+    height: 100px; /* Ajusta la altura según sea necesario */
+    overflow: hidden;
+}
+
+.auto-animado {
+    position: absolute;
+    left: -250px; /* Inicia más a la izquierda para ocultar el fondo blanco */
+    transition: left 1.5s linear;
+}
+
+.auto-animado.animar {
+    left: 300px; /* Termina completamente fuera a la derecha */
 }

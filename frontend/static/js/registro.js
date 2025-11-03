@@ -48,6 +48,14 @@ if (registroForm) {
     return;
   }
 
+  if (!/^[0-9]+$/.test(caracteristica) || !/^[0-9]+$/.test(telefono_numero) || telefono.length !== 10) {
+    const mensajeElement = document.getElementById("mensaje");
+    mensajeElement.className = "alert alert-danger";
+    mensajeElement.innerText = "Por favor, coloca un número de teléfono válido de 10 dígitos.";
+    mensajeElement.style.display = "block";
+    return;
+  }
+
   // Log para ver qué datos se están enviando
   console.log("Datos a enviar:", { nombre, correo, password });
   
