@@ -216,8 +216,7 @@ html, body {
    AJUSTES CRÍTICOS: Modales de Login/Registro
    ======================================================= */
 
-#modalRegistro .modal-dialog {
-    display: flex !important;
+#exampleModal .modal-dialog, #modalRegistro .modal-dialog {
     align-items: flex-start !important;
     justify-content: center !important;
     padding-top: 0 !important;      
@@ -280,47 +279,7 @@ html, body {
 }
 
 
-/* =======================================================
-   CRUZ BLANCA (✕) y Posición Consistente (35px)
-   ======================================================= */
 
-.modal-content .btn-close {
-    position: absolute !important;
-    /* (15px original) + 20px (solicitado) = 35px */
-    top: 35px !important; 
-    right: 35px !important;
-    width: 30px !important;
-    height: 30px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    opacity: 1 !important;
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
-    z-index: 9999 !important; 
-    filter: none !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    transition: transform 0.15s ease;
-}
-
-#modalRegistro .modal-content .btn-close {
-    top: 35px !important; 
-    right: 35px !important;
-}
-
-.modal-content .btn-close::before {
-    content: "✕"; 
-    color: var(--white) !important; 
-    font-size: 1.8rem; 
-    line-height: 1;
-}
-
-.modal-content .btn-close:hover {
-    background: none !important;
-    transform: scale(1.1);
-}
 
 /* =======================================================
    Estilos de los botones de la Sección Principal (Hero)

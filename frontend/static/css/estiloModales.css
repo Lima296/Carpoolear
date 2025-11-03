@@ -3,167 +3,246 @@
    =========================== */
 
 /* ---------- Variables y base ---------- */
-:root{
-    --card-bg: #000000e9; /* Fondo oscuro como se solicitó */
+:root {
+    --primary-color: #024873;
+    --secondary-color: #85C74D;
+    --light-bg: #f8f9fa;
     --white: #ffffff;
+    --text-color: #333;
 }
 
-/* ---------- Modal base ---------- */
-/* Asegura que la X se posicione respecto a modal-content */
-.modal-content {
-    position: relative;
-    background: transparent;
+.modal-custom .modal-content {
+    background-color: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
     border: none;
-    box-shadow: none;
-    overflow-x: hidden; /* Evita el desbordamiento horizontal en el contenedor principal */
-}
-
-/* Contenedor del body del modal */
-.modal-body {
-    padding: 1rem 1.25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-}
-
-/* ---------- Caja del formulario (tarjeta) ---------- */
-.iniciar_sesion {
-    max-width: 92vw;
-    background-color: var(--card-bg);
-    padding: 1.75rem 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    box-sizing: border-box;
-    text-align: center;
-    position: relative; 
-    overflow-x: hidden; /* Evita la barra de desplazamiento horizontal */
-}
-
-/* Titulo */
-.iniciar_sesion h1 {
-    margin: 0;
     padding: 0;
-    color: var(--white);
-    font-size: 1.6rem;
-    margin-bottom: 0.2rem;
+    overflow: hidden;
+}
+
+.modal-header-custom {
+    background-color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.modal-header-custom h1 {
+    font-size: 1.3rem;
     font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 0;
 }
 
-/* ---------- Inputs y floating labels ---------- */
-.form-floating {
-    width: 100%;
+.modal-custom .modal-dialog {
+    max-width: 500px;
+}
+
+.modal-custom .modal-body {
+    padding-left:20px;
+    padding-right:20px;
+    padding-top: 10px;
+}
+
+.modal-custom .btn-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat !important;
+    opacity: 0.7 !important;
+}
+
+.modal-custom .btn-close:hover {
+    opacity: 1 !important;
+}
+
+/* ---------- Formulario ---------- */
+.modal-custom form h1 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.modal-custom form h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.modal-custom form .form-group {
+    margin-bottom: 1rem;
+}
+
+.modal-custom form label {
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    display: block;
+    font-size: 0.9rem;
+}
+
+.modal-custom form .form-control {
+    background-color: var(--light-bg);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    height: auto;
+    font-size: 0.9rem;
+}
+
+.modal-custom form .form-control:focus {
+    background-color: var(--white);
+    border-color: var(--primary-color);
+    box-shadow: none;
+}
+
+/* ---------- Grupos de inputs ---------- */
+.input-group {
     display: flex;
-    justify-content: center;
+    gap: 1rem;
+}
+
+.input-group > div {
+    flex: 1;
+}
+
+/* ---------- Contador de asientos ---------- */
+.asientos-disponibles {
+    display: flex;
     align-items: center;
-    margin-bottom: 0.4rem;
-    position: relative;
+    gap: 0.5rem;
+    background-color: var(--light-bg);
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.3rem 0.8rem;
+    width: fit-content;
 }
 
-.iniciar_sesion .form-control {
-    width: 80% !important;
-    margin: 0.25rem auto !important;
-    padding: 0.9rem 1rem !important;
-    border-radius: 8px !important;
-    border: 1px solid #e6e6e6 !important;
-    box-sizing: border-box !important;
-    background-color: #ffffff !important; 
-    color: #111111 !important;           
-    text-align: center !important;          
-    caret-color: #111111 !important;
-    box-shadow: none !important;
-}
-
-.iniciar_sesion .form-control::placeholder {
-    color: #6c6c6c !important;
-    text-align: center !important;
-    opacity: 1 !important;
-    font-size: 1rem; /* Placeholder más grande */
-}
-
-.form-floating > label {
-    left: 50% !important;
-    transform: translateX(-50%) translateY(.02rem) scale(1) !important;
-    transform-origin: center left !important;
-    width: 80% !important;
-    text-align: center !important;
-    pointer-events: none !important;
-    color: #333333 !important;
-    padding: 0 0.5rem !important;
-}
-
-.form-floating .form-control:focus ~ label,
-.form-floating .form-control:not(:placeholder-shown) ~ label {
-    transform: translateX(-50%) translateY(-1.35rem) scale(0.85) !important;
-    left: 50% !important;
-    color: #ffffff !important; /* Etiqueta flotante blanca */
-}
-
-.iniciar_sesion .form-control:focus {
-    outline: none !important;
-    box-shadow: 0 6px 18px rgba(41,142,184,0.12) !important;
-    background-color: #fff !important;
-}
-
-/* ---------- Botón de Formulario ---------- */
-.iniciar_sesion .btn-primary {
-    width: 80% !important;
-    margin: 0.8rem auto 0.25rem auto !important;
-    display: block !important;
-    padding: 0.85rem 1rem !important;
-    border-radius: 8px !important;
-    border: none !important;
-    background-color: #024873 !important;
-    font-size: 1rem !important;
-    text-align: center !important;
+.asientos-disponibles button {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--primary-color);
     cursor: pointer;
-    box-shadow: 0 6px 18px rgba(41,142,184,0.12) !important;
+}
+
+.asientos-disponibles input {
+    border: none;
+    background: transparent;
+    text-align: center;
+    width: 30px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* ---------- Botón Publicar Viaje ---------- */
+.modal-custom form .btn-primary {
+    background-color: var(--secondary-color);
+    border: none;
+    border-radius: 8px;
+    padding: 0.7rem 1.2rem;
+    font-weight: 600;
+    width: auto;
+    float: right;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.modal-custom form .btn-primary:hover {
+    background-color: var(--primary-color);
+}
+
+#loginForm .btn-primary, #registroForm .btn-primary {
+    margin-bottom: 10px !important;
+}
+
+
+/* ---------- Estilos Responsivos ---------- */
+@media (max-width: 768px) {
+    .input-group {
+        flex-direction: column;
+        gap: 3px;
+    }
+    #form-publicar-viaje .btn-primary {
+        width: 100%;
+        float: none;
+    }
+    #loginForm p:last-child, #registroForm p:last-child {
+        margin-top: 0.5rem !important;
+    }
+}
+
+/* Mantener estilos de otros modales */
+#successModal .modal-dialog, #successModal2 .modal-dialog, #reservarViajeModal .modal-dialog {
+    max-width: 500px;
+    margin: auto !important;
+}
+
+#successModal .modal-content, #successModal2 .modal-content, #reservarViajeModal .modal-content {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: none;
+}
+
+#successModal .modal-body, #successModal2 .modal-body {
+    height: 150px;
+    font-size: 25px;
     font-weight: bolder;
-
+    text-align: center;
+    overflow-x: hidden;
 }
 
-.iniciar_sesion .btn-primary:hover {        
-    background-color: #85C74D !important;
-    color: #ffffff !important;
-    font-weight: bolder;
-    
+#successModal .modal-content {
+    color: #85C74D;
 }
 
-/* ---------- Cruz Blanca (Cerrar) ---------- */
-.modal-content .btn-close {
-    position: absolute !important;
-    top: 35px !important; 
-    right: 35px !important;
-    width: 30px !important;
-    height: 30px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    opacity: 1 !important;
-    background: none !important;
-    border: none !important;
-    box-shadow: none !important;
-    z-index: 9999 !important; 
-    filter: none !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    transition: transform 0.15s ease;
+#successModal2 .modal-content {
+    color: red;
 }
 
-.modal-content .btn-close::before {
-    content: "✕"; 
-    color: var(--white) !important; 
-    font-size: 1.8rem; 
-    line-height: 1;
+#reservarViajeModal .modal-content {
+    color: #024873;
 }
 
-.modal-content .btn-close:hover {
-    background: none !important;
-    transform: scale(1.1);
+#botonSesion {
+    text-decoration: none;
+    font-size: bolder;
+    background-color: #024873;
+    color: #ffffff;
+    border: none;
 }
+
+#botonSesion:hover {
+    background-color: #85C74D;
+    color: #ffffff;
+    border: none;
+}
+
+#btn-solicitar-asiento {
+    text-decoration: none;
+    font-size: bolder;
+    background-color: #85C74D;
+    color: #ffffff;
+    border: none;
+}
+
+#btn-solicitar-asiento:hover {
+    background-color: #024873;
+    color: #ffffff;
+    border: none;
+}
+
+
+
+
 
 /* ---------- Estilos Responsivos ---------- */
 

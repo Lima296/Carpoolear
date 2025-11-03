@@ -1,67 +1,73 @@
-<!-- Modal para Publicar Viaje con Estilo de Login -->
-<div class="modal fade" id="publicarViajeModal" tabindex="-1" aria-labelledby="publicarViajeModalLabel" aria-hidden="true">
+<!-- Modal para Publicar Viaje -->
+<div class="modal fade modal-custom" id="publicarViajeModal" tabindex="-1" aria-labelledby="publicarViajeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <button type="button" class="btn-close position-absolute top-0 end-0" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10;"></button>
-            <div class="modal-body d-flex justify-content-center align-items-center">
-                <form id="form-publicar-viaje" class="w-100">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header-custom">
+                <h1>Publicá tu viaje</h1>
+            </div>
+            <div class="modal-body">
+                <form id="form-publicar-viaje">
                     {% csrf_token %}
-                    <div class="iniciar_sesion mx-auto">
-                        <h1>Publicá tu viaje</h1>
-
-                        <div class="form-floating mb-3 dropdown" id="dropdown-origen-publicar">
-                            <input type="text" class="form-control" id="origen-publicar" placeholder="Ciudad de Origen" data-bs-toggle="dropdown" required autocomplete="off">
+                    <div class="input-group">
+                        <div class="form-group">
                             <label for="origen-publicar">Origen</label>
-                            <div class="dropdown-menu w-100">
-                                <h6 class="dropdown-header">Ciudades Sugeridas</h6>
-                                <!-- Dinámicamente llenado -->
+                            <div class="dropdown" id="dropdown-origen-publicar">
+                                <input type="text" class="form-control" id="origen-publicar" data-bs-toggle="dropdown" required autocomplete="off">
+                                <div class="dropdown-menu w-100">
+                                    <h6 class="dropdown-header">Ciudades Sugeridas</h6>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="form-floating mb-3 dropdown" id="dropdown-destino-publicar">
-                            <input type="text" class="form-control" id="destino-publicar" placeholder="Ciudad de Destino" data-bs-toggle="dropdown" required autocomplete="off">
+                        <div class="form-group">
                             <label for="destino-publicar">Destino</label>
-                            <div class="dropdown-menu w-100">
-                                <h6 class="dropdown-header">Ciudades Sugeridas</h6>
-                                <!-- Dinámicamente llenado -->
+                            <div class="dropdown" id="dropdown-destino-publicar">
+                                <input type="text" class="form-control" id="destino-publicar" data-bs-toggle="dropdown" required autocomplete="off">
+                                <div class="dropdown-menu w-100">
+                                    <h6 class="dropdown-header">Ciudades Sugeridas</h6>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="form-floating mb-3">
-                            <input type="date" class="form-control" id="fecha-publicar" placeholder="Fecha de Salida" required>
-                            <label for="fecha-publicar">Fecha de Salida</label>
-                        </div>
-
-                        <div class="form-floating mb-3">
-                            <input type="time" class="form-control" id="hora-publicar" placeholder="Hora de Salida" required>
-                            <label for="hora-publicar">Hora de Salida</label>
-                        </div>
-
-                        <div class="form-floating mb-3">
-                            <input type="number" class="form-control" id="asientos-publicar" min="1" placeholder="Asientos Disponibles" required>
-                            <label for="asientos-publicar">Asientos Disponibles</label>
-                        </div>
-
-                        <div class="form-floating mb-3">
-                            <input type="number" class="form-control" id="precio-publicar" step="100" min="0" placeholder="Precio por Asiento" required>
-                            <label for="precio-publicar">Precio por Asiento</label>
-                        </div>
-
-                        <div class="form-floating mb-3">
-                            <textarea class="form-control" id="detalle_viaje" placeholder="Detalles del viaje" maxlength="200" style="height: 100px"></textarea>
-                            <label for="detalle_viaje">Detalles del viaje</label>
-                        </div>
-
-                        <button class="btn btn-primary w-100" type="submit">Publicar Viaje</button>
-
                     </div>
+                    <div class="input-group">
+                        <div class="form-group">
+                            <label for="fecha-publicar">Fecha de Salida</label>
+                            <input type="text" class="form-control" id="fecha-publicar" placeholder="" onfocus="(this.type='date')" onblur="(this.type='text')" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="hora-publicar">Hora de Salida</label>
+                            <input type="time" class="form-control" id="hora-publicar" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="form-group">
+                            <label for="asientos-publicar">Asientos Disponibles</label>
+                            <div class="asientos-disponibles">
+                                <button type="button" onclick="this.nextElementSibling.stepDown()">-</button>
+                                <input type="number" id="asientos-publicar" min="1" value="1" readonly>
+                                <button type="button" onclick="this.previousElementSibling.stepUp()">+</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="precio-publicar">Precio por Asiento</label>
+                            <input type="number" class="form-control" id="precio-publicar" step="100" min="0" placeholder="Sin puntos ni comas" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="detalle_viaje">Detalles del viaje</label>
+                        <textarea class="form-control" id="detalle_viaje" placeholder="Viajo con un perro, paso por algún lado, etc." maxlength="200" style="height: 100px"></textarea>
+                    </div>
+
+
+                    <button class="btn btn-primary w-100" type="submit">Publicar Viaje</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal de Éxito (Pequeño y Simple) -->
+<!-- Modal de Éxito -->
 <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered">
         <div class="modal-content">
@@ -72,6 +78,7 @@
     </div>
 </div>
 
+<!-- Modal de Error de Sesión -->
 <div class="modal fade" id="successModal2" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered">
         <div class="modal-content">
