@@ -26,7 +26,9 @@ if (registroForm) {
   const check_correo = document.getElementById("reg_check_email").value;
   const nombre = document.getElementById("reg_nombre").value;
   const apellido = document.getElementById("reg_apellido").value;
-  const telefono = document.getElementById("reg_telefono").value;
+  const caracteristica = document.getElementById("reg_caracteristica").value;
+  const telefono_numero = document.getElementById("reg_telefono").value;
+  const telefono = caracteristica + telefono_numero;
   const password = document.getElementById("reg_password").value;
   const check_password = document.getElementById("reg_check_password").value;
 
