@@ -12,5 +12,5 @@ urlpatterns = [
     path('', views.inicio_view, name='root_inicio'),
     path('inicio/', views.inicio_view, name='inicio'),
     path('miperfil/', views.perfil_view, name='miperfil'),
-    path('dashboard/', dashboard_views.dashboard_view, name='dashboard.html'), 
+    path('', include('dashboard.urls')),
 ]

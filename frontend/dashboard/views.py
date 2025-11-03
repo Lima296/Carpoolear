@@ -5,3 +5,6 @@ def dashboard_view(request):
 
 def viaje_editar_view(request, viaje_id):
     return render(request, 'viaje_editar.html', {'viaje_id': viaje_id})
+
+def misviajes_view(request):
+    return render(request, 'misviajes.html')

@@ -56,8 +56,9 @@ body {
 
 /* ------------- RESPONSIVE (MÓVILES) ------------- */
 
-.nav-link {
+.navbar .nav-link {
     margin: 0 10px;
+    color: #024873; /* Color del texto de los enlaces */
 }
 
 .profile-link {
