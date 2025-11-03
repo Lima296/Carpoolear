@@ -1,100 +1,143 @@
-/* ------------- ESTILOS GENERALES ------------- */
+/* --- navbargeneral.css --- */
+/* Rediseño completo para una estética moderna y limpia */
 
+/* --- FUENTES --- */
 body {
-    font-family: 'Outfit', sans-serif; /* Fuente principal de la página */
+    font-family: 'Outfit', sans-serif;
 }
 
-
-/* ------------- NAVBAR PRINCIPAL ------------- */
-
-.navbar {
-    display: flex;                     /* Distribuye elementos en fila */
-    justify-content: space-between;    /* Espacia entre extremos (izq - der) */
-    align-items: center;               /* Centra verticalmente los elementos */
-    padding: 0 20px;                    /* Espaciado interno */
-    background-color: #ffffff !important;       /* Color de fondo azul/gris */
-    position: sticky;   
-    top: 0;             /* Contexto para elementos absolutos */
-    height: 70px;                      /* Altura de la barra */
+/* --- BARRA DE NAVEGACIÓN PRINCIPAL --- */
+.navbar-custom {
+    background-color: #ffffff !important;
+    height: 75px;
+    padding: 0 30px;
+    border-bottom: 1px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
 }
 
-/* Título dentro de la navbar */
-.navbar-title {
-    font-size: 28px;                   /* Tamaño de letra del título */
-    font-weight: bold;                 /* En negrita */
-    color: #024873;                    /* Color del texto */
-    text-align: center;                /* Centrado horizontal */
-    flex: 1;                           /* Ocupa espacio entre botón y logo */
-    display: flex;                     /* Activa flexbox */
-    align-items: center;               /* Centra verticalmente */
-    justify-content: center;           /* Centra horizontalmente */
-}
-
-
-/* Contenedor del botón hamburguesa (lado izquierdo) */
-.nav-left {
-    display: flex;                     /* Muestra en fila */
-    align-items: center;               /* Centra verticalmente */
-}
-
-
-
-/* ------------- LOGO ------------- */
-
+/* --- LOGO Y TÍTULO --- */
 .logo-img {
-    height: 55px;                      /* Altura del logo */
-    width: auto;     
-    margin-left: 10px;                  /* Mantiene proporción */
+    height: 50px;
+    width: auto;
+    transition: transform 0.3s ease;
 }
 
-.logo_titulo{
-    
+.logo-img:hover {
+    transform: scale(1.05);
 }
 
-
-
-
-/* ------------- RESPONSIVE (MÓVILES) ------------- */
-
-.navbar .nav-link {
-    margin: 0 10px;
-    color: #024873; /* Color del texto de los enlaces */
-    font-size: 20px;
-}
-
-.profile-link {
+.navbar-title {
+    font-size: 26px;
+    font-weight: 600;
     color: #024873;
+    margin-left: 15px;
+}
+
+/* --- ENLACES DE NAVEGACIÓN CENTRALES --- */
+.nav-link {
+    font-size: 16px;
+    font-weight: 500;
+    color: #343a40;
+    margin: 0 15px;
+    padding: 8px 0;
     text-decoration: none;
-    font-weight: bold;
-    font-size: 20px;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #024873;
+    transition: all 0.3s ease-out;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover {
+    color: #024873;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* --- MENÚ DE PERFIL DE USUARIO --- */
+.profile-link {
+    color: #343a40;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.profile-link:hover {
+    color: #024873;
 }
 
 .navbar-profile-icon {
     border-radius: 50%;
-    border: 2px solid #024873;
-    width: 24px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.profile-link:hover .navbar-profile-icon {
+    border-color: #024873;
+}
+
+/* --- MENÚ DESPLEGABLE (DROPDOWN) --- */
+/* Estilos y animación consolidados */
+.dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 8px 0;
+    margin-top: 15px !important; /* Aumenta el espacio */
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    pointer-events: none;
+}
+
+.dropdown-menu.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.dropdown-item {
+    font-size: 15px;
+    font-weight: 500;
+    padding: 10px 20px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-item.text-danger:hover {
+    background-color: #f8d7da;
+    color: #721c24 !important;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 992px) {
+    .navbar-custom {
+        padding: 0 15px;
+    }
+    .nav-link {
+        margin: 0 8px;
+        font-size: 15px;
+    }
 }
 
 @media (max-width: 768px) {
-    .nav-links {
-        display: none;                  /* Oculta enlaces en pantallas pequeñas */
+    .d-flex.justify-content-center.flex-grow-1 {
+        display: none !important; /* Oculta enlaces centrales en móviles */
     }
-    .offcanvas {
-    width: 250px !important;                       /* Ancho del menú lateral */
-    }
-    .logo_titulo{
-        right: 15px;
-    }
-    .menu-toggle{
-        left: 20px;
-    }
-}
-
-/* Helper class para forzar el centrado de los botones de navegación */
-.force-center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 20px; /* Espacio entre botones */
 }
