@@ -19,37 +19,72 @@
     {% include 'includes/navbargeneral.html' %}
     {% include 'includes/verMiViaje.html' %}
     <div class="container profile-container my-5">
-        <div class="profile-card">
-            <div class="profile-header">
-                <!-- Imagen de cabecera o color de fondo -->
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="profile-card h-100">
+                    <div class="profile-header">
+                        <!-- Imagen de cabecera o color de fondo -->
+                    </div>
+                    <div class="profile-body">
+                        <div class="profile-picture-container">
+                            <img src="{% static 'img/default-avatar.svg' %}" alt="Foto de Perfil" class="profile-picture">
+                        </div>
+                        <div class="profile-main-info">
+                            <div class="username-container">
+                                <h2 id="display-nombre">Cargando...</h2>
+                                <h2 id="display-apellido">Cargando...</h2>
+                            </div>
+                        </div>
+                        <div class="profile-details">
+                            <div class="info-item">
+                                <span class="info-label">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/></svg>
+                                    Teléfono:
+                                </span>
+                                <span id="display-telefono">Cargando...</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.803V4.697l-5.803 3.558z"/></svg>
+                                    Correo:
+                                </span>
+                                <span id="display-correo">Cargando...</span>
+                            </div>
+                        </div>
+                        <button id="edit-profile-btn" class="btn btn-edit">Editar Perfil</button>
+                    </div>
+                </div>
             </div>
-            <div class="profile-body">
-                <div class="profile-picture-container">
-                    <img src="{% static 'img/default-avatar.svg' %}" alt="Foto de Perfil" class="profile-picture">
-                </div>
-                <div class="profile-main-info">
-                    <div class="username-container">
-                        <h2 id="display-nombre">Cargando...</h2>
-                        <h2 id="display-apellido">Cargando...</h2>
+            <div class="col-lg-6 mb-4">
+                <div class="profile-card h-100">
+                    <div class="profile-header">
+                        <h4 class="text-white text-center pt-5">Mi Vehículo</h4>
+                    </div>
+                    <div class="profile-body">
+                        <div class="profile-picture-container">
+                            <img src="{% static 'img/travel-car.svg' %}" alt="Foto de Vehículo" class="profile-picture">
+                        </div>
+                        <div class="profile-details">
+                            <div class="info-item">
+                                <span class="info-label">Marca:</span>
+                                <span id="display-marca">Cargando...</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Modelo:</span>
+                                <span id="display-modelo">Cargando...</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Patente:</span>
+                                <span id="display-patente">Cargando...</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Color:</span>
+                                <span id="display-color">Cargando...</span>
+                            </div>
+                        </div>
+                        <button id="edit-vehicle-btn" class="btn btn-edit">Editar Vehículo</button>
                     </div>
                 </div>
-                <div class="profile-details">
-                    <div class="info-item">
-                        <span class="info-label">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/></svg>
-                            Teléfono:
-                        </span>
-                        <span id="display-telefono">Cargando...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16"><path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.803V4.697l-5.803 3.558z"/></svg>
-                            Correo:
-                        </span>
-                        <span id="display-correo">Cargando...</span>
-                    </div>
-                </div>
-                <button id="edit-profile-btn" class="btn btn-edit">Editar Perfil</button>
             </div>
         </div>
     </div>
@@ -57,20 +92,7 @@
     <!-- Sección de Contenido Principal: Mis Viajes y Reservas Pendientes -->
     <div class="container my-5">
         <div class="row">
-            <!-- Columna Izquierda: Reservas Pendientes -->
-            <div class="col-md-4">
-                <a class="h2 text-white mb-4 text-decoration-none d-flex align-items-center collapsible-header" data-bs-toggle="collapse" href="#collapseReservas" role="button" aria-expanded="true" aria-controls="collapseReservas">
-                    Reservas Pendientes
-                    <span class="collapse-arrow">▼</span>
-                </a>
-                <div class="collapse show" id="collapseReservas">
-                    <div id="reservas-pendientes-container" class="list-group">
-                        <!-- Las reservas pendientes se cargarán aquí -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Columna Derecha: Mis Viajes -->
+            <!-- Columna Izquierda: Mis Viajes -->
             <div class="col-md-8">
                 <a class="h2 text-white mb-4 text-decoration-none d-flex align-items-center collapsible-header" data-bs-toggle="collapse" href="#collapseViajes" role="button" aria-expanded="true" aria-controls="collapseViajes">
                     Mis Viajes
@@ -80,6 +102,19 @@
                     <ul id="mis-viajes-container" class="list-group">
                         <!-- Las tarjetas de viaje se cargarán aquí -->
                     </ul>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Reservas Pendientes -->
+            <div class="col-md-4">
+                <a class="h2 text-white mb-4 text-decoration-none d-flex align-items-center collapsible-header" data-bs-toggle="collapse" href="#collapseReservas" role="button" aria-expanded="true" aria-controls="collapseReservas">
+                    Reservas Pendientes
+                    <span class="collapse-arrow">▼</span>
+                </a>
+                <div class="collapse show" id="collapseReservas">
+                    <div id="reservas-pendientes-container" class="list-group">
+                        <!-- Las reservas pendientes se cargarán aquí -->
+                    </div>
                 </div>
             </div>
         </div>

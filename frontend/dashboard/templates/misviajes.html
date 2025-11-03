@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Viajes</title>
+    <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbargeneral.css' %}">
+</head>
+<body>
+    {% include 'includes/navbargeneral.html' %}
+
+    <div class="container my-5">
+        <h1 class="mb-4">Mis Viajes</h1>
+        <div id="mis-viajes-container" class="list-group">
+            <!-- Las tarjetas de viaje se cargarán aquí -->
+        </div>
+    </div>
+
+    <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/misviajes.js' %}"></script>
+</body>
+</html>

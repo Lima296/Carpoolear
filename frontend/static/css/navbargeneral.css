@@ -1,167 +1,144 @@
-/* ------------- ESTILOS GENERALES ------------- */
+/* --- navbargeneral.css --- */
+/* Rediseño completo para una estética moderna y limpia */
 
+/* --- FUENTES --- */
 body {
-    font-family: 'Outfit', sans-serif; /* Fuente principal de la página */
+    font-family: 'Outfit', sans-serif;
+    padding-top: 75px; /* Para evitar que la navbar fija se superponga al contenido */
 }
 
-
-/* ------------- NAVBAR PRINCIPAL ------------- */
-
-.navbar {
-    display: flex;                     /* Distribuye elementos en fila */
-    justify-content: space-between;    /* Espacia entre extremos (izq - der) */
-    align-items: center;               /* Centra verticalmente los elementos */
-    padding: 0 0px;                    /* Espaciado interno */
-    background-color: #ffffff !important;       /* Color de fondo azul/gris */
-    position: sticky;   
-    top: 0;             /* Contexto para elementos absolutos */
-    height: 70px;                      /* Altura de la barra */
-    align-items: center;               /* Asegura centrado vertical */
+/* --- BARRA DE NAVEGACIÓN PRINCIPAL --- */
+.navbar-custom {
+    background-color: #ffffff !important;
+    height: 75px;
+    padding: 0 30px;
+    border-bottom: 1px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
 }
 
-/* Título dentro de la navbar */
-.navbar-title {
-    font-size: 28px;                   /* Tamaño de letra del título */
-    font-weight: bold;                 /* En negrita */
-    color: #024873;                    /* Color del texto */
-    text-align: center;                /* Centrado horizontal */
-    flex: 1;                           /* Ocupa espacio entre botón y logo */
-    display: flex;                     /* Activa flexbox */
-    align-items: center;               /* Centra verticalmente */
-    justify-content: center;           /* Centra horizontalmente */
-}
-
-
-/* Contenedor del botón hamburguesa (lado izquierdo) */
-.nav-left {
-    display: flex;                     /* Muestra en fila */
-    align-items: center;               /* Centra verticalmente */
-}
-
-
-
-/* ------------- LOGO ------------- */
-
+/* --- LOGO Y TÍTULO --- */
 .logo-img {
-    height: 55px;                      /* Altura del logo */
-    width: auto;     
-    margin-left: 10px;                  /* Mantiene proporción */
+    height: 50px;
+    width: auto;
+    transition: transform 0.3s ease;
 }
 
-.logo_titulo{
+.logo-img:hover {
+    transform: scale(1.05);
+}
+
+.navbar-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #024873;
+    margin-left: 15px;
+}
+
+/* --- ENLACES DE NAVEGACIÓN CENTRALES --- */
+.nav-link {
+    font-size: 16px;
+    font-weight: 500;
+    color: #343a40;
+    margin: 0 15px;
+    padding: 8px 0;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-link::after {
+    content: '';
     position: absolute;
-    right: 40px;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #024873;
+    transition: all 0.3s ease-out;
+    transform: translateX(-50%);
 }
 
-/* ------------- BOTÓN HAMBURGUESA ------------- */
-
-.menu-toggle {
-    display: flex;                     /* Siempre visible como flex */
-    flex-direction: column;            /* Barras una debajo de otra */
-    justify-content: space-between;    /* Espaciado entre líneas */
-    width: 30px;                       /* Ancho del botón */
-    height: 22px;                      /* Alto del botón */
-    cursor: pointer;                   /* Cursor de "mano" */
-    background: none;                  /* Sin fondo */
-    border: none;                      /* Sin borde */
-    padding: 0;                        /* Sin padding */
-    position: absolute;
-    left: 50px;
+.nav-link:hover {
+    color: #024873;
 }
 
-/* Cada barra dentro del botón hamburguesa */
-.menu-toggle span {
-    display: block;                    /* Se comporta como bloque */
-    height: 4px;                       /* Grosor de cada línea */
-    width: 100%;                       /* Ocupa el ancho del botón */
-    background-color: #024873;         /* Color blanco */
-    border-radius: 2px;                /* Esquinas redondeadas */
-    transition: all 0.3s ease;         /* Animación suave */
+.nav-link:hover::after {
+    width: 100%;
 }
 
-
-/* ------------- ANIMACIÓN DEL BOTÓN HAMBURGUESA ------------- */
-
-
-
-
-/* Animación al hacer click en el botón */
-.menu-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
+/* --- MENÚ DE PERFIL DE USUARIO --- */
+.profile-link {
+    color: #343a40;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.3s ease;
 }
 
+.profile-link:hover {
+    color: #024873;
+}
 
-/* Línea del medio desaparece */
-.menu-toggle.active span:nth-child(2) {
+.navbar-profile-icon {
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.profile-link:hover .navbar-profile-icon {
+    border-color: #024873;
+}
+
+/* --- MENÚ DESPLEGABLE (DROPDOWN) --- */
+/* Estilos y animación consolidados */
+.dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 8px 0;
+    margin-top: 15px !important; /* Aumenta el espacio */
     opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    pointer-events: none;
 }
 
-/* Línea inferior rota hacia la otra diagonal */
-.menu-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
+.dropdown-menu.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
-
-/* ------------- OFFCANVAS (MENÚ LATERAL) ------------- */
-
-.offcanvas {
-    width: 350px !important;                       /* Ancho del menú lateral */
+.dropdown-item {
+    font-size: 15px;
+    font-weight: 500;
+    padding: 10px 20px;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Encabezado del offcanvas */
-.offcanvas-header {
-    background-color: #024873;        /* Mismo color que la navbar */
-    height: 70px;                       /* Mismo alto que la navbar */
-    display: flex;                      /* Alineación flexible */
-    align-items: center;                /* Centra verticalmente */
-    justify-content: space-between;     /* Título a la izquierda, botón cerrar a la derecha */
-    padding: 0 15px;                    /* Espacio interno horizontal */
+.dropdown-item:hover {
+    background-color: #f8f9fa;
 }
 
-/* Estilo del título del menú (ej: "Menú") */
-.offcanvas-title {
-    font-size: 30px;                    /* Tamaño grande del título */
-    font-weight: bold;                  /* Texto en negrita */
-    color: white;                     /* Texto blanco como la navbar */
-    margin: 0;                          /* Sin márgenes extra */
+.dropdown-item.text-danger:hover {
+    background-color: #f8d7da;
+    color: #721c24 !important;
 }
 
-/* Botón cerrar en blanco para que contraste */
-.offcanvas-header .btn-close {
-    filter: invert(1);                  /* Lo convierte blanco */
+/* --- RESPONSIVE --- */
+@media (max-width: 992px) {
+    .navbar-custom {
+        padding: 0 15px;
+    }
+    .nav-link {
+        margin: 0 8px;
+        font-size: 15px;
+    }
 }
-
-/* Contenedor de los enlaces debajo del título */
-.offcanvas-body .nav-links {
-    margin-top: 10px;                   /* Separa los links del título */
-}
-
-/* Estilo de los enlaces dentro del menú lateral */
-.offcanvas-body .nav-links li a {
-    font-size: 20px;                    /* Tamaño de letra de los links */
-    color: #000;                      /* Texto negro */
-    text-decoration: none;              /* Sin subrayado */
-}
-
-/* Efecto hover al pasar el mouse sobre los enlaces */
-.offcanvas-body .nav-links li a:hover {
-    color: #024873;                   /* Cambia color a azul/gris */
-}
-
-
-/* ------------- RESPONSIVE (MÓVILES) ------------- */
 
 @media (max-width: 768px) {
-    .nav-links {
-        display: none;                  /* Oculta enlaces en pantallas pequeñas */
-    }
-    .offcanvas {
-    width: 250px !important;                       /* Ancho del menú lateral */
-    }
-    .logo_titulo{
-        right: 15px;
-    }
-    .menu-toggle{
-        left: 20px;
+    .d-flex.justify-content-center.flex-grow-1 {
+        display: none !important; /* Oculta enlaces centrales en móviles */
     }
 }

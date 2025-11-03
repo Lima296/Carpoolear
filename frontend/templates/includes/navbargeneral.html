@@ -1,41 +1,32 @@
 {% load static %}
 
-<nav class="navbar navbar-expand-lg navbar-custom d-flex justify-content-center align-items-center px-3">
+<nav class="navbar navbar-expand-lg navbar-custom d-flex justify-content-between align-items-center fixed-top">
 
-   <div class="menu-toggle" id="menu-toggle" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-  
-
-  <!-- Logo y título juntos en el centro -->
-  <div class="d-flex align-items-center logo_titulo">
+  <div class="d-flex align-items-center">
+    <a href="/dashboard/" class="logo">
+      <img src="{% static 'img/logo.png' %}" alt="Carpoolear" class="logo-img">
+    </a>
     <div class="navbar-title">
       ViajAr
     </div>
-    <a href="#" class="logo me-2">
-      <img src="{% static 'img/logo.png' %}" alt="Carpoolear" class="logo-img">
-    </a>
-    
-    </div>
-  </nav>
-
-
-<!-- Offcanvas menú -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasMenuLabel">Menú</h5>
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-    <div class="offcanvas-body">
-      <ul class="nav-links list-unstyled d-flex flex-column">
-        <li class="mb-2"><a href="/dashboard/">Inicio</a></li>
-        <li class="mb-2"><a href="/miperfil/">Mi Perfil</a></li>
-        <li><br></li>
-        <li class="mb-2"><a href="#">Contacto</a></li>
-        <li class="mb-2"><a href="#">Ayuda</a></li>
-        <li class="mt-4"><a href="#" id="logout-btn" class="text-danger">Cerrar Sesión</a></li>
+  <div class="d-flex justify-content-center flex-grow-1">
+    <a href="/dashboard/" class="nav-link">Inicio</a>
+    <a href="/misviajes/" class="nav-link">Mis Viajes</a>
+    <a href="#" class="nav-link">Contacto</a>
+    <a href="#" class="nav-link">Ayuda</a>
+  </div>
+
+  <div class="d-flex align-items-center">
+    <div class="dropdown me-3">
+      <a href="#" class="profile-link d-flex align-items-center dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Usuario
+        <img src="{% static 'img/default-avatar.svg' %}" alt="Perfil" class="ms-2 navbar-profile-icon" style="height: 32px; width: 32px;">
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="/miperfil/">Mi Perfil</a></li>
+        <li><a class="dropdown-item text-danger" href="#" id="logout-btn">Cerrar Sesión</a></li>
       </ul>
     </div>
-</div>
+  </div>
+</nav>

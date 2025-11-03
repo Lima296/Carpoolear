@@ -62,6 +62,19 @@ function crearTarjetaViaje(viaje) {
     const asientos_disponibles = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
     const conductorNombre = (viaje.conductor && viaje.conductor.first_name) ? `${viaje.conductor.first_name} ${viaje.conductor.last_name}` : 'No disponible';
 
+    const hoy = new Date();
+    const fechaViaje = new Date(viaje.fecha);
+    let estado = 'Creado';
+
+    hoy.setHours(0, 0, 0, 0);
+    fechaViaje.setHours(0, 0, 0, 0);
+
+    if (fechaViaje < hoy) {
+        estado = 'Finalizado';
+    } else if (fechaViaje.getTime() === hoy.getTime()) {
+        estado = 'En Curso';
+    }
+
     return `
         <div class="custom-card-template">
             <!-- 1. ZONA SVG/ICONO (Origen y Destino) -->
@@ -90,11 +103,19 @@ function crearTarjetaViaje(viaje) {
                 </div>
 
                 <!-- Costo -->
-                <div class="detail-row mb-3">
+                <div class="detail-row">
                     <span class="detail-label">
                         <img src="${getStaticUrl('money2.svg')}" alt="Costo" style="width: 23px; margin-right: 5px;"> Costo:
                     </span>
                     <span class="detail-value text-success fw-bolder">${precio}</span>
+                </div>
+
+                <!-- Estado -->
+                <div class="detail-row mb-3">
+                    <span class="detail-label">
+                        <img src="${getStaticUrl('outline-travel-explore.svg')}" alt="Estado" style="width: 23px; margin-right: 5px;"> Estado:
+                    </span>
+                    <span class="detail-value">${estado}</span>
                 </div>
                 
                 <!-- Lugares Disponibles -->
