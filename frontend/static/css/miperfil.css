@@ -1,6 +1,7 @@
 /* Estilos generales de la página de perfil */
 body {
     background-color: #024873; /* Color de fondo principal del proyecto */
+    font-family: 'Outfit', sans-serif;
 }
 
 .profile-page-container {
