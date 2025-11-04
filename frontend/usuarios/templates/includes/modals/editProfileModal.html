@@ -1,0 +1,32 @@
+<!-- Modal para Editar Perfil -->
+<div class="modal fade modal-custom" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form id="edit-profile-form">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h1>Editar Perfil</h1>
+                    <div class="form-group">
+                        <label for="edit-nombre">Nombre</label>
+                        <input type="text" class="form-control" id="edit-nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-apellido">Apellido</label>
+                        <input type="text" class="form-control" id="edit-apellido" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-telefono">Teléfono</label>
+                        <input type="text" class="form-control" id="edit-telefono" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-correo">Correo</label>
+                        <input type="email" class="form-control" id="edit-correo" disabled>
+                    </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

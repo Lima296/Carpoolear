@@ -1,0 +1,23 @@
+body.misviajes {
+    font-family: "Inter", "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.viaje-actions {
+    display: flex;
+    gap: 0.5rem;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+}
+
+.viaje-actions .btn {
+    padding: 0.5rem 1rem;
+    line-height: 1.5;
+    min-width: 100px;
+    text-align: center;
+}
+
+#mis-viajes-container .list-group-item {
+    position: relative;
+    padding-bottom: 4rem; /* Añadir espacio para los botones */
+}
