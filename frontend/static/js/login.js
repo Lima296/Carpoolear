@@ -26,8 +26,11 @@ form.addEventListener("submit", async (e) => {
       window.location.href = "/dashboard";
       
     } else {
-      mensajeElement.innerText = "Error: " +
-        (data.detail || data.non_field_errors || "credenciales inválidas");
+      let errorText = data.detail || data.non_field_errors || "credenciales inválidas";
+      if (errorText.includes("No active account found with the given credentials")) {
+        errorText = "Correo o contraseña inválido";
+      }
+      mensajeElement.innerText = "Error: " + errorText;
       mensajeElement.style.display = "block";
       mensajeElement.className = "alert alert-danger";
     }

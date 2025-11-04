@@ -259,27 +259,32 @@ body {
 }
 
 .mensaje-carga-estilo {
-    background-color: white;
-    color: #024873;
+    background-color: #024873;
+    color: #ffffff;
     border: 1px solid #024873;
     padding: 20px;
     border-radius: 8px;
-    width: 300px;
+    width: 230px;
     margin: 20px auto;
+    font-weight: bolder;
+    font-size: 20px;
 }
 
 .animacion-auto-contenedor {
-    position: relative;
-    height: 100px; /* Ajusta la altura según sea necesario */
     overflow: hidden;
 }
 
 .auto-animado {
-    position: absolute;
-    left: -250px; /* Inicia más a la izquierda para ocultar el fondo blanco */
-    transition: left 1.5s linear;
+    width: 180px;
+    height: 60px;
+    animation: auto-movimiento 1.5s ease-in-out infinite normal;
 }
 
-.auto-animado.animar {
-    left: 300px; /* Termina completamente fuera a la derecha */
+@keyframes auto-movimiento {
+    from {
+        margin-left: -320px;
+    }
+    to {
+        margin-left: 160px;
+    }
 }
