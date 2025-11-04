@@ -19,7 +19,7 @@ body {
 
 /* --- LOGO Y TÍTULO --- */
 .logo-img {
-    height: 50px;
+    height: 60px;
     width: auto;
     transition: transform 0.3s ease;
 }
@@ -32,7 +32,7 @@ body {
     font-size: 26px;
     font-weight: 600;
     color: #024873;
-    margin-left: 15px;
+    margin-left: 8px;
 }
 
 /* --- ENLACES DE NAVEGACIÓN CENTRALES --- */
@@ -91,23 +91,45 @@ body {
 }
 
 /* --- MENÚ DESPLEGABLE (DROPDOWN) --- */
-/* Estilos y animación consolidados */
+
+/* Animaciones para el Dropdown controladas por JS */
 .dropdown-menu {
+    /* Estilos base que podrían haberse perdido */
     border-radius: 8px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     border: none;
     padding: 8px 0;
-    margin-top: 15px !important; /* Aumenta el espacio */
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-    pointer-events: none;
+    margin-top: 15px !important;
 }
 
-.dropdown-menu.show {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOutUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.dropdown-menu.anim-fade-in {
+    animation: fadeInDown 0.3s ease forwards;
+}
+
+.dropdown-menu.anim-fade-out {
+    animation: fadeOutUp 0.3s ease forwards;
 }
 
 .dropdown-item {
