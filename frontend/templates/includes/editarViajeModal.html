@@ -1,0 +1,40 @@
+<div class="modal fade" id="editViajeModal" tabindex="-1" aria-labelledby="editViajeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editViajeModalLabel">Editar Viaje</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-viaje-form">
+                    <input type="hidden" id="edit-viaje-id">
+                    <div class="mb-3">
+                        <label for="edit-origen" class="form-label">Origen</label>
+                        <input type="text" class="form-control" id="edit-origen" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-destino" class="form-label">Destino</label>
+                        <input type="text" class="form-control" id="edit-destino" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-fecha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="edit-fecha" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-hora" class="form-label">Hora</label>
+                        <input type="time" class="form-control" id="edit-hora" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-asientos" class="form-label">Asientos Disponibles</label>
+                        <input type="number" class="form-control" id="edit-asientos" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-precio" class="form-label">Precio</label>
+                        <input type="number" class="form-control" id="edit-precio" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

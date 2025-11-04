@@ -11,7 +11,7 @@ class Vehiculo(models.Model):
     modelo = models.CharField(max_length=50)
     patente = models.CharField(max_length=10, unique=True)
     color = models.CharField(max_length=30)
-    año = models.PositiveIntegerField() #models.PositiveIntegerField para valores positivos
+    año = models.PositiveIntegerField(default=2000) #models.PositiveIntegerField para valores positivos
     asientos = models.PositiveIntegerField(default=4) 
 
     creado = models.DateTimeField(auto_now_add=True) #fecha de creación

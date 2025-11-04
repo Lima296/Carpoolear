@@ -5,20 +5,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Viajes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;1,14..32,300&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbargeneral.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/misviajes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/miperfil.css' %}">
 </head>
-<body>
+<body class="misviajes">
     {% include 'includes/navbargeneral.html' %}
 
     <div class="container my-5">
-        <h1 class="mb-4">Mis Viajes</h1>
-        <div id="mis-viajes-container" class="list-group">
-            <!-- Las tarjetas de viaje se cargarán aquí -->
-        </div>
+        <h1 class="mb-4 text-center text-white">Viajes Creados</h1>
+        <hr class="text-white">
+        <ul id="mis-viajes-container" class="list-group">
+            <!-- Los viajes creados por el usuario se cargarán aquí -->
+        </ul>
     </div>
 
     <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/misviajes.js' %}"></script>
+
+    {% include 'includes/editarViajeModal.html' %}
+    {% include 'includes/eliminarViajeModal.html' %}
 </body>
 </html>

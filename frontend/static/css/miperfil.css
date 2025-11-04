@@ -1,192 +1,164 @@
+/* Estilos generales de la página de perfil */
 body {
-    background-color: #024873; /* Color de fondo principal del sitio */
-    font-family: 'Outfit', sans-serif;
+    background-color: #024873; /* Color de fondo principal del proyecto */
 }
 
-.profile-container {
-    max-width: 800px;
-    margin-top: 4rem !important;
+.profile-page-container {
+    max-width: 1200px;
 }
 
-.profile-card {
+/* Card de Navegación Izquierda */
+.profile-nav-card {
     background-color: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
-    text-align: center;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #dee2e6;
 }
 
-.profile-header {
-    background: linear-gradient(45deg, #024873, #035e96);
-    height: 150px;
-}
-
-.profile-body {
-    padding: 0 2rem 2rem 2rem;
-    position: relative;
-}
-
-.profile-picture-container {
-    margin-top: -75px;
-    margin-bottom: 1rem;
-}
-
-.profile-picture {
-    width: 150px;
-    height: 150px;
+.profile-nav-picture {
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
-    border: 5px solid #ffffff;
-    background-color: #e9ecef;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 3px solid #dee2e6;
 }
 
-.profile-main-info .username-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.profile-main-info h2 {
+.profile-nav-card h5 {
     font-weight: 600;
-    color: #333;
+    color: #343a40;
+}
+
+.profile-nav .nav-link {
+    color: #495057;
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.profile-nav .nav-link:hover {
+    background-color: #e9ecef;
+    color: #024873;
+}
+
+.profile-nav .nav-link.active {
+    background-color: #024873;
+    color: #ffffff;
+}
+
+/* Card de Contenido Derecha */
+.profile-content-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #dee2e6;
+}
+
+.content-pane {
+    display: none; /* Oculto por defecto */
+}
+
+.content-pane.active {
+    display: block; /* Visible si está activo */
+}
+
+.pane-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.pane-header h3 {
+    font-weight: 600;
+    color: #343a40;
     margin: 0;
 }
 
-.profile-details {
-    margin-top: 2.5rem;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
+/* Estilos para la lista de información del perfil */
+.info-list {
+    list-style: none;
+    padding: 0;
 }
 
-.info-item {
-    display: flex;
-    align-items: center;
+.info-list li {
     font-size: 1.1rem;
     color: #495057;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f1f3f5;
 }
 
-.info-item .info-label {
-    font-weight: 600;
-    color: #024873;
-    margin-right: 1rem;
+.info-list li:last-child {
+    border-bottom: none;
+}
+
+.info-list li strong {
+    color: #343a40;
     min-width: 120px;
+    display: inline-block;
+}
+
+/* Estilos para la lista de vehículos */
+#vehicle-list-container {
     display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.vehicle-item {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 0.75rem; /* Espacio entre icono y texto */
-}
-
-.profile-actions {
-    margin-top: 2.5rem;
-}
-
-.edit-btn {
-    background-color: #85C74D;
-    border-color: #85C74D;
-    font-weight: 600;
-    padding: 0.75rem 2rem;
+    padding: 1.5rem;
+    border: 1px solid #dee2e6;
     border-radius: 8px;
-    transition: background-color 0.2s ease;
+    transition: box-shadow 0.2s ease;
 }
 
-.edit-btn:hover {
+.vehicle-item:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.vehicle-info h6 {
+    font-weight: 600;
+    margin: 0;
+}
+
+.vehicle-info p {
+    margin: 0;
+    color: #6c757d;
+}
+
+.vehicle-actions .btn {
+    margin-left: 0.5rem;
+}
+
+/* --- Estilos de Botones Personalizados --- */
+.btn-brand-primary {
+    background-color: #85C74D; /* Verde del proyecto */
+    border-color: #85C74D;
+    color: #ffffff;
+}
+.btn-brand-primary:hover {
     background-color: #76b341;
     border-color: #76b341;
+    color: #ffffff;
 }
 
-#mis-viajes-container .list-group-item {
-    background-color: #ffffff; /* Fondo blanco */
-    border-color: #dee2e6; /* Borde estándar */
-    color: #212529; /* Texto oscuro */
-    margin-bottom: 1rem; /* Espacio entre elementos */
-    border-radius: 0.5rem; /* Bordes redondeados */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sombra sutil */
-    transition: box-shadow 0.2s ease-in-out;
+.btn-brand-secondary-outline {
+    background-color: transparent;
+    border-color: #024873; /* Azul oscuro del proyecto */
+    color: #024873;
 }
-
-#mis-viajes-container .list-group-item:hover {
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra más pronunciada al pasar el mouse */
-}
-
-#mis-viajes-container .list-group-item h5 {
-    color: #024873; /* Color del título oscuro */
-}
-
-#mis-viajes-container .list-group-item .text-muted {
-    color: #6c757d !important; /* Color de texto silenciado estándar */
-}
-
-#edit-profile-btn {
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    min-width: 100px;
-    text-align: center;
-    padding: 0.5rem 1rem;
-    line-height: 1.5;
-}
-
-/* Botón de Edición (Perfil y Viaje) */
-.btn-edit {
-    background-color: #024873 !important;
-    color: #ffffff !important;
-    border: 1px solid #ffffff !important;
-}
-
-.btn-edit:hover {
-    background-color: #85C74D !important;
-    color: #ffffff !important;
-    border: 1px solid #85C74D !important;
-}
-
-/* Botón de Eliminación */
-.btn-delete {
-    background-color: #dc3545 !important; /* Rojo de Bootstrap */
-    color: #ffffff !important;
-    border: 1px solid #dc3545 !important;
-}
-
-.btn-delete:hover {
-    background-color: #c82333 !important; /* Rojo más oscuro */
-    border: 1px solid #c82333 !important;
-}
-
-.viaje-actions {
-    display: flex;
-    gap: 0.5rem;
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-}
-
-.viaje-actions .btn {
-    padding: 0.5rem 1rem;
-    line-height: 1.5;
-    min-width: 100px;
-    text-align: center;
-}
-
-.collapsible-header .collapse-arrow {
-    transition: transform 0.2s ease-in-out;
-    font-size: 1.2rem; /* Ajusta el tamaño de la flecha si es necesario */
-    margin-left: 3px;
-}
-
-.collapsible-header[aria-expanded="false"] .collapse-arrow {
-    transform: rotate(-90deg);
-}
-
-@media (max-width: 576px) {
-    #mis-viajes-container .list-group-item {
-        /* Añade padding en la parte inferior para que los botones no se peguen al texto */
-        padding-bottom: 1rem;
-    }
-
-    .viaje-actions {
-        position: static; /* Anula el posicionamiento absoluto */
-        margin-top: 1rem; /* Crea un espacio con el texto de arriba */
-        justify-content: center; /* Centra los botones */
-    }
+.btn-brand-secondary-outline:hover {
+    background-color: #024873;
+    border-color: #024873;
+    color: #ffffff;
 }
