@@ -5,6 +5,11 @@ const API_LIST_URL = 'http://localhost:8000/api/viajes/';
 // Elementos del DOM
 const contenedorViajes = document.querySelector('.contenedor_viajes');
 
+// --- Función de retraso para pruebas ---
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 // --- Función para formatear precios ---
 function formatPriceWithDot(price) {
     if (price === null || isNaN(parseFloat(price))) {
@@ -133,8 +138,13 @@ function crearTarjetaViaje(viaje) {
  * Función principal para obtener los datos de la API y renderizarlos.
  */
 async function cargarViajes(filters = {}) {
-    // 1. Limpiar contenedor y mostrar mensaje de carga/spinner
-    contenedorViajes.innerHTML = '<p class="text-center text-secondary p-4">Cargando viajes disponibles...</p>';
+    const mensajeCarga = document.getElementById('mensaje-carga');
+    const autoAnimado = document.querySelector('.auto-animado');
+    
+    // Limpiar viajes anteriores y mostrar el mensaje de carga
+    contenedorViajes.innerHTML = '';
+    mensajeCarga.style.display = 'block';
+    autoAnimado.classList.add('animar');
 
     // Construir la URL con los filtros
     const url = new URL(API_LIST_URL);
@@ -149,6 +159,9 @@ async function cargarViajes(filters = {}) {
     }
 
     try {
+        // Añadimos un retraso de 2 segundos para simular la carga
+        await delay(5000);
+
         // 2. Realizar la solicitud Fetch
         const response = await fetch(url);
 
@@ -192,6 +205,10 @@ async function cargarViajes(filters = {}) {
                 <p class="mb-0">Asegúrate de que el **servidor Django esté corriendo** y que la configuración de **CORS** sea correcta para permitir solicitudes desde el navegador. Detalle: ${error.message}</p>
             </div>
         `;
+    } finally {
+        // Ocultar el mensaje de carga al finalizar
+        mensajeCarga.style.display = 'none';
+        autoAnimado.classList.remove('animar');
     }
 }
 

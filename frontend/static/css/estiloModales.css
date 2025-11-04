@@ -38,6 +38,11 @@
 
 .modal-custom .modal-dialog {
     max-width: 500px;
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+    height: auto !important;
+    max-height: calc(100vh - 4rem) !important;
+    overflow: hidden !important;
 }
 
 .modal-custom .modal-body {
