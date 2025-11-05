@@ -164,3 +164,24 @@ body {
         display: none !important; /* Oculta enlaces centrales en móviles */
     }
 }
+
+/* --- ESTILOS PARA TÍTULO DE PANTALLA --- */
+.pantalla-header {
+    padding: 20px 60px 10px 60px; /* Padding: Arriba, Derecha, Abajo, Izquierda */
+    background-color: #024873; /* Color de fondo oscuro para que el texto blanco resalte */
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.pantalla-titulo {
+    color: white;
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem; /* Espacio entre el título y el separador */
+}
+
+.pantalla-separador {
+    border: 0;
+    border-top: 1px solid white;
+    opacity: 0.75;
+}
