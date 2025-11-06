@@ -4,6 +4,8 @@ from localidad.serializers import LocalidadSerializer
 from usuarios.serializers import UsuarioSerializer
 
 class ViajeSerializer(serializers.ModelSerializer):
+    conductor = ConductorSerializer(read_only=True)
+
     class Meta:
         model = Viaje
         fields = '__all__'

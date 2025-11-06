@@ -57,6 +57,9 @@ function crearTarjetaViaje(viaje) {
     const precio = viaje.precio ? `$ ${formatPriceWithDot(viaje.precio)}` : 'N/A';
     const asientos_disponibles = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
     const conductorNombre = (viaje.conductor && viaje.conductor.first_name) ? `${viaje.conductor.first_name} ${viaje.conductor.last_name}` : 'No disponible';
+    const conductorID = viaje.conductor ? viaje.conductor.id : null;
+    // TODO: Reemplazar con la URL correcta al perfil del usuario
+    const perfilUrl = conductorID ? `/perfil/usuario/${conductorID}/` : '#';
 
     const hoy = new Date();
     const fechaViaje = new Date(viaje.fecha);
@@ -73,6 +76,12 @@ function crearTarjetaViaje(viaje) {
 
     return `
         <div class="custom-card-template">
+            <div class="card-driver-info" style="padding: 10px; background-color: #f8f9fa; text-align: center;">
+                <span style="font-weight: 500;">Conductor:</span>
+                <a href="${perfilUrl}" style="font-weight: 600; color: #0d6efd; text-decoration: none;"> ${conductorNombre}
+            </a>
+        </div>
+
             <!-- 1. ZONA SVG/ICONO (Origen y Destino) -->
             <div class="card-header-svg">
                 <span style="font-size: 15px;">
@@ -83,19 +92,20 @@ function crearTarjetaViaje(viaje) {
             <!-- 2. CUERPO DE DETALLES -->
             <div class="card-body-content">
                 
-                <!-- Fecha y Hora -->
-                <div class="detail-row">
-                    <span class="detail-label">
-                        <img src="${getStaticUrl('fecha2.svg')}" alt="Fecha" style="width: 23px; margin-right: 5px;"> Fecha:
+                <!-- Fecha -->
+                <div class="detail-row d-flex justify-content-between align-items-center">
+                    <span class="detail-label" style="font-size: 0.9rem;">
+                        <img src="${getStaticUrl('fecha2.svg')}" alt="Fecha" style="width: 20px; margin-right: 3px;"> Fecha:
                     </span>
-                    <span class="detail-value">${fecha}</span>
+                    <span class="detail-value fw-normal" style="font-size: 0.9rem;">${fecha}</span>
                 </div>
 
-                <div class="detail-row">
-                    <span class="detail-label">
-                        <img src="${getStaticUrl('reloj2.svg')}" alt="Hora" style="width: 23px; margin-right: 5px;"> Hora:
+                <!-- Hora -->
+                <div class="detail-row d-flex justify-content-between align-items-center">
+                    <span class="detail-label" style="font-size: 0.9rem;">
+                        <img src="${getStaticUrl('reloj2.svg')}" alt="Hora" style="width: 20px; margin-right: 3px;"> Hora:
                     </span>
-                    <span class="detail-value">${hora}</span>
+                    <span class="detail-value fw-normal" style="font-size: 0.9rem;">${hora}</span>
                 </div>
 
                 <!-- Costo -->
@@ -116,8 +126,11 @@ function crearTarjetaViaje(viaje) {
                 
                 <!-- Lugares Disponibles -->
                 <div class="places-available mt-auto">
-                    <p class="mb-1 text-secondary fw-semibold"><img src="${getStaticUrl('asiento.svg')}" alt="Costo" style="width: 23px; margin-right: 5px;">LUGARES DISPONIBLES:</p>
-                    <p class="lead fw-bolder text-primary">${asientos_disponibles} 
+                    <p class="mb-1 text-secondary fw-semibold">
+                        <img src="${getStaticUrl('asiento.svg')}" alt="Asientos" style="width: 23px; margin-right: 5px;">
+                        <span style="font-size: 0.9rem;">Lugares disponibles:</span>
+                        <span class="fw-bolder text-primary" style="font-size: 1.1rem;">${asientos_disponibles}</span>
+                    </p>
                 </div>
                 
                 <!-- Botón -->

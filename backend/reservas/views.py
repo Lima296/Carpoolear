@@ -7,6 +7,14 @@ from .models import Reserva
 # Actualizado para importar ambos serializadores
 from .serializers import ReservaReadSerializer, ReservaWriteSerializer
 
+class MisReservasView(generics.ListAPIView):
+    serializer_class = ReservaReadSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Devuelve las reservas hechas por el usuario actual como pasajero
+        return Reserva.objects.filter(usuario=self.request.user)
+
 class ReservasPendientesView(generics.ListAPIView):
     # Esta vista es de solo lectura, usa el ReadSerializer
     serializer_class = ReservaReadSerializer

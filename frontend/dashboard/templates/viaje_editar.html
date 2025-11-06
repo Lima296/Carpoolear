@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Viaje</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnectch" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;1,14..32,300&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbargeneral.css' %}">
     <style>
         body {
             font-family: 'Outfit', sans-serif;
@@ -16,8 +17,14 @@
     </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2>Editar Viaje</h2>
+    {% include 'includes/navbargeneral.html' %}
+
+    <div class="pantalla-header">
+        <h1 class="pantalla-titulo">Editar Viaje</h1>
+        <hr class="pantalla-separador">
+    </div>
+
+    <div class="container">
         <form id="edit-viaje-form">
             <div class="mb-3">
                 <label for="origen" class="form-label">Origen</label>
