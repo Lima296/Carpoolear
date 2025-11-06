@@ -87,12 +87,14 @@ async function getConductorDNI() {
  */
 async function publicarViaje(viajeData) {
     const csrfToken = getCookie('csrftoken');
-    
+    const accessToken = localStorage.getItem('access');
+
     const response = await fetch('http://localhost:8000/api/viajes/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken
+            'X-CSRFToken': csrfToken,
+            'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify(viajeData)
     });
