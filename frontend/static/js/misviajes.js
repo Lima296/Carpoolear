@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Creación de filas de viaje ---
     function crearFilaViaje(viaje) {
-        const origen = viaje.origen || 'N/A';
-        const destino = viaje.destino || 'N/A';
+        const origen = (viaje.origen && viaje.origen.nombre) ? viaje.origen.nombre : 'N/A';
+        const destino = (viaje.destino && viaje.destino.nombre) ? viaje.destino.nombre : 'N/A';
         const fecha = viaje.fecha || 'N/A';
         const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
         const precio = viaje.precio ? `$${formatPriceWithDot(viaje.precio)}` : 'N/A';
@@ -103,27 +103,52 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // --- Lógica para Editar y Eliminar Viajes ---
+    // --- Lógica para Editar y Eliminar Viajes (MODIFICADO) ---
     misViajesContainer.addEventListener('click', async (e) => {
         const target = e.target;
         const viajeId = target.dataset.viajeId;
 
         if (target.classList.contains('edit-viaje-btn')) {
             currentViajeId = viajeId;
-            const response = await fetch(`http://127.0.0.1:8000/api/viajes/${viajeId}/`, {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
-            const viaje = await response.json();
 
+            // 1. Obtener datos del viaje y de las localidades en paralelo
+            const [viajeResponse, localidadesResponse] = await Promise.all([
+                fetch(`http://127.0.0.1:8000/api/viajes/${viajeId}/`, { headers: { 'Authorization': `Bearer ${accessToken}` } }),
+                fetch('http://127.0.0.1:8000/api/localidad/')
+            ]);
+
+            if (!viajeResponse.ok || !localidadesResponse.ok) {
+                console.error("Error al obtener los datos para editar.");
+                return;
+            }
+
+            const viaje = await viajeResponse.json();
+            const localidades = await localidadesResponse.json();
+
+            // 2. Poblar los campos del formulario
             document.getElementById('edit-viaje-id').value = viaje.id;
-            document.getElementById('edit-origen').value = viaje.origen;
-            document.getElementById('edit-destino').value = viaje.destino;
             document.getElementById('edit-fecha').value = viaje.fecha;
             document.getElementById('edit-hora').value = viaje.hora;
             document.getElementById('edit-asientos').value = viaje.asientos_disponibles;
             document.getElementById('edit-precio').value = viaje.precio;
+
+            // 3. Poblar los <select> de origen y destino
+            const origenSelect = document.getElementById('edit-origen');
+            const destinoSelect = document.getElementById('edit-destino');
+            origenSelect.innerHTML = ''; // Limpiar opciones previas
+            destinoSelect.innerHTML = ''; // Limpiar opciones previas
+
+            localidades.forEach(localidad => {
+                const option = document.createElement('option');
+                option.value = localidad.id;
+                option.textContent = localidad.nombre;
+                origenSelect.appendChild(option.cloneNode(true));
+                destinoSelect.appendChild(option);
+            });
+
+            // 4. Seleccionar la opción correcta
+            origenSelect.value = viaje.origen.id;
+            destinoSelect.value = viaje.destino.id;
 
             editViajeModal.show();
         }
@@ -138,6 +163,8 @@ document.addEventListener('DOMContentLoaded', function() {
     editViajeForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const viajeId = document.getElementById('edit-viaje-id').value;
+        
+        // Los .value de los <select> ya nos dan el ID correcto
         const updatedData = {
             origen: document.getElementById('edit-origen').value,
             destino: document.getElementById('edit-destino').value,
@@ -149,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/viajes/${viajeId}/`, {
-                method: 'PATCH',
+                method: 'PATCH', // Usamos PATCH para actualizaciones parciales
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json'
@@ -157,10 +184,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify(updatedData)
             });
 
-            if (!response.ok) throw new Error('Error al actualizar el viaje');
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error al actualizar:', errorData);
+                throw new Error('Error al actualizar el viaje');
+            }
 
             editViajeModal.hide();
-            loadMisViajes();
+            loadMisViajes(); // Recargar la lista de viajes
         } catch (error) {
             console.error(error);
         }

@@ -25,10 +25,6 @@ function formatPriceWithDot(price) {
  * @returns {string} - Cadena de HTML de la tarjeta.
  */
 function crearTarjetaViaje(viaje) {
-    // Los paths a las imágenes estáticas deben ser manejados por el template de Django
-    // pero aquí, para el DEMO dinámico, asumimos que Django ya las procesará.
-    // Usaremos un placeholder simplificado para las rutas estáticas.
-    
     // Función de ayuda para obtener la ruta estática (simulación en JS)
     const getStaticUrl = (path) => `${STATIC_URL_BASE}img/${path}`; 
 
@@ -54,8 +50,8 @@ function crearTarjetaViaje(viaje) {
 
 
     // Aseguramos que los valores sean seguros y formateados
-    const origen = viaje.origen || 'Origen Desconocido';
-    const destino = viaje.destino || 'Destino Desconocido';
+    const origenNombre = (viaje.origen && viaje.origen.nombre) ? viaje.origen.nombre : 'Origen Desconocido';
+    const destinoNombre = (viaje.destino && viaje.destino.nombre) ? viaje.destino.nombre : 'Destino Desconocido';
     const fecha = formatDate(viaje.fecha);
     const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
     const precio = viaje.precio ? `$ ${formatPriceWithDot(viaje.precio)}` : 'N/A';
@@ -80,8 +76,8 @@ function crearTarjetaViaje(viaje) {
             <!-- 1. ZONA SVG/ICONO (Origen y Destino) -->
             <div class="card-header-svg">
                 <span style="font-size: 15px;">
-                    <img src="${getStaticUrl('ubiAzul.svg')}" alt="Ubicación" style="width: 25px;"> Origen: <span style="color: #024873 ; font-size: 18px;"> ${origen}</span> <br>
-                    <img src="${getStaticUrl('ubiVerde.svg')}" alt="Ubicación" style="width: 25px;"> Destino: <span style="color: #024873; font-size: 18px;"> ${destino}</span>
+                    <img src="${getStaticUrl('ubiAzul.svg')}" alt="Ubicación" style="width: 25px;"> Origen: <span style="color: #024873 ; font-size: 18px;"> ${origenNombre}</span> <br>
+                    <img src="${getStaticUrl('ubiVerde.svg')}" alt="Ubicación" style="width: 25px;"> Destino: <span style="color: #024873; font-size: 18px;"> ${destinoNombre}</span>
                 </span>
             </div>
             <!-- 2. CUERPO DE DETALLES -->
@@ -160,7 +156,7 @@ async function cargarViajes(filters = {}) {
 
     try {
         // Añadimos un retraso de 2 segundos para simular la carga
-        await delay(5000);
+        await delay(3000);
 
         // 2. Realizar la solicitud Fetch
         const response = await fetch(url);

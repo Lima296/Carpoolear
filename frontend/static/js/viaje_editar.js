@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
     const viajeId = JSON.parse(document.getElementById('viaje_id').textContent);
     const viajeUrl = `http://127.0.0.1:8000/api/viajes/${viajeId}/`;
+    const localidadesUrl = 'http://127.0.0.1:8000/api/localidad/';
     const accessToken = localStorage.getItem('access');
 
-    const origenInput = document.getElementById('origen');
-    const destinoInput = document.getElementById('destino');
+    const origenSelect = document.getElementById('origen');
+    const destinoSelect = document.getElementById('destino');
     const fechaInput = document.getElementById('fecha');
     const horaInput = document.getElementById('hora');
     const precioInput = document.getElementById('precio');
@@ -18,22 +19,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function loadViajeData() {
         try {
-            const response = await fetch(viajeUrl, {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
-            if (!response.ok) throw new Error('Error al cargar los datos del viaje');
-            const viaje = await response.json();
+            // 1. Obtener datos del viaje y de las localidades en paralelo
+            const [viajeResponse, localidadesResponse] = await Promise.all([
+                fetch(viajeUrl, { headers: { 'Authorization': `Bearer ${accessToken}` } }),
+                fetch(localidadesUrl)
+            ]);
 
-            origenInput.value = viaje.origen;
-            destinoInput.value = viaje.destino;
+            if (!viajeResponse.ok || !localidadesResponse.ok) {
+                throw new Error('Error al cargar los datos necesarios para la edición.');
+            }
+
+            const viaje = await viajeResponse.json();
+            const localidades = await localidadesResponse.json();
+
+            // 2. Poblar los campos de texto del formulario
             fechaInput.value = viaje.fecha;
             horaInput.value = viaje.hora;
             precioInput.value = viaje.precio;
             asientosInput.value = viaje.asientos_disponibles;
+
+            // 3. Poblar los <select> de origen y destino
+            origenSelect.innerHTML = ''; // Limpiar opciones previas
+            destinoSelect.innerHTML = ''; // Limpiar opciones previas
+
+            localidades.forEach(localidad => {
+                const option = document.createElement('option');
+                option.value = localidad.id;
+                option.textContent = localidad.nombre;
+                origenSelect.appendChild(option.cloneNode(true));
+                destinoSelect.appendChild(option);
+            });
+
+            // 4. Seleccionar la opción correcta
+            origenSelect.value = viaje.origen.id;
+            destinoSelect.value = viaje.destino.id;
+
         } catch (error) {
             console.error(error);
+            // Manejar el error en la UI si es necesario
         }
     }
 
@@ -41,8 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
 
         const updatedViaje = {
-            origen: origenInput.value,
-            destino: destinoInput.value,
+            origen: origenSelect.value,
+            destino: destinoSelect.value,
             fecha: fechaInput.value,
             hora: horaInput.value,
             precio: precioInput.value,
@@ -51,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             const response = await fetch(viajeUrl, {
-                method: 'PUT',
+                method: 'PUT', // o PATCH si la API lo permite
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`
@@ -59,9 +82,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify(updatedViaje)
             });
 
-            if (!response.ok) throw new Error('Error al guardar los cambios');
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('Error al guardar:', errorData);
+                throw new Error('Error al guardar los cambios');
+            }
 
-            window.location.href = '/miperfil/'; // Redirigir a la página de perfil
+            window.location.href = '/misviajes/'; // Redirigir a la página de mis viajes
         } catch (error) {
             console.error(error);
         }
