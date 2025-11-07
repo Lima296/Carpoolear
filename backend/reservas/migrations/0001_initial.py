@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('viajes', '0005_remove_viaje_estado'),
+                ('viajes', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -25,7 +25,6 @@ class Migration(migrations.Migration):
                 ('cantidad_asientos', models.PositiveIntegerField()),
                 ('estado', models.CharField(choices=[('PENDIENTE', 'Pendiente'), ('CONFIRMADA', 'Confirmada'), ('CANCELADA', 'Cancelada')], default='PENDIENTE', max_length=12)),
                 ('usuario', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('viaje', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='viajes.viaje')),
             ],
         ),
     ]

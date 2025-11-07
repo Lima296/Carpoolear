@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;1,14..32,300&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbargeneral.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reporte.css' %}">
+
+    <title>Reportes - ViajAr</title>
+</head>
+<body>
+    {% include 'includes/navbargeneral.html' %}
+
+    <div class="container mt-4">
+        <div class="pantalla-header">
+            <h1 class="pantalla-titulo">Sección de Reportes</h1>
+            <hr class="pantalla-separador">
+        </div>
+
+        <div class="row">
+            <!-- Columna de Navegación para filtros -->
+            <div class="col-md-4">
+                <div class="profile-nav-card">
+                    <h5 class="mb-4">Filtrar Reportes</h5>
+                    <ul class="nav profile-nav flex-column" id="pills-reportes-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="pills-todos-tab" data-bs-toggle="pill" data-bs-target="#pills-todos" type="button" role="tab" aria-controls="pills-todos" aria-selected="true">Todos</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-conductor-tab" data-bs-toggle="pill" data-bs-target="#pills-conductor" type="button" role="tab" aria-controls="pills-conductor" aria-selected="false">Como Conductor</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-acompanante-tab" data-bs-toggle="pill" data-bs-target="#pills-acompanante" type="button" role="tab" aria-controls="pills-acompanante" aria-selected="false">Como Acompañante</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Columna de Contenido para los reportes -->
+            <div class="col-md-8 contenedor_reporte">
+                <div class="profile-content-card">
+                    <div class="tab-content" id="pills-tabContent">
+                        <!-- Panel de Todos los Reportes -->
+                        <div class="tab-pane fade show active" id="pills-todos" role="tabpanel" aria-labelledby="pills-todos-tab">
+                            <ul id="reportes-todos-container" class="list-group">
+                                <!-- Aquí se cargarán todos los reportes -->
+                                <div class="report-item">
+                                    <h5>Reporte General</h5>
+                                    <p>Viajes realizados: <span>...</span></p>
+                                    <p>Kilómetros recorridos: <span>...</span></p>
+                                    <p>Tiempo viajado: <span>...</span></p>
+                                    <p>Dinero recaudado: <span>...</span></p>
+                                </div>
+                            </ul>
+                        </div>
+                        <!-- Panel de Reportes como Conductor -->
+                        <div class="tab-pane fade" id="pills-conductor" role="tabpanel" aria-labelledby="pills-conductor-tab">
+                            <ul id="reportes-conductor-container" class="list-group">
+                                <!-- Aquí se cargarán los reportes como conductor -->
+                                <li class="list-group-item">Reporte Conductor 1</li>
+                            </ul>
+                        </div>
+                        <!-- Panel de Reportes como Acompañante -->
+                        <div class="tab-pane fade" id="pills-acompanante" role="tabpanel" aria-labelledby="pills-acompanante-tab">
+                            <ul id="reportes-acompanante-container" class="list-group">
+                                <!-- Aquí se cargarán los reportes como acompañante -->
+                                <li class="list-group-item">Reporte Acompañante 1</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/auth.js' %}"></script>
+
+</body>
+</html>
