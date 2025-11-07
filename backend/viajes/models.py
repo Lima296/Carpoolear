@@ -1,5 +1,6 @@
 from django.db import models
 from usuarios.models import Usuario  # Importamos el modelo de usuario
+from localidad.models import Localidad # Importamos el modelo de localidad
 
 class Viaje(models.Model):
     conductor = models.ForeignKey(
@@ -7,8 +8,8 @@ class Viaje(models.Model):
         on_delete=models.CASCADE, #on_delete=models.CASCADE para borrar viajes si se borra el usuario
         related_name='viajes_creados'
     )
-    origen = models.CharField(max_length=100)
-    destino = models.CharField(max_length=100)
+    origen = models.ForeignKey(Localidad, on_delete=models.PROTECT, related_name='viajes_origen')
+    destino = models.ForeignKey(Localidad, on_delete=models.PROTECT, related_name='viajes_destino')
     fecha = models.DateField()
     hora = models.TimeField()
     asientos_disponibles = models.PositiveIntegerField()

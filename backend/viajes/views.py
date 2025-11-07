@@ -7,6 +7,11 @@ from .models import Viaje
 from .serializers import ViajeSerializer
 
 class ViajeLista(APIView):
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [IsAuthenticated()]
+        return []
+
     def get(self, request):
         origen = request.query_params.get('origen')
         destino = request.query_params.get('destino')
@@ -26,10 +31,10 @@ class ViajeLista(APIView):
 
     def post(self, request):
         serializer = ViajeSerializer(data=request.data)
-        if serializer.is_valid(): #si los datos son válidos guarda el nuevo viaje en la BD
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED) #y devuelve el viaje creado
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) #tira error si los datos no son válidos
+        if serializer.is_valid():
+            serializer.save(conductor=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class MisViajesLista(APIView):
     permission_classes = [IsAuthenticated]

@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // --- Lógica para obtener datos y poblar el modal ---
         reservarViajeModal.addEventListener('show.bs.modal', async function (event) {
-            // ... (código para resetear y mostrar "Cargando...")
             const modalViajeContenido = document.getElementById('modal-viaje-contenido');
             const modalFeedback = document.getElementById('modal-reserva-feedback');
             modalViajeContenido.style.display = 'block';
@@ -31,20 +30,19 @@ document.addEventListener('DOMContentLoaded', function () {
             btnSolicitarAsiento.setAttribute('data-viaje-id', viajeId);
 
             try {
+                // 1. Obtener los datos del viaje (que ya incluyen todo)
                 const viajeResponse = await fetch(`http://127.0.0.1:8000/api/viajes/${viajeId}/`);
                 if (!viajeResponse.ok) throw new Error(`Error al cargar el viaje (${viajeResponse.status})`);
                 const viajeData = await viajeResponse.json();
 
-                const conductorId = viajeData.conductor;
-                if (!conductorId) throw new Error('El viaje no tiene un conductor asignado.');
+                // 2. Usar los datos anidados directamente
+                const conductorData = viajeData.conductor;
+                if (!conductorData) throw new Error('El viaje no tiene un conductor asignado.');
 
-                const conductorResponse = await fetch(`http://127.0.0.1:8000/api/usuarios/${conductorId}/`);
-                if (!conductorResponse.ok) throw new Error(`Error al cargar el conductor (${conductorResponse.status})`);
-                const conductorData = await conductorResponse.json();
-
+                // 3. Poblar el modal con los datos correctos
                 document.getElementById('modal-conductor-nombre').textContent = `${conductorData.nombre} ${conductorData.apellido}`;
-                document.getElementById('modal-viaje-origen').textContent = viajeData.origen;
-                document.getElementById('modal-viaje-destino').textContent = viajeData.destino;
+                document.getElementById('modal-viaje-origen').textContent = viajeData.origen.nombre;
+                document.getElementById('modal-viaje-destino').textContent = viajeData.destino.nombre;
                 document.getElementById('modal-viaje-fecha').textContent = viajeData.fecha;
                 document.getElementById('modal-viaje-hora').textContent = viajeData.hora ? viajeData.hora.substring(0, 5) + ' HS' : 'N/A';
 

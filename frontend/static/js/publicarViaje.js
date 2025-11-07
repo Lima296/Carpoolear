@@ -88,19 +88,14 @@ async function getConductorDNI() {
 async function publicarViaje(viajeData) {
     const csrfToken = getCookie('csrftoken');
     const accessToken = localStorage.getItem('access');
-    
-    const headers = {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrfToken
-    };
 
-    if (accessToken) {
-        headers['Authorization'] = `Bearer ${accessToken}`;
-    }
-    
     const response = await fetch('http://localhost:8000/api/viajes/', {
         method: 'POST',
-        headers: headers,
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+            'Authorization': `Bearer ${accessToken}`
+        },
         body: JSON.stringify(viajeData)
     });
 
@@ -129,15 +124,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 1. Cargar localidades para el autocompletado
     let todasLasLocalidades = [];
     try {
-        todasLasLocalidades = await getLocalidades(); // getLocalidades() viene de localidad.js
-        if (!todasLasLocalidades) {
-            throw new Error('La lista de localidades está vacía o es nula.');
+        // Asumiendo que getLocalidades() viene de otro script y devuelve {id, nombre}
+        const response = await fetch('http://localhost:8000/api/localidad/');
+        if (!response.ok) {
+            throw new Error('No se pudieron cargar las localidades.');
         }
+        todasLasLocalidades = await response.json();
     } catch (error) {
-        console.error("No se pudieron cargar las localidades para el formulario de publicación.", error);
+        console.error("Error al cargar localidades:", error);
     }
 
-    // 2. Función de autocompletado
+    // 2. Función de autocompletado MODIFICADA
     function setupAutocomplete(inputId, dropdownId, localidades) {
         const inputElement = document.getElementById(inputId);
         const dropdownContainer = document.getElementById(dropdownId);
@@ -155,6 +152,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             item.classList.add('dropdown-item');
             item.href = '#';
             item.textContent = localidad.nombre;
+            // Guardamos el ID en data-id y el nombre en data-value
+            item.setAttribute('data-id', localidad.id);
             item.setAttribute('data-value', localidad.nombre);
             dropdownMenu.appendChild(item);
         });
@@ -186,7 +185,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         items.forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
+                // Mostramos el nombre en el input
                 inputElement.value = this.getAttribute('data-value');
+                // Guardamos el ID seleccionado en un atributo data del input
+                inputElement.setAttribute('data-selected-id', this.getAttribute('data-id'));
                 dropdownInstance.hide();
             });
         });
@@ -200,7 +202,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupAutocomplete('origen-publicar', 'dropdown-origen-publicar', todasLasLocalidades);
     setupAutocomplete('destino-publicar', 'dropdown-destino-publicar', todasLasLocalidades);
 
-    // 4. Lógica existente del formulario (validación y envío)
+    // 4. Lógica existente del formulario (validación y envío) MODIFICADA
     const form = document.getElementById('form-publicar-viaje');
     if (form) {
         // --- TRADUCCIÓN DE MENSAJES DE VALIDACIÓN (CORREGIDO) ---
@@ -230,9 +232,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             event.preventDefault();
 
             try {
+                const origenInput = document.getElementById('origen-publicar');
+                const destinoInput = document.getElementById('destino-publicar');
+
                 const datosDelViaje = {
-                    origen: document.getElementById('origen-publicar').value,
-                    destino: document.getElementById('destino-publicar').value,
+                    // Leemos el ID guardado en el atributo data-selected-id
+                    origen: origenInput.getAttribute('data-selected-id'),
+                    destino: destinoInput.getAttribute('data-selected-id'),
                     fecha: document.getElementById('fecha-publicar').value,
                     hora: document.getElementById('hora-publicar').value,
                     asientos_disponibles: parseInt(document.getElementById('asientos-publicar').value, 10),
@@ -240,6 +246,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     detalle_viaje: document.getElementById('detalle_viaje').value,
                     conductor_id: await getConductorDNI()
                 };
+
+                // Verificación simple para asegurar que se ha seleccionado un ID
+                if (!datosDelViaje.origen || !datosDelViaje.destino) {
+                    alert('Por favor, selecciona un origen y un destino de la lista de sugerencias.');
+                    return;
+                }
 
                 console.log("Enviando los siguientes datos a la API:", datosDelViaje);
                 const nuevoViaje = await publicarViaje(datosDelViaje);

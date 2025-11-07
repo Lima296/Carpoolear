@@ -13,4 +13,5 @@ urlpatterns = [
     path('inicio/', views.inicio_view, name='inicio'),
     path('miperfil/', views.perfil_view, name='miperfil'),
     path('', include('dashboard.urls')),
+    path('reportes/', include('reporte.urls')),
 ]
