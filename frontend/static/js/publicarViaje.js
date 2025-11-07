@@ -236,15 +236,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const destinoInput = document.getElementById('destino-publicar');
 
                 const datosDelViaje = {
-                    // Leemos el ID guardado en el atributo data-selected-id
                     origen: origenInput.getAttribute('data-selected-id'),
                     destino: destinoInput.getAttribute('data-selected-id'),
                     fecha: document.getElementById('fecha-publicar').value,
                     hora: document.getElementById('hora-publicar').value,
                     asientos_disponibles: parseInt(document.getElementById('asientos-publicar').value, 10),
                     precio: parseFloat(document.getElementById('precio-publicar').value),
-                    detalle_viaje: document.getElementById('detalle_viaje').value,
-                    conductor_id: await getConductorDNI()
+                    detalle_viaje: document.getElementById('detalle_viaje').value
                 };
 
                 // Verificación simple para asegurar que se ha seleccionado un ID
