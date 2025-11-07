@@ -87,13 +87,20 @@ async function getConductorDNI() {
  */
 async function publicarViaje(viajeData) {
     const csrfToken = getCookie('csrftoken');
+    const accessToken = localStorage.getItem('access');
+    
+    const headers = {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken
+    };
+
+    if (accessToken) {
+        headers['Authorization'] = `Bearer ${accessToken}`;
+    }
     
     const response = await fetch('http://localhost:8000/api/viajes/', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken
-        },
+        headers: headers,
         body: JSON.stringify(viajeData)
     });
 
@@ -231,7 +238,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     asientos_disponibles: parseInt(document.getElementById('asientos-publicar').value, 10),
                     precio: parseFloat(document.getElementById('precio-publicar').value),
                     detalle_viaje: document.getElementById('detalle_viaje').value,
-                    conductor: await getConductorDNI()
+                    conductor_id: await getConductorDNI()
                 };
 
                 console.log("Enviando los siguientes datos a la API:", datosDelViaje);

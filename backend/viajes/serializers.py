@@ -14,6 +14,11 @@ class ConductorSerializer(serializers.ModelSerializer):
 
 class ViajeSerializer(serializers.ModelSerializer):
     conductor = ConductorSerializer(read_only=True)
+    conductor_id = serializers.PrimaryKeyRelatedField(
+        queryset=Usuario.objects.all(), 
+        source='conductor', 
+        write_only=True
+    )
 
     class Meta:
         model = Viaje
@@ -26,6 +31,7 @@ class ViajeSerializer(serializers.ModelSerializer):
             'asientos_disponibles',
             'precio',
             'conductor',
+            'conductor_id',
             'creado',
             'actualizado',
             'detalle_viaje'
