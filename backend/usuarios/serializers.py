@@ -4,12 +4,14 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UsuarioSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False, allow_null=True)
+    reputacion = serializers.FloatField(read_only=True)
+    viajes_realizados = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Usuario
         # Excluir campos que no deben ser enviados al frontend o que son manejados por el sistema
-        fields = ['id', 'nombre', 'apellido', 'correo', 'telefono', 'password', 'token', 'creado', 'actualizado']
-        read_only_fields = ['id', 'token', 'creado', 'actualizado']
+        fields = ['id', 'nombre', 'apellido', 'correo', 'telefono', 'password', 'token', 'creado', 'actualizado', 'reputacion', 'viajes_realizados']
+        read_only_fields = ['id', 'token', 'creado', 'actualizado', 'reputacion', 'viajes_realizados']
 
     def validate_correo(self, value):
         """

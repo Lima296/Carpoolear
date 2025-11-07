@@ -49,3 +49,11 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"{self.nombre} {self.apellido} , ({self.correo})"
+
+    @property
+    def reputacion(self):
+        return 4.5
+
+    @property
+    def viajes_realizados(self):
+        return 120

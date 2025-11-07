@@ -12,6 +12,7 @@ urlpatterns = [
     path('', views.inicio_view, name='root_inicio'),
     path('inicio/', views.inicio_view, name='inicio'),
     path('miperfil/', views.perfil_view, name='miperfil'),
+    path('perfil/usuario/<int:usuario_id>/', views.perfil_publico_view, name='perfil_publico'),
     path('', include('dashboard.urls')),
     path('reportes/', include('reporte.urls')),
 ]
