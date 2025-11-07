@@ -155,6 +155,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Guardamos el ID en data-id y el nombre en data-value
             item.setAttribute('data-id', localidad.id);
             item.setAttribute('data-value', localidad.nombre);
+            item.setAttribute('data-lat', localidad.lat);
+            item.setAttribute('data-lon', localidad.lon);
             dropdownMenu.appendChild(item);
         });
 
@@ -189,6 +191,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 inputElement.value = this.getAttribute('data-value');
                 // Guardamos el ID seleccionado en un atributo data del input
                 inputElement.setAttribute('data-selected-id', this.getAttribute('data-id'));
+                inputElement.setAttribute('data-selected-lat', this.getAttribute('data-lat'));
+                inputElement.setAttribute('data-selected-lon', this.getAttribute('data-lon'));
                 dropdownInstance.hide();
             });
         });
@@ -201,6 +205,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 3. Inicializar autocompletado en el formulario de publicar viaje
     setupAutocomplete('origen-publicar', 'dropdown-origen-publicar', todasLasLocalidades);
     setupAutocomplete('destino-publicar', 'dropdown-destino-publicar', todasLasLocalidades);
+
+    async function calcularRuta(origenLon, origenLat, destinoLon, destinoLat) {
+        const apiUrl = `http://router.project-osrm.org/route/v1/driving/${origenLon},${origenLat};${destinoLon},${destinoLat}?overview=false`;
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            if (data.code === 'Ok' && data.routes.length > 0) {
+                const route = data.routes[0];
+                return {
+                    distancia: (route.distance / 1000).toFixed(1), // en KM
+                    tiempo: Math.round(route.duration / 60) // en minutos
+                };
+            }
+        } catch (error) {
+            console.error('Error al calcular la ruta:', error);
+        }
+        return { distancia: null, tiempo: null };
+    }
 
     // 4. Lógica existente del formulario (validación y envío) MODIFICADA
     const form = document.getElementById('form-publicar-viaje');
@@ -235,6 +257,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const origenInput = document.getElementById('origen-publicar');
                 const destinoInput = document.getElementById('destino-publicar');
 
+                const origenLat = origenInput.getAttribute('data-selected-lat');
+                const origenLon = origenInput.getAttribute('data-selected-lon');
+                const destinoLat = destinoInput.getAttribute('data-selected-lat');
+                const destinoLon = destinoInput.getAttribute('data-selected-lon');
+
+                const ruta = await calcularRuta(origenLon, origenLat, destinoLon, destinoLat);
+
                 const datosDelViaje = {
                     // Leemos el ID guardado en el atributo data-selected-id
                     origen: origenInput.getAttribute('data-selected-id'),
@@ -244,7 +273,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     asientos_disponibles: parseInt(document.getElementById('asientos-publicar').value, 10),
                     precio: parseFloat(document.getElementById('precio-publicar').value),
                     detalle_viaje: document.getElementById('detalle_viaje').value,
-                    conductor: await getConductorDNI()
+                    conductor: await getConductorDNI(),
+                    distancia: ruta.distancia,
+                    tiempo: ruta.tiempo
                 };
 
                 // Verificación simple para asegurar que se ha seleccionado un ID
