@@ -8,7 +8,7 @@ from .serializers import LocalidadSerializer
 
 class LocalidadLista(APIView): #esta clase maneja toda la colección de localidades
     def get(self, request): #listar
-        localidades = Localidad.objects.all() #trae todas las localidades desde la base de datos
+        localidades = Localidad.objects.all().order_by('nombre') #trae todas las localidades desde la base de datos
         serializer = LocalidadSerializer(localidades, many=True) #serializa las localidades a formato JSON
         return Response(serializer.data) #devuelve las localidades serializadas en una respuesta HTTP
     

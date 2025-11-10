@@ -20,9 +20,16 @@ class ViajeLista(APIView):
         viajes = Viaje.objects.all()
 
         if origen and origen.strip():
-            viajes = viajes.filter(origen__icontains=origen)
+            if origen.isdigit():
+                viajes = viajes.filter(origen_id=origen)
+            else:
+                viajes = viajes.filter(origen__nombre__icontains=origen)
+
         if destino and destino.strip():
-            viajes = viajes.filter(destino__icontains=destino)
+            if destino.isdigit():
+                viajes = viajes.filter(destino_id=destino)
+            else:
+                viajes = viajes.filter(destino__nombre__icontains=destino)
         if fecha and fecha.strip():
             viajes = viajes.filter(fecha=fecha)
 

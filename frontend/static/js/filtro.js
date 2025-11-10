@@ -24,22 +24,20 @@ document.addEventListener('DOMContentLoaded', async function() { // Make it asyn
 
         const dropdownMenu = dropdownContainer.querySelector('.dropdown-menu');
         
-        // Limpiar sugerencias estáticas y poblar dinámicamente
-        dropdownMenu.innerHTML = '<h6 class="dropdown-header">Ciudades Sugeridas</h6>'; // Mantener el encabezado
+        dropdownMenu.innerHTML = '<h6 class="dropdown-header">Ciudades Sugeridas</h6>';
         localidades.forEach(localidad => {
             const item = document.createElement('a');
             item.classList.add('dropdown-item');
             item.href = '#';
-            // Asumimos que la API devuelve un objeto con la propiedad 'nombre'
-            item.textContent = localidad.nombre; 
+            item.textContent = localidad.nombre;
+            item.setAttribute('data-id', localidad.id); // Guardar el ID
             item.setAttribute('data-value', localidad.nombre);
             dropdownMenu.appendChild(item);
         });
 
         const items = dropdownMenu.querySelectorAll('.dropdown-item');
-        const dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(dropdownContainer);
+        const dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(inputElement);
 
-        // 1. FUNCIONALIDAD DE FILTRADO (al escribir en el input)
         inputElement.addEventListener('keyup', function() {
             const filter = inputElement.value.toLowerCase();
             let hasVisibleItems = false;
@@ -61,25 +59,15 @@ document.addEventListener('DOMContentLoaded', async function() { // Make it asyn
             }
         });
 
-        // 2. FUNCIONALIDAD DE SELECCIÓN (al hacer clic en una opción)
         items.forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault(); 
-                
                 inputElement.value = this.getAttribute('data-value');
-                
+                inputElement.setAttribute('data-selected-id', this.getAttribute('data-id')); // <-- CLAVE
                 dropdownInstance.hide();
-                
-                if (inputId === 'input-origen') {
-                    const destinoInput = document.getElementById('input-destino');
-                    if (destinoInput) {
-                        destinoInput.focus();
-                    }
-                }
             });
         });
         
-        // 3. EVITAR QUE EL DROPDOWN SE CIERRE
         dropdownMenu.addEventListener('click', function (e) {
             e.stopPropagation();
         });
@@ -93,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async function() { // Make it asyn
     setupAutocomplete('input-destino', 'dropdown-destino', todasLasLocalidades); 
     
 // ------------------------------------------------------------------
-// --- LÓGICA DEL BOTÓN DE BÚSQUEDA (SIN VALIDACIÓN ESTRICTA) ---
+// --- LÓGICA DEL BOTÓN DE BÚSQUEDA (CORREGIDA) ---
 // ------------------------------------------------------------------
     
     const btnBuscar = document.getElementById('btn-buscar');
@@ -101,22 +89,33 @@ document.addEventListener('DOMContentLoaded', async function() { // Make it asyn
         btnBuscar.addEventListener('click', function(e) {
             e.preventDefault(); 
             
-            const origen = document.getElementById('input-origen').value;
-            const destino = document.getElementById('input-destino').value;
-            const fecha = document.getElementById('input-fecha').value; 
+            const origenInput = document.getElementById('input-origen');
+            const destinoInput = document.getElementById('input-destino');
+            const fechaInput = document.getElementById('input-fecha');
 
             const filters = {};
-            if (origen && origen.trim() !== '') {
-                filters.origen = origen;
+            const origenId = origenInput.getAttribute('data-selected-id');
+            const destinoId = destinoInput.getAttribute('data-selected-id');
+            const origenName = origenInput.value;
+            const destinoName = destinoInput.value;
+            const fecha = fechaInput.value;
+
+            if (origenId) {
+                filters.origen = origenId;
+            } else if (origenName) {
+                filters.origen = origenName;
             }
-            if (destino && destino.trim() !== '') {
-                filters.destino = destino;
+
+            if (destinoId) {
+                filters.destino = destinoId;
+            } else if (destinoName) {
+                filters.destino = destinoName;
             }
             if (fecha && fecha.trim() !== '') {
                 filters.fecha = fecha;
             }
 
-            console.log(`Búsqueda iniciada con filtros:`, filters);
+            console.log(`Búsqueda iniciada con filtros (IDs):`, filters);
             
             cargarViajes(filters);
         });

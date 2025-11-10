@@ -54,8 +54,8 @@ urlpatterns = [
     path('api/vehiculos/', VehiculoLista.as_view(), name='vehiculo-lista'),
     path('api/vehiculos/<int:pk>/', VehiculoDetalle.as_view(), name='vehiculo-detalle'),
     
-    path('api/localidad/', LocalidadLista.as_view(), name='localidad-lista'),
-    path('api/localidad/<int:pk>/', LocalidadDetalle.as_view(), name='localidad-detalle'),
+    path('api/localidades/', LocalidadLista.as_view(), name='localidad-lista'),
+    path('api/localidades/<int:pk>/', LocalidadDetalle.as_view(), name='localidad-detalle'),
 
     path('api/mis-reservas/', MisReservasView.as_view(), name='mis-reservas'),
     path('api/reservas/', ReservaLista.as_view(), name='reserva-lista'),

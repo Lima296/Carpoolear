@@ -349,3 +349,22 @@ body {
 .icono-flecha-derecha img {
     transform: rotate(-90deg);
 }
+
+/* Estilos para hacer scrollable el dropdown de localidades en el modal */
+#dropdown-origen-publicar .dropdown-menu,
+#dropdown-destino-publicar .dropdown-menu {
+    max-height: 250px; /* Altura máxima antes de que aparezca el scroll */
+    overflow-y: auto;  /* Habilita el scroll vertical */
+}
+
+/* Estilos para hacer scrollable el dropdown de localidades en la sección de filtros */
+#dropdown-origen .dropdown-menu,
+#dropdown-destino .dropdown-menu {
+    max-height: 250px; /* Altura máxima antes de que aparezca el scroll */
+    overflow-y: auto;  /* Habilita el scroll vertical */
+}
+
+/* Cambiar color del icono del botón de buscar a blanco */
+.btn-buscar .icon-buscar {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(90deg) brightness(100%) contrast(100%); /* Intento de hacer el SVG blanco */
+}
