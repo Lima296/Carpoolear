@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from .models import Viaje
 from .serializers import ViajeSerializer
+from vehiculos.models import Vehiculo
 
 class ViajeLista(APIView):
     def get_permissions(self):
@@ -37,6 +38,9 @@ class ViajeLista(APIView):
         return Response(serializer.data)
 
     def post(self, request):
+        if not Vehiculo.objects.filter(propietario=request.user).exists():
+            return Response({"detail": "No tiene un vehículo registrado para poder crear un viaje."}, status=status.HTTP_400_BAD_REQUEST)
+        
         serializer = ViajeSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(conductor=request.user)

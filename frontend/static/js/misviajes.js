@@ -95,8 +95,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const viaje = reserva.viaje;
         if (!viaje) return '';
 
-        const origen = viaje.origen || 'N/A';
-        const destino = viaje.destino || 'N/A';
+        const origen = (viaje.origen && viaje.origen.nombre) ? viaje.origen.nombre : 'N/A';
+        const destino = (viaje.destino && viaje.destino.nombre) ? viaje.destino.nombre : 'N/A';
         const fecha = viaje.fecha || 'N/A';
         const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
         const precioTotal = reserva.cantidad_asientos * viaje.precio;

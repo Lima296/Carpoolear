@@ -45,6 +45,8 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     def save(self, *args, **kwargs):
         if not self.token:
             self.token = secrets.token_hex(20)
+        self.nombre = self.nombre.capitalize()
+        self.apellido = self.apellido.capitalize()
         super().save(*args, **kwargs)
 
     def __str__(self):

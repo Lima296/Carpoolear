@@ -17,5 +17,11 @@ class Vehiculo(models.Model):
     creado = models.DateTimeField(auto_now_add=True) #fecha de creación
     actualizado = models.DateTimeField(auto_now=True) #fecha de última actualización
 
+    def save(self, *args, **kwargs):
+        self.marca = self.marca.capitalize()
+        self.modelo = self.modelo.capitalize()
+        self.color = self.color.capitalize()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.marca} {self.modelo} ({self.patente})"

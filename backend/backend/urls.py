@@ -51,8 +51,7 @@ urlpatterns = [
     path('api/estados/', EstadoLista.as_view(), name='estados-lista'),
     path('api/estados/<int:pk>/', EstadoDetalle.as_view(), name='estados-detalle'),
 
-    path('api/vehiculos/', VehiculoLista.as_view(), name='vehiculo-lista'),
-    path('api/vehiculos/<int:pk>/', VehiculoDetalle.as_view(), name='vehiculo-detalle'),
+    path('api/', include('vehiculos.urls')),
     
     path('api/localidades/', LocalidadLista.as_view(), name='localidad-lista'),
     path('api/localidades/<int:pk>/', LocalidadDetalle.as_view(), name='localidad-detalle'),
