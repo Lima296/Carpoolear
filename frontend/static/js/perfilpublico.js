@@ -65,10 +65,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Renderizar estadísticas
         if (displayReputacion) {
-            const reputacion = usuario.reputacion || 0;
-            const estrellasLlenas = Math.round(reputacion);
+            const reputacion = parseFloat(usuario.reputacion) || 0;
+            const estrellasLlenas = Math.floor(reputacion);
             const estrellasVacias = 5 - estrellasLlenas;
-            displayReputacion.innerHTML = `${'★'.repeat(estrellasLlenas)}${'☆'.repeat(estrellasVacias)}`;
+            
+            let estrellasHTML = '★'.repeat(estrellasLlenas);
+            estrellasHTML += '☆'.repeat(estrellasVacias);
+            
+            displayReputacion.innerHTML = `${reputacion.toFixed(1)} ${estrellasHTML}`;
         }
         if (displayViajes) {
             displayViajes.textContent = usuario.viajes_realizados || 0;
