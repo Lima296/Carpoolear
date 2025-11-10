@@ -28,10 +28,7 @@
     {% include 'includes/publicarViaje.html' %}
     {% include 'includes/reservarViaje.html' %}
 
-    <div class="pantalla-header">
-        <h1 class="pantalla-titulo">Inicio</h1>
-        <hr class="pantalla-separador">
-    </div>
+
 
     <div class="busqueda-wrapper">
         <div class="contenedor_buscar">
@@ -80,8 +77,6 @@
         
 
         <button class="btn btn-warning" id="btn-buscar">Filtrar</button>
-
-
         
     </div>
         <button class="btn btn-primary" id="btn-crear-viaje" data-bs-toggle="modal" data-bs-target="#publicarViajeModal">Publicá tu viaje</button>
@@ -114,7 +109,7 @@
     const STATIC_URL_BASE = "{% static '' %}"; 
 </script>
 
-
+    
     <script src="{% static 'js/cargarViaje.js' %}"></script> 
     <script src="{% static 'js/cargarViaje.js' %}"></script> 
     <script src="{% static 'js/reservarViaje.js' %}"></script> 

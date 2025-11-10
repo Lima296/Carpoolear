@@ -10,9 +10,9 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-    padding: 1px;
-    max-width: 1200px;
-    margin: 1px auto;
+    padding: 10px;
+    max-width: 1300px;
+    margin: 10px auto;
 }
 .contenedor_viajes button:hover {
     background-color: #85C74D !important;
@@ -33,7 +33,7 @@ body {
     border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
     padding: 0;
-    margin: 25px; 
+    margin: 12px; 
     background-color: #fff;
     display: flex;
     flex-direction: column; 
@@ -108,7 +108,6 @@ body {
 .contenedor_buscar {
     /* Centrado Horizontal: auto es clave con un width fijo */
     padding: 15px 30px; 
-    
     border-radius: 8px; 
     background-color: white; 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -119,6 +118,7 @@ body {
     grid-template-columns: 1fr 1fr 1fr auto; 
     align-items: center; 
     gap: 20px; 
+    margin-bottom: 15px;
     
 }
 

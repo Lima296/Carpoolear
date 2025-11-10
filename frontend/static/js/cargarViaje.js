@@ -169,7 +169,7 @@ async function cargarViajes(filters = {}) {
 
     try {
         // Añadimos un retraso de 2 segundos para simular la carga
-        await delay(3000);
+        await delay(500);
 
         // 2. Realizar la solicitud Fetch
         const response = await fetch(url);

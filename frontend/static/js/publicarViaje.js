@@ -206,23 +206,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupAutocomplete('origen-publicar', 'dropdown-origen-publicar', todasLasLocalidades);
     setupAutocomplete('destino-publicar', 'dropdown-destino-publicar', todasLasLocalidades);
 
-    async function calcularRuta(origenLon, origenLat, destinoLon, destinoLat) {
-        const apiUrl = `http://router.project-osrm.org/route/v1/driving/${origenLon},${origenLat};${destinoLon},${destinoLat}?overview=false`;
-        try {
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-            if (data.code === 'Ok' && data.routes.length > 0) {
-                const route = data.routes[0];
-                return {
-                    distancia: (route.distance / 1000).toFixed(1), // en KM
-                    tiempo: Math.round(route.duration / 60) // en minutos
-                };
-            }
-        } catch (error) {
-            console.error('Error al calcular la ruta:', error);
-        }
-        return { distancia: null, tiempo: null };
-    }
+
 
     // 4. Lógica existente del formulario (validación y envío) MODIFICADA
     const form = document.getElementById('form-publicar-viaje');
@@ -257,12 +241,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const origenInput = document.getElementById('origen-publicar');
                 const destinoInput = document.getElementById('destino-publicar');
 
-                const origenLat = origenInput.getAttribute('data-selected-lat');
-                const origenLon = origenInput.getAttribute('data-selected-lon');
-                const destinoLat = destinoInput.getAttribute('data-selected-lat');
-                const destinoLon = destinoInput.getAttribute('data-selected-lon');
-
-                const ruta = await calcularRuta(origenLon, origenLat, destinoLon, destinoLat);
+                // El backend se encargará del cálculo de la ruta.
+                // Ya no se necesita llamar a `calcularRuta` desde el frontend.
 
                 const datosDelViaje = {
                     // Leemos el ID guardado en el atributo data-selected-id
@@ -274,8 +254,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     precio: parseFloat(document.getElementById('precio-publicar').value),
                     detalle_viaje: document.getElementById('detalle_viaje').value,
                     conductor: await getConductorDNI(),
-                    distancia: ruta.distancia,
-                    tiempo: ruta.tiempo
+                    // Los campos 'distancia' y 'tiempo' se eliminan.
+                    // El backend los calculará y guardará automáticamente.
                 };
 
                 // Verificación simple para asegurar que se ha seleccionado un ID
