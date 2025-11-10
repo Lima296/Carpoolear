@@ -1,263 +1,283 @@
-* {
-    box-sizing: border-box;
-}
-
+/* --- ESTILOS GENERALES Y BODY --- */
 body {
-    background-color: #024873 !important;
-}
-.contenedor_viajes {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    padding: 1px;
-    max-width: 1200px;
-    margin: 1px auto;
-}
-.contenedor_viajes button:hover {
-    background-color: #85C74D !important;
-    border-color: #85C74D  !important;
-}
-.contenedor_viajes button {
-    background-color: #024873 !important;
-    border-color: #024873  !important;
+    background-color: #f8f9fa !important;
 }
 
-
-
-/* --- ESTILO PARA LA NUEVA TARJETA INDIVIDUAL --- */
-.custom-card-template {
-    width: 250px; 
-    height: 420px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-    padding: 0;
-    margin: 25px; 
-    background-color: #fff;
-    display: flex;
-    flex-direction: column; 
-    overflow: hidden;
-}
-
-.card-header-svg {
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    padding-left: 10px;
-    background: #ffffff !important;
-    color: #024873;
-    font-size: 1.5rem;
-    font-weight: bold;
-    border-bottom: #024873 2px solid;
-}
-.card-body-content {
-    padding: 10px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.detail-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0px;
-    padding: 4px 0;
-    border-bottom: 1px dashed #eee;
-    margin-left: -3px;
-}
-
-.detail-label {
-    font-weight: 500;
-    color: #5d6063;
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-}
-
-.detail-value {
-    font-weight: 500;
-    color: #343a40;
-    font-size: 13px;
-}
-
-.places-available {
-
-    padding: 0px;
-    background-color: #e9f7ef;
-    border-radius: 8px;
+/* --- SECCIÓN HERO --- */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/card1.png');
+    background-size: cover;
+    background-position: center;
+    padding: 80px 20px;
     text-align: center;
+    color: #fff;
 }
 
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
 
-/* --- BARRA DE BÚSQUEDA (DESKTOP) --- */
-.busqueda-wrapper {
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    font-weight: 300;
+    margin-bottom: 30px;
+}
+
+/* --- TARJETA DE BÚSQUEDA --- */
+.search-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    color: #333;
+    text-align: left;
+}
+
+.search-form-container {
     display: flex;
-    align-items: stretch;
-    justify-content: center; 
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    gap: 10px;
+    gap: 20px;
+    align-items: flex-end;
 }
 
-.contenedor_buscar {
-    /* Centrado Horizontal: auto es clave con un width fijo */
-    padding: 15px 30px; 
-    
-    border-radius: 8px; 
-    background-color: white; 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-    /* ORGANIZACIÓN CON CSS GRID */
-    display: grid !important; 
-    /* 4 columnas: Origen (1fr), Destino (1fr), Fecha (1fr), Botón (auto) */
-    grid-template-columns: 1fr 1fr 1fr auto; 
-    align-items: center; 
-    gap: 20px; 
-    
-}
-
-/* Estilo para los grupos de búsqueda (etiqueta + input) */
 .busqueda-grupo {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
-/* Estilo para las etiquetas (span) y los dropdowns (inputs) */
-.busqueda-grupo span {
-    font-weight: bold;
+.busqueda-grupo label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
     color: #024873;
+}
+
+.busqueda-grupo .form-control {
+    height: 48px;
+}
+
+.btn-buscar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+    font-weight: 600;
+    background-color: #024873;
+    border-color: #024873;
+    padding: 0 25px;
+    white-space: nowrap;
+}
+
+.btn-buscar:hover {
+    background-color: #013a5c;
+    border-color: #013a5c;
+}
+
+.icon-buscar {
+    width: 20px;
+    height: 20px;
+}
+
+/* --- ACCIÓN DE PUBLICAR VIAJE --- */
+.publish-action-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.publish-text {
     font-size: 1rem;
-    margin-bottom: 5px;
-    margin-right: 10px; /* Asegura el espaciado si se ajusta */
-    margin-left: 5px;
-}
-.contenedor_buscar span {
-    font-size: 18px; /* Sobrescribe el tamaño para las etiquetas generales */
+    color: #555;
 }
 
-.busqueda-grupo .dropdown,
-.busqueda-grupo input[type="date"] {
-    width: 100%; /* El input/dropdown ocupa el espacio del grupo */
-}
-
-
-/* Estilo para el botón de búsqueda */
-.contenedor_buscar #btn-buscar {
-    height: 38px; 
-    font-weight: bold;
-    
-    /* Colores del botón */
-    background-color: #024873; 
-    border-color: #024873;     
-    color: #ffffff;
-    
-    /* Alineación vertical */
-    align-self: end; 
-    margin-bottom: 0; 
-}
-
-.contenedor_buscar #btn-buscar:hover {
-    background-color: #85C74D; 
+.btn-publicar {
+    font-weight: 600;
+    background-color: #85C74D;
     border-color: #85C74D;
+    color: #fff;
 }
 
-#btn-crear-viaje {
-    background-color: #85C74D; 
-    border-color: #85C74D;
-    height: auto;
-    font-weight: bolder;
+.btn-publicar:hover {
+    background-color: #6fa83b;
+    border-color: #6fa83b;
 }
 
-#btn-crear-viaje:hover {
-    background-color: #ffffff; 
-    border-color: #ffffff;
+/* --- CONTENEDOR DE RESULTADOS --- */
+.results-container {
+    padding: 40px 15px;
+}
+
+.results-separator {
+    margin-bottom: 30px;
+}
+
+.contenedor_viajes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* --- ESTILOS PARA LA NUEVA TARJETA DE VIAJE (V3) --- */
+.viaje-card-v3 {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.viaje-card-v3:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.09);
+}
+
+.viaje-card-v3 .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.card-header .origen, .card-header .destino {
+    flex: 1;
+    text-align: center;
+}
+
+.card-header .ciudad {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #343a40;
+}
+
+.card-header .icono-trayecto img {
+    width: 24px;
+    opacity: 0.5;
+}
+
+.viaje-card-v3 .card-body {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px;
+}
+
+.card-body .info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: #495057;
+}
+
+.card-body .info-icon {
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
+}
+
+.card-body .info-item.precio .precio-texto {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.card-body .info-item.precio .precio-texto small {
+    font-size: 0.75rem;
+    color: #6c757d;
+}
+
+.card-body .info-item.precio span {
+    font-weight: 700;
     color: #024873;
 }
 
-
-/* --- AJUSTES PANTALLA CHICA (MOBILE) --- */
-
-@media (max-width: 1250px) {
-    /* Ajusta el ancho del contenedor de búsqueda en pantallas medianas */
-    .contenedor_buscar {
-        width: 90% !important;
-    }
+.viaje-card-v3 .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-top: 1px solid #e9ecef;
+    background-color: #f8f9fa;
 }
 
-/* Para tablets y pantallas medianas, ajusta la cuadrícula a 2 columnas */
-@media (max-width: 992px) {
-    .contenedor_viajes {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.card-footer .conductor-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-@media (max-width: 768px) {
-    /* 1. Ajuste del contenedor de Viajes (Tarjetas) */
-    .contenedor_viajes {
-        grid-template-columns: 1fr; /* Apila las tarjetas en una sola columna */
-        margin-top: 20px;
-        padding: 10px;
-    }
-
-    /* 2. Ajuste de la tarjeta */
-    .custom-card-template {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    /* 3. Ajuste del contenedor de Búsqueda (Sección Crítica) */
-    .busqueda-wrapper {
-        flex-direction: column; /* Apila los elementos verticalmente */
-        align-items: center; /* Centra los elementos horizontalmente */
-    }
-
-    .contenedor_buscar {
-        width: 95% !important;
-        height: auto !important; 
-        padding: 15px; 
-        margin: 25px auto 30px auto !important; 
-        margin-top: 10px !important;
-        margin-bottom: 10px !important;
-        
-        /* LAYOUT VERTICAL: Apila todos los elementos en una columna */
-        grid-template-columns: 1fr !important; 
-        gap: 10px; 
-    }
-
-    #btn-crear-viaje {
-        width: 95%; /* Ocupa casi todo el ancho */
-        margin-top: 5px;
-        margin-left: auto;
-        margin-right: auto; /* Centra el botón y añade margen vertical */
-        display: block; /* Asegura que margin: auto funcione para centrar */
-        height: 70px;
-    }
-
-    /* 4. AJUSTE DE GRUPOS Y ELEMENTOS INTERNOS EN MÓVIL: */
-    .busqueda-grupo {
-        width: 100%;
-    }
-
-    .busqueda-grupo .dropdown,
-    .busqueda-grupo input[type="date"] {
-        width: 100%;
-    }
-
-    /* El botón ahora debe ocupar el 100% del ancho */
-    .contenedor_buscar #btn-buscar {
-        width: 100%;
-        align-self: unset; 
-        margin-top: 5px; 
-        margin-bottom: 5px; 
-    }
+.conductor-info .conductor-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
+.conductor-info .conductor-nombre {
+    font-weight: 600;
+    color: #495057;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.conductor-info .conductor-nombre:hover {
+    color: #024873;
+}
+
+.card-footer .actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.actions .asientos-disponibles {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+}
+
+.asientos-disponibles img {
+    width: 22px;
+    opacity: 0.7;
+}
+
+.actions .btn-reservar-v3 {
+    background-color: #024873;
+    color: #fff;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.actions .btn-reservar-v3:hover {
+    background-color: #013a5c;
+}
+
+
+/* --- ESTILOS DE MENSAJE DE CARGA (EXISTENTES) --- */
 .mensaje-carga-estilo {
     background-color: #024873;
     color: #ffffff;
@@ -287,4 +307,45 @@ body {
     to {
         margin-left: 160px;
     }
+}
+
+/* --- AJUSTES RESPONSIVE --- */
+@media (max-width: 992px) {
+    .hero-section {
+        padding: 60px 15px;
+    }
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    .search-form-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+    .btn-buscar {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    .search-card {
+        padding: 20px;
+    }
+    .publish-action-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .contenedor_viajes {
+        grid-template-columns: 1fr;
+    }
+}
+/* Rotar flecha para que apunte a la derecha */
+.icono-flecha-derecha img {
+    transform: rotate(-90deg);
 }
