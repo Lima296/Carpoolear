@@ -8,7 +8,19 @@ class ViajeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Viaje
-        fields = '__all__'
+        fields = [
+            'id',
+            'origen',
+            'destino',
+            'fecha',
+            'hora',
+            'asientos_disponibles',
+            'precio',
+            'conductor',
+            'creado',
+            'actualizado',
+            'detalle_viaje'
+        ]
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
