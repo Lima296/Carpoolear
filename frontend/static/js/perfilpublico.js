@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const displayApellido = document.getElementById('display-apellido');
     const displayTelefono = document.getElementById('display-telefono');
     const displayCorreo = document.getElementById('display-correo');
+    const displayReputacion = document.getElementById('display-reputacion');
+    const displayViajes = document.getElementById('display-viajes');
 
     // --- Función para obtener y mostrar el perfil ---
     async function cargarPerfil() {
@@ -32,9 +34,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Manejar el error en la UI
             if(navDisplayName) navDisplayName.textContent = 'Error';
             if(displayNombre) displayNombre.textContent = 'No se pudo cargar la información.';
+            // Limpiar otros campos en caso de error
             if(displayApellido) displayApellido.textContent = '';
             if(displayTelefono) displayTelefono.textContent = '';
             if(displayCorreo) displayCorreo.textContent = '';
+            if(displayReputacion) displayReputacion.textContent = 'No disponible';
+            if(displayViajes) displayViajes.textContent = 'No disponible';
         }
     }
 
@@ -56,6 +61,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (displayCorreo) {
             displayCorreo.textContent = usuario.correo || 'No disponible';
+        }
+
+        // Renderizar estadísticas
+        if (displayReputacion) {
+            const reputacion = usuario.reputacion || 0;
+            const estrellasLlenas = Math.round(reputacion);
+            const estrellasVacias = 5 - estrellasLlenas;
+            displayReputacion.innerHTML = `${'★'.repeat(estrellasLlenas)}${'☆'.repeat(estrellasVacias)}`;
+        }
+        if (displayViajes) {
+            displayViajes.textContent = usuario.viajes_realizados || 0;
         }
     }
 
