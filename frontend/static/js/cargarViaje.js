@@ -25,122 +25,90 @@ function formatPriceWithDot(price) {
  * @returns {string} - Cadena de HTML de la tarjeta.
  */
 function crearTarjetaViaje(viaje) {
-    // Función de ayuda para obtener la ruta estática (simulación en JS)
-    const getStaticUrl = (path) => `${STATIC_URL_BASE}img/${path}`; 
+    const getStaticUrl = (path) => `${STATIC_URL_BASE}img/${path}`;
 
-    const formatDate = (dateString) => {
-        if (!dateString) return 'N/A';
-        
-        const date = new Date(dateString + 'T00:00:00'); // Forzar a que se interprete como local
-        
-        const options = { 
-            weekday: 'short', 
-            day: 'numeric', 
-            month: 'long', 
-            year: 'numeric',
-            timeZone: 'UTC' // Usar UTC para evitar corrimientos de día
-        };
-
-        // Capitalizar el resultado y ajustar formato
-        let formattedDate = new Intl.DateTimeFormat('es-ES', options).format(date);
-        formattedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
-        
-        return formattedDate.replace('.', ''); // Eliminar el punto final del día de la semana si existe
-    };
-
-
-    // Aseguramos que los valores sean seguros y formateados
-    const origenNombre = (viaje.origen && viaje.origen.nombre) ? viaje.origen.nombre : 'Origen Desconocido';
-    const destinoNombre = (viaje.destino && viaje.destino.nombre) ? viaje.destino.nombre : 'Destino Desconocido';
-    const fecha = formatDate(viaje.fecha);
-    const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
-    const precio = viaje.precio ? `$ ${formatPriceWithDot(viaje.precio)}` : 'N/A';
-    const asientos_disponibles = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
-    const conductorNombre = (viaje.conductor && viaje.conductor.first_name) ? `${viaje.conductor.first_name} ${viaje.conductor.last_name}` : 'No disponible';
-    const conductorID = viaje.conductor ? viaje.conductor.id : null;
-    // TODO: Reemplazar con la URL correcta al perfil del usuario
-    const perfilUrl = conductorID ? `/perfil/usuario/${conductorID}/` : '#';
-
-    const hoy = new Date();
-    const fechaViaje = new Date(viaje.fecha);
-    let estado = 'Creado';
-
-    hoy.setHours(0, 0, 0, 0);
-    fechaViaje.setHours(0, 0, 0, 0);
-
-    if (fechaViaje < hoy) {
-        estado = 'Finalizado';
-    } else if (fechaViaje.getTime() === hoy.getTime()) {
-        estado = 'En Curso';
-    }
-
-    return `
-        <div class="custom-card-template">
-            <div class="card-driver-info" style="padding: 10px; background-color: #f8f9fa; text-align: center;">
-                <span style="font-weight: 500;">Conductor:</span>
-                <a href="${perfilUrl}" style="font-weight: 600; color: #0d6efd; text-decoration: none;"> ${conductorNombre}
-            </a>
+    // --- Generación Condicional de HTML ---
+    const fechaHTML = viaje.fecha ? `
+        <div class="info-item">
+            <img src="${getStaticUrl('calendar.svg')}" class="info-icon" alt="Fecha">
+            <span>${new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'short' }).format(new Date(viaje.fecha + 'T00:00:00')).replace('.', '')}</span>
         </div>
+    ` : '';
 
-            <!-- 1. ZONA SVG/ICONO (Origen y Destino) -->
-            <div class="card-header-svg">
-                <span style="font-size: 15px;">
-                    <img src="${getStaticUrl('ubiAzul.svg')}" alt="Ubicación" style="width: 25px;"> Origen: <span style="color: #024873 ; font-size: 18px;"> ${origenNombre}</span> <br>
-                    <img src="${getStaticUrl('ubiVerde.svg')}" alt="Ubicación" style="width: 25px;"> Destino: <span style="color: #024873; font-size: 18px;"> ${destinoNombre}</span>
-                </span>
+    const horaSalidaHTML = viaje.hora ? `
+        <div class="info-item">
+            <img src="${getStaticUrl('time-1.svg')}" class="info-icon" alt="Salida">
+            <span>${viaje.hora.substring(0, 5)} hs</span>
+        </div>
+    ` : '';
+
+    const horaLlegadaHTML = viaje.horario_llegada ? `
+        <div class="info-item">
+            <img src="${getStaticUrl('reloj2.svg')}" class="info-icon" alt="Llegada">
+            <span>${viaje.horario_llegada.substring(0, 5)} hs</span>
+        </div>
+    ` : '';
+
+    const precioHTML = viaje.precio ? `
+        <div class="info-item precio">
+            <img src="${getStaticUrl('money.svg')}" class="info-icon" alt="Precio">
+            <div class="precio-texto">
+                <span>$${formatPriceWithDot(viaje.precio)}</span>
+                <small>por asiento</small>
             </div>
-            <!-- 2. CUERPO DE DETALLES -->
-            <div class="card-body-content">
-                
-                <!-- Fecha -->
-                <div class="detail-row d-flex justify-content-between align-items-center">
-                    <span class="detail-label" style="font-size: 0.9rem;">
-                        <img src="${getStaticUrl('fecha2.svg')}" alt="Fecha" style="width: 20px; margin-right: 3px;"> Fecha:
-                    </span>
-                    <span class="detail-value fw-normal" style="font-size: 0.9rem;">${fecha}</span>
-                </div>
-
-                <!-- Hora -->
-                <div class="detail-row d-flex justify-content-between align-items-center">
-                    <span class="detail-label" style="font-size: 0.9rem;">
-                        <img src="${getStaticUrl('reloj2.svg')}" alt="Hora" style="width: 20px; margin-right: 3px;"> Hora:
-                    </span>
-                    <span class="detail-value fw-normal" style="font-size: 0.9rem;">${hora}</span>
-                </div>
-
-                <!-- Costo -->
-                <div class="detail-row">
-                    <span class="detail-label">
-                        <img src="${getStaticUrl('money2.svg')}" alt="Costo" style="width: 23px; margin-right: 5px;"> Costo:
-                    </span>
-                    <span class="detail-value text-success fw-bolder">${precio}</span>
-                </div>
-
-                <!-- Estado -->
-                <div class="detail-row mb-3">
-                    <span class="detail-label">
-                        <img src="${getStaticUrl('outline-travel-explore.svg')}" alt="Estado" style="width: 23px; margin-right: 5px;"> Estado:
-                    </span>
-                    <span class="detail-value">${estado}</span>
-                </div>
-                
-                <!-- Lugares Disponibles -->
-                <div class="places-available mt-auto">
-                    <p class="mb-1 text-secondary fw-semibold">
-                        <img src="${getStaticUrl('asiento.svg')}" alt="Asientos" style="width: 23px; margin-right: 5px;">
-                        <span style="font-size: 0.9rem;">Lugares disponibles:</span>
-                        <span class="fw-bolder text-primary" style="font-size: 1.1rem;">${asientos_disponibles}</span>
-                    </p>
-                </div>
-                
-                <!-- Botón -->
-                <button class="btn btn-primary mt-3" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#reservarViajeModal"
-                        data-viaje-id="${viaje.id}">VER</button>
-             </div>
         </div>
-    `;  
+    ` : `
+        <div class="info-item precio">
+            <img src="${getStaticUrl('money.svg')}" class="info-icon" alt="Precio">
+            <div class="precio-texto">
+                <span>Gratis</span>
+            </div>
+        </div>
+    `;
+
+    const conductorHTML = viaje.conductor ? `
+        <div class="conductor-info">
+            <img src="${viaje.conductor.avatar || getStaticUrl('default-avatar.svg')}" alt="Avatar" class="conductor-avatar">
+            <a href="/perfil/usuario/${viaje.conductor.id}/" class="conductor-nombre">${viaje.conductor.first_name} ${viaje.conductor.last_name}</a>
+        </div>
+    ` : '';
+
+    // --- Estructura HTML Principal ---
+    return `
+        <div class="viaje-card-v3">
+            <div class="card-header">
+                <div class="origen">
+                    <span class="ciudad">${viaje.origen?.nombre || 'Origen'}</span>
+                </div>
+                <div class="icono-trayecto icono-flecha-derecha">
+                    <img src="${getStaticUrl('flecha.svg')}" alt="hacia">
+                </div>
+                <div class="destino">
+                    <span class="ciudad">${viaje.destino?.nombre || 'Destino'}</span>
+                </div>
+            </div>
+
+            <div class="card-body">
+                ${fechaHTML}
+                ${horaSalidaHTML}
+                ${horaLlegadaHTML}
+                ${precioHTML}
+            </div>
+
+            <div class="card-footer">
+                ${conductorHTML}
+                <div class="actions">
+                    <div class="asientos-disponibles">
+                        <img src="${getStaticUrl('asiento.svg')}" alt="Asientos">
+                        <span>${viaje.asientos_disponibles ?? '0'}</span>
+                    </div>
+                    <button class="btn btn-reservar-v3" data-bs-toggle="modal" data-bs-target="#reservarViajeModal" data-viaje-id="${viaje.id}">
+                        Reservar
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 /**
@@ -169,7 +137,7 @@ async function cargarViajes(filters = {}) {
 
     try {
         // Añadimos un retraso de 2 segundos para simular la carga
-        await delay(3000);
+        await delay(000);
 
         // 2. Realizar la solicitud Fetch
         const response = await fetch(url);
