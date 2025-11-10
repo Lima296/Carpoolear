@@ -1,13 +1,16 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from .models import Vehiculo
 from .serializers import VehiculoSerializer
 
 class VehiculoLista(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
-        vehiculos = Vehiculo.objects.all()
+        vehiculos = Vehiculo.objects.filter(propietario=request.user)
         serializer = VehiculoSerializer(vehiculos, many=True)
         return Response(serializer.data)
 
@@ -37,3 +40,11 @@ class VehiculoDetalle(APIView):
         vehiculo = get_object_or_404(Vehiculo, pk=pk)
         vehiculo.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class MisVehiculosLista(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        vehiculos = Vehiculo.objects.filter(propietario=request.user)
+        serializer = VehiculoSerializer(vehiculos, many=True)
+        return Response(serializer.data)

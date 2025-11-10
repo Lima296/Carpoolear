@@ -6,5 +6,9 @@ class Localidad(models.Model):
     lon = models.FloatField(null=True, blank=True)
 
 
+    def save(self, *args, **kwargs):
+        self.nombre = self.nombre.capitalize()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.nombre

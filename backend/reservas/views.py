@@ -13,7 +13,7 @@ class MisReservasView(generics.ListAPIView):
 
     def get_queryset(self):
         # Devuelve las reservas hechas por el usuario actual como pasajero
-        return Reserva.objects.filter(usuario=self.request.user)
+        return Reserva.objects.filter(usuario=self.request.user).exclude(estado='CANCELADA')
 
 class ReservasPendientesView(generics.ListAPIView):
     # Esta vista es de solo lectura, usa el ReadSerializer
