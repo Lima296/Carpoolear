@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let todasLasLocalidades = [];
     try {
         // Asumiendo que getLocalidades() viene de otro script y devuelve {id, nombre}
-        const response = await fetch('http://localhost:8000/api/localidad/');
+        const response = await fetch('http://localhost:8000/api/localidades/');
         if (!response.ok) {
             throw new Error('No se pudieron cargar las localidades.');
         }

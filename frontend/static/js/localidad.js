@@ -1,5 +1,5 @@
 // Define la URL de la API para localidades
-const API_LOCALIDAD_URL = 'http://127.0.0.1:8000/api/localidad/';
+const API_LOCALIDAD_URL = 'http://127.0.0.1:8000/api/localidades/';
 
 /**
  * Función para obtener la lista de localidades desde la API.
