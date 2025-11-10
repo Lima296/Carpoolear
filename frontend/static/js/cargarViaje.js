@@ -66,10 +66,14 @@ function crearTarjetaViaje(viaje) {
         </div>
     `;
 
+    const conductorNombre = viaje.conductor?.nombre
+        ? `${viaje.conductor.nombre} ${viaje.conductor.apellido || ''}`.trim()
+        : 'Conductor';
+
     const conductorHTML = viaje.conductor ? `
         <div class="conductor-info">
             <img src="${viaje.conductor.avatar || getStaticUrl('default-avatar.svg')}" alt="Avatar" class="conductor-avatar">
-            <a href="/perfil/usuario/${viaje.conductor.id}/" class="conductor-nombre">${viaje.conductor.first_name} ${viaje.conductor.last_name}</a>
+            <a href="/perfil/usuario/${viaje.conductor.id}/" class="conductor-nombre">${conductorNombre}</a>
         </div>
     ` : '';
 
@@ -78,13 +82,13 @@ function crearTarjetaViaje(viaje) {
         <div class="viaje-card-v3">
             <div class="card-header">
                 <div class="origen">
-                    <span class="ciudad">${viaje.origen?.nombre || 'Origen'}</span>
+                    <span class="ciudad">${viaje.origen?.nombre + (viaje.origen?.provincia?.nombre ? ' (' + viaje.origen.provincia.nombre + ')' : '') || 'Origen'}</span>
                 </div>
                 <div class="icono-trayecto icono-flecha-derecha">
                     <img src="${getStaticUrl('flecha.svg')}" alt="hacia">
                 </div>
                 <div class="destino">
-                    <span class="ciudad">${viaje.destino?.nombre || 'Destino'}</span>
+                    <span class="ciudad">${viaje.destino?.nombre + (viaje.destino?.provincia?.nombre ? ' (' + viaje.destino.provincia.nombre + ')' : '') || 'Destino'}</span>
                 </div>
             </div>
 
@@ -137,7 +141,7 @@ async function cargarViajes(filters = {}) {
 
     try {
         // Añadimos un retraso de 2 segundos para simular la carga
-        await delay(000);
+        await delay(2000);
 
         // 2. Realizar la solicitud Fetch
         const response = await fetch(url);

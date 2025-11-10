@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Perfil</title>
+    <title>Perfil del conductor</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,7 +20,7 @@
     {% include 'includes/navbargeneral.html' %}
 
     <div class="pantalla-header">
-        <h1 class="pantalla-titulo">Mi Perfil</h1>
+        <h1 class="pantalla-titulo">Perfil del conductor</h1>
         <hr class="pantalla-separador">
     </div>
 
@@ -99,7 +99,7 @@
 
 
     <script>
-        const USUARIO_ID = { usuario_id };
+        const USUARIO_ID = {{ usuario_id }};
         const STATIC_URL_BASE = "{% get_static_prefix %}";
     </script>
     <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
