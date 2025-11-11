@@ -24,6 +24,11 @@
     </style>
 
     <title>ViajAr</title>
+    <style>
+        .busqueda-botones-ajuste {
+            margin-top: -20px; /* Ajusta este valor según sea necesario */
+        }
+    </style>
 </head>
 <body>
     {% include 'includes/navbargeneral.html' %}
@@ -40,18 +45,18 @@
                     <div class="busqueda-grupo">
                         <label for="input-origen">Origen</label>
                         <div class="dropdown" id="dropdown-origen">
-                            <input type="text" class="form-control" placeholder="Ciudad de origen" data-bs-toggle="dropdown" aria-expanded="false" id="input-origen" autocomplete="off">
+                            <input type="text" class="form-control" placeholder="Localidad de origen" aria-expanded="false" id="input-origen" autocomplete="off">
                             <div class="dropdown-menu">
-                                <h6 class="dropdown-header">Ciudades Sugeridas</h6>
+                                <h6 class="dropdown-header">Localidad Sugerida</h6>
                             </div>
                         </div>
                     </div>
                     <div class="busqueda-grupo">
                         <label for="input-destino">Destino</label>
                         <div class="dropdown" id="dropdown-destino">
-                            <input type="text" class="form-control" placeholder="Ciudad de destino" data-bs-toggle="dropdown" aria-expanded="false" id="input-destino" autocomplete="off">
+                            <input type="text" class="form-control" placeholder="Localidad de destino" aria-expanded="false" id="input-destino" autocomplete="off">
                             <div class="dropdown-menu">
-                                <h6 class="dropdown-header">Ciudades Sugeridas</h6>
+                                <h6 class="dropdown-header">Localidad Sugerida</h6>
                             </div>
                         </div>
                     </div>
@@ -59,10 +64,13 @@
                         <label for="input-fecha">Fecha</label>
                         <input type="date" class="form-control" id="input-fecha" placeholder="dd/mm/aaaa">
                     </div>
-                    <button class="btn btn-primary btn-buscar" id="btn-buscar">
-                        <img src="{% static 'img/outline-travel-explore.svg' %}" alt="Buscar" class="icon-buscar">
-                        Buscar
-                    </button>
+                    <div class="busqueda-grupo d-flex flex-column justify-content-end busqueda-botones-ajuste">
+                        <button id="btn-limpiar-filtros" class="btn btn-sm btn-outline-secondary mb-3" title="Limpiar filtros">Limpiar filtro</button>
+                        <button class="btn btn-primary btn-buscar" id="btn-buscar">
+                            <img src="{% static 'img/outline-travel-explore.svg' %}" alt="Buscar" class="icon-buscar">
+                            Filtrar
+                        </button>
+                    </div>
                 </div>
                 <div class="publish-action-container">
                     <span class="publish-text">¿No encontraste viaje?</span>

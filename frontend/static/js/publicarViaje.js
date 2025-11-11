@@ -93,31 +93,39 @@ function getCookie(name) {
 
 
 
-async function checkUserHasVehicles() {
+    async function checkUserHasVehicles() {
 
 
 
-    const accessToken = localStorage.getItem('access');
+        const accessToken = localStorage.getItem('access');
 
 
 
-    if (!accessToken) {
+        if (!accessToken) {
 
 
 
-        console.log('No access token found. User not logged in.');
+            console.log('No access token found. User not logged in.');
 
 
 
-        // Opcional: podrías mostrar un modal para iniciar sesión aquí.
+            // Mostrar successModal2 si no hay token de acceso
 
 
 
-        return false;
+            const successModal2 = new bootstrap.Modal(document.getElementById('successModal2'));
 
 
 
-    }
+            successModal2.show();
+
+
+
+            return false;
+
+
+
+        }
 
 
 
@@ -341,19 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // --- LÓGICA DE VERIFICACIÓN Y APERTURA DE MODAL ---
-
-
-
-    document.body.addEventListener('click', async (event) => {
-
-
-
-        if (event.target.matches('.btn-verificar-vehiculo')) {
-
-
-
-            const userHasVehicles = await checkUserHasVehicles();
+        // --- LÓGICA DE VERIFICACIÓN Y APERTURA DE MODAL ---
 
 
 
@@ -361,39 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-            if (userHasVehicles) {
-
-
-
-                const publicarModal = new bootstrap.Modal(document.getElementById('publicarViajeModal'));
-
-
-
-                publicarModal.show();
-
-
-
-            } else {
-
-
-
-                const requiereVehiculoModal = new bootstrap.Modal(document.getElementById('vehiculoRequeridoModal'));
-
-
-
-                requiereVehiculoModal.show();
-
-
-
-            }
-
-
-
-        }
-
-
-
-    });
+        document.body.addEventListener('click', async (event) => {
 
 
 
@@ -401,11 +365,351 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+            if (event.target.matches('.btn-verificar-vehiculo')) {
 
 
 
 
-    // --- LÓGICA DEL FORMULARIO DE PUBLICACIÓN ---
+
+
+
+                const userHasVehicles = await checkUserHasVehicles();
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                            if (userHasVehicles) {
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                                const publicarModal = new bootstrap.Modal(document.getElementById('publicarViajeModal'));
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                                publicarModal.show();
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                            } else {
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                                const requiereVehiculoModal = new bootstrap.Modal(document.getElementById('vehiculoRequeridoModal'));
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                                requiereVehiculoModal.show();
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                            }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                        }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                    });
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                    // Event listener para cuando el modal de publicar viaje se muestra
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                    const publicarViajeModalElement = document.getElementById('publicarViajeModal');
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                    if (publicarViajeModalElement) {
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                        publicarViajeModalElement.addEventListener('shown.bs.modal', async () => {
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                            // Inicializar la funcionalidad de autocompletado para Origen y Destino
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                            initializeLocalityInput('origen-publicar', '#dropdown-origen-publicar .dropdown-menu');
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                            initializeLocalityInput('destino-publicar', '#dropdown-destino-publicar .dropdown-menu');
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                        });
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                    // --- LÓGICA DEL FORMULARIO DE PUBLICACIÓN ---
 
 
 
