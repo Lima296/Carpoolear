@@ -1,0 +1,44 @@
+<!-- Modal para Calificar Viaje -->
+<div class="modal fade" id="calificarViajeModal" tabindex="-1" aria-labelledby="calificarViajeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="calificarViajeModalLabel">Calificar al Conductor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="calificar-viaje-form">
+                    <input type="hidden" id="calificacion-viaje-id">
+                    <input type="hidden" id="calificacion-conductor-id">
+
+                    <p>¿Cómo fue tu viaje?</p>
+                    <div class="d-flex justify-content-center gap-3 mb-4" id="calificacion-tipo-container">
+                        <button type="button" class="btn btn-outline-success btn-lg calificacion-btn" data-tipo="like">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
+                                <path d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.07 1.034.826 1.92 1.908 1.92.343 0 .662-.095.931-.268l.72-1.441a1.5 1.5 0 0 1 2.688-.016l.256.512a2.5 2.5 0 0 0 4.474 0l.1-.202c.34-.68.02-1.533-.68-1.873a2.02 2.02 0 0 0-1.534-.027l-.22.088a1.5 1.5 0 0 1-1.882-.78l-.348-.696a1.5 1.5 0 0 0-2.688-.016z"/>
+                                <path d="M6.272 6.052a3.5 3.5 0 0 1-.293 4.354l-1.35 1.35a1.5 1.5 0 0 1-2.121-2.121l1.35-1.35a3.5 3.5 0 0 1 4.354-.293zM12.5 7.5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H3.5a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1h9z"/>
+                            </svg>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger btn-lg calificacion-btn" data-tipo="dislike">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-hand-thumbs-down" viewBox="0 0 16 16">
+                                <path d="M8.864 15.954c.956.239 1.844-.506 1.912-1.456.07-1.034-.826-1.92-1.908-1.92-.343 0-.662.095-.931.268l-.72 1.441a1.5 1.5 0 0 1-2.688.016l-.256-.512a2.5 2.5 0 0 0-4.474 0l-.1.202c-.34.68-.02 1.533.68 1.873a2.02 2.02 0 0 0 1.534.027l.22-.088a1.5 1.5 0 0 1 1.882.78l.348.696a1.5 1.5 0 0 0 2.688.016z"/>
+                                <path d="M6.272 9.948a3.5 3.5 0 0 1-.293-4.354l-1.35-1.35a1.5 1.5 0 0 1 2.121 2.121l1.35 1.35a3.5 3.5 0 0 1-4.354.293zM12.5 8.5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H3.5a1 1 0 0 1-1-1v-5a1 1 0 0 1 1-1h9z"/>
+                            </svg>
+
+                        </button>
+                    </div>
+                    <input type="hidden" id="calificacion-tipo-input" name="tipo">
+
+                    <div class="mb-3">
+                        <label for="calificacion-comentario" class="form-label">Añadir un comentario (opcional)</label>
+                        <textarea class="form-control" id="calificacion-comentario" rows="3"></textarea>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Enviar Calificación</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
