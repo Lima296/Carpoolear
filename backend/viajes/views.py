@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from .models import Viaje
 from .serializers import ViajeSerializer
 from vehiculos.models import Vehiculo
+from localidad.models import Localidad
 
 class ViajeLista(APIView):
     def get_permissions(self):
@@ -14,25 +15,31 @@ class ViajeLista(APIView):
         return []
 
     def get(self, request):
-        origen = request.query_params.get('origen')
-        destino = request.query_params.get('destino')
-        fecha = request.query_params.get('fecha')
+        origen_param = request.query_params.get('origen')
+        destino_param = request.query_params.get('destino')
+        fecha_param = request.query_params.get('fecha')
 
-        viajes = Viaje.objects.all()
+        filters = {}
 
-        if origen and origen.strip():
-            if origen.isdigit():
-                viajes = viajes.filter(origen_id=origen)
+        if origen_param and origen_param.strip():
+            if origen_param.isdigit():
+                filters['origen_id'] = origen_param
             else:
-                viajes = viajes.filter(origen__nombre__icontains=origen)
+                origen_ids = Localidad.objects.filter(nombre__iexact=origen_param).values_list('id', flat=True)
+                filters['origen_id__in'] = list(origen_ids)
 
-        if destino and destino.strip():
-            if destino.isdigit():
-                viajes = viajes.filter(destino_id=destino)
+        if destino_param and destino_param.strip():
+            if destino_param.isdigit():
+                filters['destino_id'] = destino_param
             else:
-                viajes = viajes.filter(destino__nombre__icontains=destino)
-        if fecha and fecha.strip():
-            viajes = viajes.filter(fecha=fecha)
+                destino_ids = Localidad.objects.filter(nombre__iexact=destino_param).values_list('id', flat=True)
+                filters['destino_id__in'] = list(destino_ids)
+        
+        if fecha_param and fecha_param.strip():
+            filters['fecha'] = fecha_param
+
+        # Apply filters and order by the 'actualizado' field to show newest first
+        viajes = Viaje.objects.filter(**filters).order_by('-actualizado')
 
         serializer = ViajeSerializer(viajes, many=True)
         return Response(serializer.data)

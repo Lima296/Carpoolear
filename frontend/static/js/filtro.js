@@ -121,4 +121,32 @@ document.addEventListener('DOMContentLoaded', async function() { // Make it asyn
         });
     }
 
+// ------------------------------------------------------------------
+// --- LÓGICA DEL BOTÓN DE LIMPIAR FILTROS ---
+// ------------------------------------------------------------------
+    const btnLimpiar = document.getElementById('btn-limpiar-filtros');
+    if (btnLimpiar) {
+        btnLimpiar.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const origenInput = document.getElementById('input-origen');
+            const destinoInput = document.getElementById('input-destino');
+            const fechaInput = document.getElementById('input-fecha');
+
+            // Limpiar los valores de los inputs
+            origenInput.value = '';
+            destinoInput.value = '';
+            fechaInput.value = '';
+
+            // Limpiar los IDs seleccionados
+            origenInput.removeAttribute('data-selected-id');
+            destinoInput.removeAttribute('data-selected-id');
+
+            console.log('Filtros limpiados. Cargando todos los viajes...');
+            
+            // Cargar todos los viajes (sin filtros)
+            cargarViajes({});
+        });
+    }
+
 });
