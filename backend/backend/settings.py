@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'viajes',
     'localidad',
     'reservas',
+    'calificaciones',
 ]
 
 MIDDLEWARE = [
