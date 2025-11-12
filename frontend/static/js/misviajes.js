@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const deleteViajeModalEl = document.getElementById('deleteViajeModal');
     const deleteViajeModal = new bootstrap.Modal(deleteViajeModalEl);
     const deleteViajeForm = document.getElementById('delete-viaje-form');
+    const verPasajerosModalEl = document.getElementById('verPasajerosModal');
+    const verPasajerosModal = new bootstrap.Modal(verPasajerosModalEl);
     // NUEVO: Modal de Calificación
     const calificarViajeModalEl = document.getElementById('calificarViajeModal');
     const calificarViajeModal = new bootstrap.Modal(calificarViajeModalEl);
@@ -92,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <div class="d-flex mt-auto justify-content-end gap-2">
                     <button class="btn btn-brand-secondary-outline edit-viaje-btn" data-viaje-id="${viaje.id}">Editar</button>
+                    <button class="btn btn-brand-secondary-outline ver-pasajeros-btn" data-viaje-id="${viaje.id}">Ver Pasajeros</button>
                     <button class="btn btn-outline-danger delete-viaje-btn" data-viaje-id="${viaje.id}">Eliminar</button>
                 </div>
             </li>`
@@ -335,6 +338,77 @@ document.addEventListener('DOMContentLoaded', function() {
         if (target.classList.contains('delete-viaje-btn')) {
             currentViajeId = viajeId;
             deleteViajeModal.show();
+        }
+
+        if (target.classList.contains('ver-pasajeros-btn')) {
+            const pasajerosList = document.getElementById('pasajeros-list');
+            pasajerosList.innerHTML = '<li class="list-group-item text-center">Cargando...</li>';
+            verPasajerosModal.show();
+
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/api/viajes/${viajeId}/reservas/`, {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                if (!response.ok) throw new Error('Error al cargar los pasajeros.');
+                const pasajeros = await response.json();
+
+                pasajerosList.innerHTML = '';
+                if (pasajeros.length === 0) {
+                    pasajerosList.innerHTML = '<li class="list-group-item text-center">No hay pasajeros confirmados para este viaje.</li>';
+                } else {
+                    pasajeros.forEach(reserva => {
+                        const pasajero = reserva.usuario;
+                        const item = document.createElement('li');
+                        item.className = 'list-group-item d-flex justify-content-between align-items-center';
+                        item.innerHTML = `
+                            <span>${pasajero.nombre} ${pasajero.apellido} (${reserva.cantidad_asientos} asiento/s)</span>
+                            <button class="btn btn-sm btn-outline-danger eliminar-pasajero-btn" data-reserva-uuid="${reserva.uuid}">Eliminar</button>
+                        `;
+                        pasajerosList.appendChild(item);
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                pasajerosList.innerHTML = '<li class="list-group-item list-group-item-danger text-center">No se pudieron cargar los pasajeros.</li>';
+            }
+        }
+    });
+
+    document.getElementById('pasajeros-list').addEventListener('click', async (e) => {
+        if (e.target.classList.contains('eliminar-pasajero-btn')) {
+            const reservaUuid = e.target.dataset.reservaUuid;
+            if (!reservaUuid) return;
+
+            if (confirm('¿Estás seguro de que quieres eliminar a este pasajero del viaje?')) {
+                try {
+                    const response = await fetch(`http://127.0.0.1:8000/api/reservas/${reservaUuid}/`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${accessToken}` }
+                    });
+
+                    if (!response.ok) {
+                        // Si el backend devuelve un mensaje de error, lo mostramos
+                        const errorData = await response.json().catch(() => ({})); // Intenta parsear JSON, si falla, devuelve objeto vacío
+                        throw new Error(errorData.detail || 'Error al eliminar al pasajero.');
+                    }
+
+                    // Eliminar el elemento de la lista visualmente
+                    e.target.closest('.list-group-item').remove();
+                    
+                    // Opcional: si la lista queda vacía, mostrar un mensaje
+                    const pasajerosList = document.getElementById('pasajeros-list');
+                    if (pasajerosList.children.length === 0) {
+                        pasajerosList.innerHTML = '<li class="list-group-item text-center">No hay pasajeros confirmados para este viaje.</li>';
+                    }
+                    
+                    // Recargar la lista de viajes para actualizar el número de asientos disponibles
+                    loadMisViajes();
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert(`No se pudo eliminar al pasajero. ${error.message}`);
+                }
+            }
         }
     });
 
