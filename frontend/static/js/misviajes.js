@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
+    // --- Perfil de Usuario ---
+    let currentUser = null;
+
     // --- Contenedores ---
     const misViajesContainer = document.getElementById('mis-viajes-container');
     const misReservasContainer = document.getElementById('mis-reservas-container');
@@ -16,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let reservasLoaded = false;
     let solicitudesLoaded = false;
 
-    // --- Modales de Viaje ---
+    // --- Modales ---
     const editViajeModalEl = document.getElementById('editViajeModal');
     const editViajeModal = new bootstrap.Modal(editViajeModalEl);
     const editViajeForm = document.getElementById('edit-viaje-form');
@@ -25,6 +28,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const deleteViajeForm = document.getElementById('delete-viaje-form');
     const verPasajerosModalEl = document.getElementById('verPasajerosModal');
     const verPasajerosModal = new bootstrap.Modal(verPasajerosModalEl);
+    // NUEVO: Modal de Calificación
+    const calificarViajeModalEl = document.getElementById('calificarViajeModal');
+    const calificarViajeModal = new bootstrap.Modal(calificarViajeModalEl);
+    const calificarViajeForm = document.getElementById('calificar-viaje-form');
     let currentViajeId = null;
 
     // --- Función para formatear precios ---
@@ -113,6 +120,29 @@ document.addEventListener('DOMContentLoaded', function() {
             default: estadoClass = 'text-muted';
         }
 
+        // --- NUEVO: Lógica para el botón de calificar ---
+        const hoy = new Date();
+        const fechaViaje = new Date(viaje.fecha);
+        hoy.setHours(0, 0, 0, 0);
+        fechaViaje.setHours(0, 0, 0, 0);
+        const esViajePasado = fechaViaje < hoy;
+
+        let botonesAccion = '';
+        if (reserva.estado !== 'CANCELADA') {
+            botonesAccion += `<button class="btn btn-outline-danger btn-cancelar-reserva" data-reserva-uuid="${reserva.uuid}">Cancelar Reserva</button>`;
+        }
+        // Solo mostrar si la reserva está confirmada, el viaje pasó y (opcionalmente) no ha sido calificado
+        if (reserva.estado === 'CONFIRMADA' && esViajePasado) {
+            // Añadimos data-attributes para pasar la info al modal
+            botonesAccion += `<button class="btn btn-primary btn-calificar-viaje" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#calificarViajeModal"
+                                    data-viaje-id="${viaje.id}" 
+                                    data-conductor-id="${viaje.conductor.id}">
+                                Calificar Conductor
+                              </button>`;
+        }
+
         return (
             `<li class="list-group-item list-group-item-action d-flex flex-column" data-reserva-uuid="${reserva.uuid}">
                 <div class="d-flex w-100 justify-content-between align-items-start flex-grow-1">
@@ -138,11 +168,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p class="mb-1 mt-2">Estado de la reserva: <span class="fw-bold ${estadoClass}">${reserva.estado}</span></p>
                     </div>
                 </div>
-                ${reserva.estado !== 'CANCELADA' ? (
-                `<div class="d-flex mt-auto justify-content-end gap-2">
-                    <button class="btn btn-outline-danger btn-cancelar-reserva" data-reserva-uuid="${reserva.uuid}">Cancelar Reserva</button>
-                </div>`
-                ) : ''}
+                <div class="d-flex mt-auto justify-content-end gap-2">
+                    ${botonesAccion}
+                </div>
             </li>`
         );
     }
@@ -169,6 +197,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- Carga de Datos ---
+    async function loadCurrentUser() {
+        if (currentUser) return currentUser;
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/perfil/', {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
+            });
+            if (!response.ok) throw new Error('No se pudo obtener el perfil del usuario.');
+            currentUser = await response.json();
+            return currentUser;
+        } catch (error) {
+            console.error(error);
+            return null;
+        }
+    }
+
     async function loadMisViajes() {
         const url = 'http://127.0.0.1:8000/api/mis-viajes/';
         if (!misViajesContainer) return;
@@ -273,11 +316,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('edit-asientos').value = viaje.asientos_disponibles;
             document.getElementById('edit-precio').value = viaje.precio;
 
-            // 3. Poblar los <select> de origen y destino
             const origenSelect = document.getElementById('edit-origen');
             const destinoSelect = document.getElementById('edit-destino');
-            origenSelect.innerHTML = ''; // Limpiar opciones previas
-            destinoSelect.innerHTML = ''; // Limpiar opciones previas
+            origenSelect.innerHTML = '';
+            destinoSelect.innerHTML = '';
 
             localidades.forEach(localidad => {
                 const option = document.createElement('option');
@@ -287,7 +329,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 destinoSelect.appendChild(option);
             });
 
-            // 4. Seleccionar la opción correcta
             origenSelect.value = viaje.origen.id;
             destinoSelect.value = viaje.destino.id;
 
@@ -375,7 +416,6 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         const viajeId = document.getElementById('edit-viaje-id').value;
         
-        // Los .value de los <select> ya nos dan el ID correcto
         const updatedData = {
             origen: document.getElementById('edit-origen').value,
             destino: document.getElementById('edit-destino').value,
@@ -393,7 +433,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             if (!response.ok) throw new Error('Error al actualizar el viaje');
             editViajeModal.hide();
-            loadMisViajes(); // Recargar la lista de viajes
+            loadMisViajes();
         } catch (error) {
             console.error(error);
         }
@@ -414,9 +454,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // --- Lógica de Acciones de Reserva (Cancelar) ---
+    // --- Lógica de Acciones de Reserva (Cancelar y NUEVO: Calificar) ---
     misReservasContainer.addEventListener('click', async (e) => {
         const target = e.target;
+
+        // Lógica para cancelar
         if (target.classList.contains('btn-cancelar-reserva')) {
             const reservaUuid = target.dataset.reservaUuid;
             if (!reservaUuid) return;
@@ -425,16 +467,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 try {
                     const response = await fetch(`http://127.0.0.1:8000/api/reservas/${reservaUuid}/`, {
                         method: 'PATCH',
-                        headers: {
-                            'Authorization': `Bearer ${accessToken}`,
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
                         body: JSON.stringify({ estado: 'CANCELADA' })
                     });
-
                     if (!response.ok) throw new Error('Error al cancelar la reserva');
-                    
-                    // Recargar solo la lista de reservas
                     loadMisReservas();
                 } catch (error) {
                     console.error('Error:', error);
@@ -442,7 +478,91 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         }
+
+        // NUEVO: Lógica para abrir el modal de calificación
+        if (target.classList.contains('btn-calificar-viaje')) {
+            const viajeId = target.dataset.viajeId;
+            const conductorId = target.dataset.conductorId;
+            
+            // Guardamos los IDs en el formulario del modal para usarlos al enviar
+            document.getElementById('calificacion-viaje-id').value = viajeId;
+            document.getElementById('calificacion-conductor-id').value = conductorId;
+        }
     });
+
+    // NUEVO: Lógica del Modal de Calificación
+    calificarViajeModalEl.addEventListener('click', function(e) {
+        const target = e.target.closest('.calificacion-btn');
+        if (target) {
+            // Resaltar botón seleccionado y guardar el valor
+            document.querySelectorAll('.calificacion-btn').forEach(btn => btn.classList.remove('active'));
+            target.classList.add('active');
+            document.getElementById('calificacion-tipo-input').value = target.dataset.tipo;
+        }
+    });
+
+    calificarViajeForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const user = await loadCurrentUser();
+        if (!user) {
+            alert('Error: No se pudo identificar al usuario actual.');
+            return;
+        }
+
+        const viajeId = document.getElementById('calificacion-viaje-id').value;
+        const conductorId = document.getElementById('calificacion-conductor-id').value;
+        const tipo = document.getElementById('calificacion-tipo-input').value;
+        const comentario = document.getElementById('calificacion-comentario').value;
+
+        if (!tipo) {
+            alert('Por favor, selecciona "Like" o "Dislike".');
+            return;
+        }
+
+        const calificacionData = {
+            calificador: user.id,
+            calificado: conductorId,
+            viaje: viajeId,
+            tipo: tipo,
+            comentario: comentario
+        };
+
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/calificaciones/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(calificacionData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                // Manejar el caso de que ya exista una calificación
+                if (errorData.non_field_errors || (errorData.detail && errorData.detail.includes("unique"))) {
+                     alert('Ya has calificado este viaje.');
+                } else {
+                    throw new Error(JSON.stringify(errorData));
+                }
+            } else {
+                alert('¡Gracias por tu calificación!');
+            }
+            
+            calificarViajeModal.hide();
+            // Opcional: deshabilitar el botón de calificar para este viaje
+            const botonCalificar = document.querySelector(`.btn-calificar-viaje[data-viaje-id="${viajeId}"]`);
+            if (botonCalificar) {
+                botonCalificar.textContent = 'Calificado';
+                botonCalificar.disabled = true;
+            }
+
+        } catch (error) {
+            console.error('Error al enviar la calificación:', error);
+            alert('No se pudo enviar tu calificación. Inténtalo de nuevo.');
+        }
+    });
+
 
     // --- Lógica de Acciones de Solicitud (Aceptar/Rechazar) ---
     async function actualizarEstadoReserva(uuid, nuevoEstado, cardElement) {
@@ -494,6 +614,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Inicialización ---
     if (accessToken) {
+        loadCurrentUser();
         loadMisViajes(); // Cargar la pestaña inicial
     }
 });
