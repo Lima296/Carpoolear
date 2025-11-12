@@ -364,3 +364,9 @@ body.modal-open {
     color: #ffffff;
     border: none;
 }
+
+/* Estilos para dropdowns en modales */
+.modal .dropdown-menu {
+    max-height: 200px; /* Ajusta este valor según necesites */
+    overflow-y: auto;
+}

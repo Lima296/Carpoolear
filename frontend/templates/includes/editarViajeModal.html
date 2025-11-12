@@ -9,12 +9,24 @@
                 <form id="edit-viaje-form">
                     <input type="hidden" id="edit-viaje-id">
                     <div class="mb-3">
-                        <label for="edit-origen" class="form-label">Origen</label>
-                        <select class="form-select" id="edit-origen" required></select>
+                        <label for="edit-origen-input" class="form-label">Origen</label>
+                        <div class="dropdown">
+                            <input type="text" class="form-control" id="edit-origen-input" placeholder="Escribe el origen" required aria-expanded="false">
+                            <input type="hidden" id="edit-origen-id">
+                            <div class="dropdown-menu" aria-labelledby="edit-origen-input">
+                                <!-- Sugerencias de origen se cargarán aquí -->
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
-                        <label for="edit-destino" class="form-label">Destino</label>
-                        <select class="form-select" id="edit-destino" required></select>
+                        <label for="edit-destino-input" class="form-label">Destino</label>
+                        <div class="dropdown">
+                            <input type="text" class="form-control" id="edit-destino-input" placeholder="Escribe el destino" required aria-expanded="false">
+                            <input type="hidden" id="edit-destino-id">
+                            <div class="dropdown-menu" aria-labelledby="edit-destino-input">
+                                <!-- Sugerencias de destino se cargarán aquí -->
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="edit-fecha" class="form-label">Fecha</label>
