@@ -1,12 +1,11 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     const accessToken = localStorage.getItem('access');
     if (!accessToken) {
         window.location.href = '/';
         return;
     }
 
-    // --- Perfil de Usuario ---
-    let currentUser = null;
+    let todasLasLocalidades = [];
 
     // --- Contenedores ---
     const misViajesContainer = document.getElementById('mis-viajes-container');
@@ -118,9 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const esViajePasado = fechaViaje < hoy;
 
         let botonesAccion = '';
-        if (reserva.estado !== 'CANCELADA') {
-            botonesAccion += `<button class="btn btn-outline-danger btn-cancelar-reserva" data-reserva-uuid="${reserva.uuid}">Cancelar Reserva</button>`;
-        }
         // Solo mostrar si la reserva está confirmada, el viaje pasó y (opcionalmente) no ha sido calificado
         if (reserva.estado === 'CONFIRMADA' && esViajePasado) {
             // Añadimos data-attributes para pasar la info al modal
@@ -131,6 +127,9 @@ document.addEventListener('DOMContentLoaded', function() {
                                     data-conductor-id="${viaje.conductor.id}">
                                 Calificar Conductor
                               </button>`;
+        }
+        if (reserva.estado !== 'CANCELADA') {
+            botonesAccion += `<button class="btn btn-outline-danger btn-cancelar-reserva" data-reserva-uuid="${reserva.uuid}">Cancelar Reserva</button>`;
         }
 
         return (
@@ -215,6 +214,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const response = await fetch(url, { headers: { 'Authorization': `Bearer ${accessToken}` } });
             if (!response.ok) throw new Error(`Error del servidor: ${response.status}`);
             const viajes = await response.json();
+
+            // Ordenar los viajes por fecha y hora (los más próximos primero)
+            viajes.sort((a, b) => {
+                const fechaA = new Date(`${a.fecha}T${a.hora}`);
+                const fechaB = new Date(`${b.fecha}T${b.hora}`);
+                return fechaA - fechaB;
+            });
 
             misViajesContainer.innerHTML = '';
             if (viajes.length === 0) {
@@ -310,21 +316,27 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('edit-asientos').value = viaje.asientos_disponibles;
             document.getElementById('edit-precio').value = viaje.precio;
 
-            const origenSelect = document.getElementById('edit-origen');
-            const destinoSelect = document.getElementById('edit-destino');
-            origenSelect.innerHTML = '';
-            destinoSelect.innerHTML = '';
+            // Poblar los nuevos campos de input y sus IDs ocultos
+            const origenInput = document.getElementById('edit-origen-input');
+            const origenIdInput = document.getElementById('edit-origen-id');
+            const destinoInput = document.getElementById('edit-destino-input');
+            const destinoIdInput = document.getElementById('edit-destino-id');
 
-            localidades.forEach(localidad => {
-                const option = document.createElement('option');
-                option.value = localidad.id;
-                option.textContent = localidad.nombre;
-                origenSelect.appendChild(option.cloneNode(true));
-                destinoSelect.appendChild(option);
-            });
+            if (viaje.origen) {
+                origenInput.value = viaje.origen.nombre;
+                origenInput.setAttribute('data-selected-id', viaje.origen.id);
+            } else {
+                origenInput.value = '';
+                origenInput.removeAttribute('data-selected-id');
+            }
 
-            origenSelect.value = viaje.origen.id;
-            destinoSelect.value = viaje.destino.id;
+            if (viaje.destino) {
+                destinoInput.value = viaje.destino.nombre;
+                destinoInput.setAttribute('data-selected-id', viaje.destino.id);
+            } else {
+                destinoInput.value = '';
+                destinoInput.removeAttribute('data-selected-id');
+            }
 
             editViajeModal.show();
         }
@@ -410,26 +422,47 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         const viajeId = document.getElementById('edit-viaje-id').value;
         
+        // Obtener los IDs de origen y destino desde el atributo data-selected-id
+        const origenId = document.getElementById('edit-origen-input').getAttribute('data-selected-id');
+        const destinoId = document.getElementById('edit-destino-input').getAttribute('data-selected-id');
+
+        // Validar que se haya seleccionado una localidad para origen y destino
+        if (!origenId) {
+            alert('Por favor, selecciona un Origen válido de la lista.');
+            return;
+        }
+        if (!destinoId) {
+            alert('Por favor, selecciona un Destino válido de la lista.');
+            return;
+        }
+
         const updatedData = {
-            origen: document.getElementById('edit-origen').value,
-            destino: document.getElementById('edit-destino').value,
+            origen: origenId,
+            destino: destinoId,
             fecha: document.getElementById('edit-fecha').value,
             hora: document.getElementById('edit-hora').value,
-            asientos_disponibles: document.getElementById('edit-asientos').value,
-            precio: document.getElementById('edit-precio').value,
+            asientos_disponibles: parseInt(document.getElementById('edit-asientos').value, 10),
+            precio: parseFloat(document.getElementById('edit-precio').value),
         };
 
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/viajes/${viajeId}/`, {
-                method: 'PATCH',
+                method: 'PUT',
                 headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedData)
             });
-            if (!response.ok) throw new Error('Error al actualizar el viaje');
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({})); // Intenta leer el JSON, si falla, devuelve un objeto vacío.
+                const errorMessage = Object.values(errorData).flat().join('\n'); // Concatena todos los mensajes de error.
+                throw new Error(errorMessage || 'Error al actualizar el viaje. Por favor, revisa los datos.');
+            }
+
             editViajeModal.hide();
             loadMisViajes();
         } catch (error) {
-            console.error(error);
+            console.error('Error al guardar los cambios:', error);
+            alert(`No se pudieron guardar los cambios:\n${error.message}`);
         }
     });
 
@@ -514,7 +547,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const calificacionData = {
-            calificador: user.id,
             calificado: conductorId,
             viaje: viajeId,
             tipo: tipo,
@@ -607,8 +639,26 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // --- Inicialización ---
-    if (accessToken) {
-        loadCurrentUser();
-        loadMisViajes(); // Cargar la pestaña inicial
+    async function initializeMisViajes() {
+        if (accessToken) {
+            try {
+                // Cargar localidades primero
+                todasLasLocalidades = await window.getLocalidades();
+                console.log('Localidades cargadas en misviajes.js:', todasLasLocalidades);
+
+                // Inicializar los campos de localidad para el modal de edición
+                window.initializeLocalityInput('edit-origen-input', '#editViajeModal .dropdown-menu[aria-labelledby="edit-origen-input"]');
+                window.initializeLocalityInput('edit-destino-input', '#editViajeModal .dropdown-menu[aria-labelledby="edit-destino-input"]');
+
+            } catch (error) {
+                console.error('Error al inicializar las localidades en misviajes.js:', error);
+                // Opcional: mostrar un error al usuario
+            }
+            
+            // Luego cargar los viajes
+            loadMisViajes();
+        }
     }
+
+    initializeMisViajes();
 });

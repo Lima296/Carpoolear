@@ -1,84 +1,119 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // USUARIO_ID se inyecta desde el template de Django
+    // El USUARIO_ID es una constante global definida en el template perfil_publico.html
     if (typeof USUARIO_ID === 'undefined') {
-        console.error('La variable USUARIO_ID no está definida.');
+        console.error('El ID del usuario no está definido.');
         return;
     }
 
-    const API_URL = `http://localhost:8000/api/usuarios/${USUARIO_ID}/`;
+    const accessToken = localStorage.getItem('access'); // Necesario para las llamadas a la API
+
+    // --- URLs de la API ---
+    const userProfileUrl = `http://127.0.0.1:8000/api/usuarios/${USUARIO_ID}/`;
+    const calificacionesUrl = 'http://127.0.0.1:8000/api/calificaciones/';
 
     // --- Elementos del DOM ---
-    const navDisplayName = document.getElementById('nav-display-name');
-    const displayNombre = document.getElementById('display-nombre');
-    const displayApellido = document.getElementById('display-apellido');
-    const displayTelefono = document.getElementById('display-telefono');
-    const displayCorreo = document.getElementById('display-correo');
-    const displayReputacion = document.getElementById('display-reputacion');
-    const displayViajes = document.getElementById('display-viajes');
+    const navLinks = document.querySelectorAll('.profile-nav .nav-link');
+    const contentPanes = document.querySelectorAll('.content-pane');
+    const calificacionesListContainer = document.getElementById('calificaciones-list-container');
 
-    // --- Función para obtener y mostrar el perfil ---
-    async function cargarPerfil() {
+    // --- Navegación del Perfil ---
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('data-target');
+
+            navLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+
+            contentPanes.forEach(pane => {
+                pane.classList.remove('active');
+                if (pane.id === targetId) {
+                    pane.classList.add('active');
+                    // Si el panel de calificaciones es el objetivo, cargarlas
+                    if (targetId === 'calificaciones-content') {
+                        loadCalificaciones();
+                    }
+                }
+            });
+        });
+    });
+
+    // --- Carga de Datos del Perfil Público ---
+    async function loadPublicProfileData() {
         try {
-            const response = await fetch(API_URL);
+            const response = await fetch(userProfileUrl, {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
+            });
+            if (!response.ok) throw new Error('Error al cargar el perfil público');
+            const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(`Error HTTP: ${response.status}`);
-            }
-
-            const usuario = await response.json();
+            document.getElementById('nav-display-name').textContent = `${data.nombre} ${data.apellido}`;
+            document.getElementById('display-nombre').textContent = data.nombre || 'N/A';
+            document.getElementById('display-apellido').textContent = data.apellido || 'N/A';
             
-            renderizarPerfil(usuario);
+            // Ocultamos campos que no queremos mostrar en el perfil público
+            const telefonoLi = document.getElementById('display-telefono')?.closest('li');
+            const correoLi = document.getElementById('display-correo')?.closest('li');
+            if(telefonoLi) telefonoLi.style.display = 'none';
+            if(correoLi) correoLi.style.display = 'none';
 
         } catch (error) {
-            console.error('Error al cargar el perfil del conductor:', error);
-            // Manejar el error en la UI
-            if(navDisplayName) navDisplayName.textContent = 'Error';
-            if(displayNombre) displayNombre.textContent = 'No se pudo cargar la información.';
-            // Limpiar otros campos en caso de error
-            if(displayApellido) displayApellido.textContent = '';
-            if(displayTelefono) displayTelefono.textContent = '';
-            if(displayCorreo) displayCorreo.textContent = '';
-            if(displayReputacion) displayReputacion.textContent = 'No disponible';
-            if(displayViajes) displayViajes.textContent = 'No disponible';
+            console.error(error);
+            document.getElementById('nav-display-name').textContent = 'Error';
         }
     }
 
-    // --- Función para renderizar los datos del perfil ---
-    function renderizarPerfil(usuario) {
-        const nombreCompleto = `${usuario.nombre || ''} ${usuario.apellido || ''}`.trim() || 'Nombre no disponible';
-        
-        if (navDisplayName) {
-            navDisplayName.textContent = nombreCompleto;
-        }
-        if (displayNombre) {
-            displayNombre.textContent = usuario.nombre || 'No disponible';
-        }
-        if (displayApellido) {
-            displayApellido.textContent = usuario.apellido || 'No disponible';
-        }
-        if (displayTelefono) {
-            displayTelefono.textContent = usuario.telefono || 'No disponible';
-        }
-        if (displayCorreo) {
-            displayCorreo.textContent = usuario.correo || 'No disponible';
+    // --- Carga y Renderizado de Calificaciones (copiado y adaptado de miperfil.js) ---
+    function renderCalificaciones(calificaciones) {
+        calificacionesListContainer.innerHTML = '';
+        if (calificaciones.length === 0) {
+            calificacionesListContainer.innerHTML = '<p class="text-center text-muted">Este conductor aún no ha recibido calificaciones.</p>';
+            return;
         }
 
-        // Renderizar estadísticas
-        if (displayReputacion) {
-            const reputacion = parseFloat(usuario.reputacion) || 0;
-            const estrellasLlenas = Math.floor(reputacion);
-            const estrellasVacias = 5 - estrellasLlenas;
+        calificaciones.forEach(calif => {
+            const fecha = new Date(calif.fecha_creacion).toLocaleDateString();
+            const calificacionIcono = calif.tipo === 'like' ? '👍' : '👎';
             
-            let estrellasHTML = '★'.repeat(estrellasLlenas);
-            estrellasHTML += '☆'.repeat(estrellasVacias);
-            
-            displayReputacion.innerHTML = `${reputacion.toFixed(1)} ${estrellasHTML}`;
-        }
-        if (displayViajes) {
-            displayViajes.textContent = usuario.viajes_realizados || 0;
+            const calificacionItem = document.createElement('div');
+            calificacionItem.className = `calificacion-item calificacion-${calif.tipo}`;
+
+            calificacionItem.innerHTML = `
+                <div class="calificacion-header">
+                    <span class="calificacion-autor-group">
+                        <span class="calificacion-autor">${calif.calificador.nombre} ${calif.calificador.apellido}</span> <span class="comento-text">comentó:</span>
+                    </span>
+                    <span class="calificacion-fecha">${fecha}</span>
+                </div>
+                <div class="calificacion-body">
+                    <span class="calificacion-icono">${calificacionIcono}</span>
+                    <p class="calificacion-comentario">${calif.comentario || '<em>Sin comentario.</em>'}</p>
+                </div>
+            `;
+            calificacionesListContainer.appendChild(calificacionItem);
+        });
+    }
+
+    async function loadCalificaciones() {
+        calificacionesListContainer.innerHTML = '<p class="text-center text-muted">Cargando calificaciones...</p>';
+
+        try {
+            const response = await fetch(`${calificacionesUrl}?calificado_id=${USUARIO_ID}`, {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
+            });
+            if (!response.ok) throw new Error('Error al cargar las calificaciones');
+            const data = await response.json();
+            renderCalificaciones(data);
+        } catch (error) {
+            console.error(error);
+            calificacionesListContainer.innerHTML = '<p class="text-center text-danger">No se pudieron cargar las calificaciones.</p>';
         }
     }
 
-    // --- Iniciar la carga del perfil ---
-    cargarPerfil();
+    // --- Inicialización ---
+    function initialize() {
+        loadPublicProfileData();
+    }
+
+    initialize();
 });
