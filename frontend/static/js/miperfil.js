@@ -8,20 +8,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- URLs de la API ---
     const userProfileUrl = 'http://127.0.0.1:8000/api/perfil/';
     const vehiclesUrl = 'http://127.0.0.1:8000/api/vehiculos/';
+    const calificacionesUrl = 'http://127.0.0.1:8000/api/calificaciones/';
 
     // --- Almacenamiento de datos ---
     let userVehicles = [];
+    let currentUserId = null;
 
     // --- Elementos del DOM ---
     const navLinks = document.querySelectorAll('.profile-nav .nav-link');
     const contentPanes = document.querySelectorAll('.content-pane');
     const vehicleListContainer = document.getElementById('vehicle-list-container');
+    const calificacionesListContainer = document.getElementById('calificaciones-list-container');
 
     // Modales
     const addVehicleModal = new bootstrap.Modal(document.getElementById('addVehicleModal'));
     const editVehicleModal = new bootstrap.Modal(document.getElementById('editVehicleModal'));
     const deleteVehicleModal = new bootstrap.Modal(document.getElementById('deleteVehicleModal'));
     const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
+    // const calificacionesModal = new bootstrap.Modal(document.getElementById('calificacionesModal')); // Eliminado
 
     // Formularios
     const addVehicleForm = document.getElementById('add-vehicle-form');
@@ -42,6 +46,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 pane.classList.remove('active');
                 if (pane.id === targetId) {
                     pane.classList.add('active');
+                    // Si el panel de calificaciones es el objetivo, cargarlas
+                    if (targetId === 'calificaciones-content') {
+                        loadCalificaciones();
+                    }
                 }
             });
         });
@@ -53,6 +61,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const response = await fetch(userProfileUrl, { headers: { 'Authorization': `Bearer ${accessToken}` } });
             if (!response.ok) throw new Error('Error al cargar el perfil');
             const data = await response.json();
+            
+            currentUserId = data.id; // Guardamos el ID del usuario
 
             document.getElementById('nav-display-name').textContent = `${data.nombre} ${data.apellido}`;
             document.getElementById('display-nombre').textContent = data.nombre || 'N/A';
@@ -105,6 +115,60 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             vehicleListContainer.appendChild(vehicleItem);
         });
+    }
+
+    // --- Carga y Renderizado de Calificaciones ---
+    function renderCalificaciones(calificaciones) {
+        calificacionesListContainer.innerHTML = '';
+        if (calificaciones.length === 0) {
+            calificacionesListContainer.innerHTML = '<p class="text-center text-muted">Aún no has recibido calificaciones.</p>';
+            return;
+        }
+
+        calificaciones.forEach(calif => {
+            const fecha = new Date(calif.fecha_creacion).toLocaleDateString();
+            const calificacionIcono = calif.tipo === 'like' ? '👍' : '👎';
+            
+            const calificacionItem = document.createElement('div');
+            // Añadimos una clase dinámica para el estilo condicional
+            calificacionItem.className = `calificacion-item calificacion-${calif.tipo}`;
+
+            calificacionItem.innerHTML = `
+                <div class="calificacion-header">
+                    <span class="calificacion-autor-group">
+                        <span class="calificacion-autor">${calif.calificador.nombre} ${calif.calificador.apellido}</span> <span class="comento-text">comentó:</span>
+                    </span>
+                    <span class="calificacion-fecha">${fecha}</span>
+                </div>
+                <div class="calificacion-body">
+                    <span class="calificacion-icono">${calificacionIcono}</span>
+                    <p class="calificacion-comentario">${calif.comentario || '<em>Sin comentario.</em>'}</p>
+                </div>
+            `;
+            calificacionesListContainer.appendChild(calificacionItem);
+        });
+    }
+
+    async function loadCalificaciones() {
+        if (!currentUserId) {
+            console.error('ID de usuario no disponible.');
+            calificacionesListContainer.innerHTML = '<p class="text-center text-danger">No se pudo obtener el ID del usuario.</p>';
+            return;
+        }
+
+        calificacionesListContainer.innerHTML = '<p class="text-center text-muted">Cargando calificaciones...</p>';
+
+        try {
+            const response = await fetch(`${calificacionesUrl}?calificado_id=${currentUserId}`, {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
+            });
+            if (!response.ok) throw new Error('Error al cargar las calificaciones');
+            const data = await response.json();
+            renderCalificaciones(data);
+        } catch (error) {
+            console.error(error);
+            calificacionesListContainer.innerHTML = '<p class="text-center text-danger">No se pudieron cargar las calificaciones.</p>';
+        }
     }
 
     // --- Acciones de Vehículos (Agregar, Editar, Eliminar) ---
@@ -190,6 +254,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // --- Acciones de Perfil ---
     document.getElementById('edit-profile-btn').addEventListener('click', () => editProfileModal.show());
+
+    // document.getElementById('show-calificaciones-btn').addEventListener('click', () => { // Eliminado
+    //     loadCalificaciones();
+    //     calificacionesModal.show();
+    // });
 
     editProfileForm.addEventListener('submit', async (e) => {
         e.preventDefault();
