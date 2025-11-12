@@ -24,11 +24,6 @@
     </style>
 
     <title>ViajAr</title>
-    <style>
-        .busqueda-botones-ajuste {
-            margin-top: -20px; /* Ajusta este valor según sea necesario */
-        }
-    </style>
 </head>
 <body>
     {% include 'includes/navbargeneral.html' %}
@@ -88,7 +83,9 @@
         </div>
     </div>
 
-
+    <button id="btn-scroll-top" title="Volver arriba">
+        <img src="{% static 'img/flechaScroll.svg' %}" alt="Volver arriba">
+    </button>
 
 <!-- Enlaces a scripts -->
 <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -107,10 +104,13 @@
     const STATIC_URL_BASE = "{% static '' %}"; 
 </script>
 
-
-    <script src="{% static 'js/cargarViaje.js' %}"></script> 
+    
     <script src="{% static 'js/cargarViaje.js' %}"></script> 
     <script src="{% static 'js/reservarViaje.js' %}"></script> 
     <script src="{% static 'js/auth.js' %}"></script>
     <script src="{% static 'js/apiOSRM.js' %}"></script> 
+    <script src="{% static 'js/botonScroll.js' %}"></script> 
+
+
+
     </body></html>

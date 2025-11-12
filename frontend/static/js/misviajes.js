@@ -50,18 +50,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
         const precio = viaje.precio ? `$${formatPriceWithDot(viaje.precio)}` : 'N/A';
         const asientos = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
+        const estado = viaje.estado || 'N/A';
 
-        const hoy = new Date();
-        const fechaViaje = new Date(viaje.fecha);
-        let estado = 'Creado';
-        hoy.setHours(0, 0, 0, 0);
-        fechaViaje.setHours(0, 0, 0, 0);
-
-        if (fechaViaje < hoy) {
-            estado = 'Finalizado';
-        } else if (fechaViaje.getTime() === hoy.getTime()) {
-            estado = 'En Curso';
-        }
 
         return (
             `<li class="list-group-item list-group-item-action d-flex flex-column" data-viaje-id="${viaje.id}">
@@ -553,7 +543,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
 
         const calificacionData = {
-            calificador: user.id,
             calificado: conductorId,
             viaje: viajeId,
             tipo: tipo,

@@ -170,7 +170,7 @@ body {
     padding: 20px 60px 10px 60px; /* Padding: Arriba, Derecha, Abajo, Izquierda */
     background-color: #024873; /* Color de fondo oscuro para que el texto blanco resalte */
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 0px;
 }
 
 .pantalla-titulo {

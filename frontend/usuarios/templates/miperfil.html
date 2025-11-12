@@ -44,6 +44,11 @@
                                 Mis Vehículos
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-target="calificaciones-content">
+                                Calificaciones
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -77,12 +82,22 @@
                             <!-- La lista de vehículos se generará aquí -->
                         </div>
                     </div>
+
+                    <!-- Contenido de Calificaciones -->
+                    <div id="calificaciones-content" class="content-pane">
+                        <div class="pane-header">
+                            <h3>Calificaciones Recibidas</h3>
+                        </div>
+                        <div id="calificaciones-list-container" class="pane-body">
+                            <!-- Las calificaciones se cargarán aquí dinámicamente -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modales (reutilizados de la versión anterior) -->
+    <!-- Modales -->
     {% include 'includes/modals/editProfileModal.html' %}
     {% include 'includes/modals/addVehicleModal.html' %}
     {% include 'includes/modals/editVehicleModal.html' %}
