@@ -5,6 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from .models import Viaje
 from .serializers import ViajeSerializer
+from vehiculos.models import Vehiculo
+from localidad.models import Localidad
 
 class ViajeLista(APIView):
     def get_permissions(self):
@@ -13,23 +15,39 @@ class ViajeLista(APIView):
         return []
 
     def get(self, request):
-        origen = request.query_params.get('origen')
-        destino = request.query_params.get('destino')
-        fecha = request.query_params.get('fecha')
+        origen_param = request.query_params.get('origen')
+        destino_param = request.query_params.get('destino')
+        fecha_param = request.query_params.get('fecha')
 
-        viajes = Viaje.objects.all()
+        filters = {}
 
-        if origen and origen.strip():
-            viajes = viajes.filter(origen__icontains=origen)
-        if destino and destino.strip():
-            viajes = viajes.filter(destino__icontains=destino)
-        if fecha and fecha.strip():
-            viajes = viajes.filter(fecha=fecha)
+        if origen_param and origen_param.strip():
+            if origen_param.isdigit():
+                filters['origen_id'] = origen_param
+            else:
+                origen_ids = Localidad.objects.filter(nombre__iexact=origen_param).values_list('id', flat=True)
+                filters['origen_id__in'] = list(origen_ids)
+
+        if destino_param and destino_param.strip():
+            if destino_param.isdigit():
+                filters['destino_id'] = destino_param
+            else:
+                destino_ids = Localidad.objects.filter(nombre__iexact=destino_param).values_list('id', flat=True)
+                filters['destino_id__in'] = list(destino_ids)
+        
+        if fecha_param and fecha_param.strip():
+            filters['fecha'] = fecha_param
+
+        # Apply filters and order by the 'actualizado' field to show newest first
+        viajes = Viaje.objects.filter(**filters).order_by('-actualizado')
 
         serializer = ViajeSerializer(viajes, many=True)
         return Response(serializer.data)
 
     def post(self, request):
+        if not Vehiculo.objects.filter(propietario=request.user).exists():
+            return Response({"detail": "No tiene un vehículo registrado para poder crear un viaje."}, status=status.HTTP_400_BAD_REQUEST)
+        
         serializer = ViajeSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(conductor=request.user)

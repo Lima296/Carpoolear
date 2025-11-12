@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbargeneral.css' %}">
     <link rel="stylesheet" href="{% static 'css/estiloModales.css' %}">
+    <link rel="stylesheet" href="{% static 'css/misviajes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/miperfil.css' %}">
     <style>
         body {
             font-family: 'Outfit', sans-serif;
@@ -22,72 +24,68 @@
     </style>
 
     <title>ViajAr</title>
+    <style>
+        .busqueda-botones-ajuste {
+            margin-top: -20px; /* Ajusta este valor según sea necesario */
+        }
+    </style>
 </head>
 <body>
     {% include 'includes/navbargeneral.html' %}
     {% include 'includes/publicarViaje.html' %}
     {% include 'includes/reservarViaje.html' %}
 
-
-
-    <div class="busqueda-wrapper">
-        <div class="contenedor_buscar">
-
-        <div class="busqueda-grupo">
-            <span>Origen</span>
-            <div class="dropdown" id="dropdown-origen">
-                <input type="text" 
-                       class="form-control" 
-                       placeholder="Ciudad origen"
-                       data-bs-toggle="dropdown" 
-                       aria-expanded="false" 
-                       id="input-origen"
-                       autocomplete="off"> 
-                <div class="dropdown-menu">
-                    <h6 class="dropdown-header">Ciudades Sugeridas</h6>
-                    <!-- Las localidades se cargarán aquí dinámicamente -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Encontrá tu próximo viaje</h1>
+            <p class="hero-subtitle">Buscá, reservá y compartí gastos con nuestra comunidad</p>
+            
+            <div class="search-card">
+                <div class="search-form-container">
+                    <div class="busqueda-grupo">
+                        <label for="input-origen">Origen</label>
+                        <div class="dropdown" id="dropdown-origen">
+                            <input type="text" class="form-control" placeholder="Localidad de origen" aria-expanded="false" id="input-origen" autocomplete="off">
+                            <div class="dropdown-menu">
+                                <h6 class="dropdown-header">Localidad Sugerida</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="busqueda-grupo">
+                        <label for="input-destino">Destino</label>
+                        <div class="dropdown" id="dropdown-destino">
+                            <input type="text" class="form-control" placeholder="Localidad de destino" aria-expanded="false" id="input-destino" autocomplete="off">
+                            <div class="dropdown-menu">
+                                <h6 class="dropdown-header">Localidad Sugerida</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="busqueda-grupo">
+                        <label for="input-fecha">Fecha</label>
+                        <input type="date" class="form-control" id="input-fecha" placeholder="dd/mm/aaaa">
+                    </div>
+                    <div class="busqueda-grupo d-flex flex-column justify-content-end busqueda-botones-ajuste">
+                        <button id="btn-limpiar-filtros" class="btn btn-sm btn-outline-secondary mb-3" title="Limpiar filtros">Limpiar filtro</button>
+                        <button class="btn btn-primary btn-buscar" id="btn-buscar">
+                            <img src="{% static 'img/outline-travel-explore.svg' %}" alt="Buscar" class="icon-buscar">
+                            Filtrar
+                        </button>
+                    </div>
+                </div>
+                <div class="publish-action-container">
+                    <span class="publish-text">¿No encontraste viaje?</span>
+                    <button class="btn btn-secondary btn-publicar btn-verificar-vehiculo">Publicá el tuyo</button>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="busqueda-grupo">
-            <span>Destino</span>
-            <div class="dropdown" id="dropdown-destino">
-                <input type="text" 
-                       class="form-control" 
-                       placeholder="Ciudad destino"
-                       data-bs-toggle="dropdown" 
-                       aria-expanded="false" 
-                       id="input-destino"
-                       autocomplete="off"> 
-                <div class="dropdown-menu">
-                    <h6 class="dropdown-header">Ciudades Sugeridas</h6>
-                    <!-- Las localidades se cargarán aquí dinámicamente -->
-                </div>
-            </div>
+    <div class="container results-container">
+        <hr class="results-separator">
+        {% include 'includes/mensajeCarga.html' %}
+        <div class="contenedor_viajes">
+            <!-- El contenido de las tarjetas de viaje aparecerá aquí -->
         </div>
-        <div class="busqueda-grupo">
-            <span>Fecha</span>
-            <input type="text" 
-                   class="form-control"
-                   id="input-fecha"
-                   placeholder="dd/mm/aaaa"> 
-        </div>
-
-        
-
-        <button class="btn btn-warning" id="btn-buscar">Filtrar</button>
-        
-    </div>
-        <button class="btn btn-primary" id="btn-crear-viaje" data-bs-toggle="modal" data-bs-target="#publicarViajeModal">Publicá tu viaje</button>
-    </div>
-    <!-- 
-        ESTE CONTENEDOR AHORA SE LLENARÁ DINÁMICAMENTE CON JAVASCRIPT.
-        EL CÓDIGO ESTATICO DE VIAJE QUE TENÍAS FUE ELIMINADO.
-    -->
-    {% include 'includes/mensajeCarga.html' %}
-    <div class="contenedor_viajes">
-        <!-- El contenido de las tarjetas de viaje aparecerá aquí -->
     </div>
 
 

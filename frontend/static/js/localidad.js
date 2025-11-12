@@ -1,5 +1,5 @@
 // Define la URL de la API para localidades
-const API_LOCALIDAD_URL = 'http://127.0.0.1:8000/api/localidad/';
+const API_LOCALIDAD_URL = 'http://127.0.0.1:8000/api/localidades/';
 
 /**
  * Función para obtener la lista de localidades desde la API.
@@ -22,21 +22,128 @@ async function getLocalidades() {
         // Muestra los datos en la consola para verificar
         console.log('Localidades cargadas exitosamente:', localidades);
 
-        // Aquí podrías agregar código para poblar un <select> o cualquier otro elemento del DOM
-        // Ejemplo:
-        // const selectOrigen = document.getElementById('origen-publicar');
-        // localidades.forEach(localidad => {
-        //     const option = document.createElement('option');
-        //     option.value = localidad.nombre;
-        //     option.textContent = localidad.nombre;
-        //     selectOrigen.appendChild(option);
-        // });
-
         return localidades;
 
     } catch (error) {
         // Muestra un error en la consola si algo falla
         console.error('Hubo un problema al obtener las localidades:', error);
+        return []; // Retorna un array vacío en caso de error
     }
 }
+
+/**
+ * Rellena un menú desplegable de Bootstrap con localidades.
+ * @param {HTMLElement} dropdownMenuElement - El elemento del menú desplegable (div con clase dropdown-menu).
+ * @param {Array} localidades - Array de objetos de localidad.
+ * @param {HTMLInputElement} inputElement - El input asociado al dropdown.
+ */
+function populateLocalidadDropdown(dropdownMenuElement, localidades, inputElement) {
+    // Limpiar elementos anteriores, excepto el encabezado
+    let currentHeader = dropdownMenuElement.querySelector('.dropdown-header');
+    if (!currentHeader) {
+        currentHeader = document.createElement('h6');
+        currentHeader.classList.add('dropdown-header');
+        currentHeader.textContent = 'Localidad Sugerida';
+        dropdownMenuElement.prepend(currentHeader);
+    } else {
+        // Eliminar todos los hermanos del encabezado
+        while (currentHeader.nextElementSibling) {
+            currentHeader.nextElementSibling.remove();
+        }
+    }
+
+    if (localidades.length === 0) {
+        const noResultsItem = document.createElement('li');
+        noResultsItem.classList.add('dropdown-item', 'text-muted');
+        noResultsItem.textContent = 'No se encontraron localidades.';
+        dropdownMenuElement.appendChild(noResultsItem);
+        return;
+    }
+
+    localidades.forEach(localidad => {
+        const item = document.createElement('a');
+        item.classList.add('dropdown-item');
+        item.href = '#';
+        item.textContent = localidad.nombre;
+        item.setAttribute('data-id', localidad.id); // Guardar el ID de la localidad
+
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            inputElement.value = localidad.nombre;
+            inputElement.setAttribute('data-selected-id', localidad.id); // Guardar el ID seleccionado en el input
+                    // Ocultar el dropdown después de seleccionar
+                    const bsDropdown = bootstrap.Dropdown.getInstance(inputElement.closest('.dropdown'));
+                    if (bsDropdown) {
+                        bsDropdown.hide();
+                    }
+                });
+                dropdownMenuElement.appendChild(item);
+            });
+            }
+            
+            /**
+             * Inicializa la funcionalidad de autocompletado y filtrado para un campo de localidad.
+             * @param {string} inputId - El ID del input de texto (ej. 'origen-publicar').
+             * @param {string} dropdownMenuSelector - El selector CSS del menú desplegable (ej. '#dropdown-origen-publicar .dropdown-menu').
+             */
+            async function initializeLocalityInput(inputId, dropdownMenuSelector) {
+    const inputElement = document.getElementById(inputId);
+    const dropdownMenuElement = document.querySelector(dropdownMenuSelector);
+
+    if (!inputElement || !dropdownMenuElement) {
+        console.warn(`Elementos no encontrados para inicializar localidad: Input ID '${inputId}', Dropdown Selector '${dropdownMenuSelector}'`);
+        return;
+    }
+
+    const bsDropdown = bootstrap.Dropdown.getOrCreateInstance(inputElement);
+    let allLocalidades = [];
+
+    try {
+        allLocalidades = await getLocalidades();
+        // Llenar inicialmente con todas las localidades para que el filtrado funcione desde el principio
+        populateLocalidadDropdown(dropdownMenuElement, allLocalidades, inputElement);
+    } catch (error) {
+        console.error(`Error al cargar localidades para ${inputId}:`, error);
+        // Opcional: mostrar un mensaje de error en el dropdown
+        dropdownMenuElement.innerHTML = '<li class="dropdown-item text-muted">No se pudieron cargar las localidades.</li>';
+        return;
+    }
+
+    inputElement.addEventListener('input', () => {
+        const searchTerm = inputElement.value.toLowerCase();
+        const filteredLocalidades = allLocalidades.filter(loc =>
+            loc.nombre.toLowerCase().includes(searchTerm)
+        );
+        populateLocalidadDropdown(dropdownMenuElement, filteredLocalidades, inputElement);
+
+        if (searchTerm.length > 0 && filteredLocalidades.length > 0) {
+            bsDropdown.show();
+        } else {
+            bsDropdown.hide();
+        }
+    });
+
+    inputElement.addEventListener('focus', () => {
+        const searchTerm = inputElement.value.toLowerCase();
+        // Si el campo está vacío, se re-popula con la lista completa de localidades.
+        if (searchTerm.length === 0) {
+            populateLocalidadDropdown(dropdownMenuElement, allLocalidades, inputElement);
+        }
+        // Siempre se intenta mostrar el desplegable al obtener el foco.
+        bsDropdown.show();
+    });
+
+    inputElement.addEventListener('blur', () => {
+        // Se usa un timeout para permitir que el evento 'click' en un item del dropdown se registre antes de que se oculte.
+        setTimeout(() => {
+            bsDropdown.hide();
+        }, 150);
+    });
+}
+            
+            // Exportar funciones para que puedan ser usadas en otros módulos
+            // (Esto es una forma común en JS moderno, si no se usa un bundler, se pueden adjuntar al objeto window)
+            window.getLocalidades = getLocalidades;
+            window.populateLocalidadDropdown = populateLocalidadDropdown;
+            window.initializeLocalityInput = initializeLocalityInput;            
 

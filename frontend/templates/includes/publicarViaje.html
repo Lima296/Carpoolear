@@ -13,18 +13,18 @@
                         <div class="form-group">
                             <label for="origen-publicar">Origen</label>
                             <div class="dropdown" id="dropdown-origen-publicar">
-                                <input type="text" class="form-control" id="origen-publicar" data-bs-toggle="dropdown" required autocomplete="off">
+                                <input type="text" class="form-control" id="origen-publicar" aria-expanded="false" required autocomplete="off">
                                 <div class="dropdown-menu w-100">
-                                    <h6 class="dropdown-header">Ciudades Sugeridas</h6>
+                                    <h6 class="dropdown-header">Localidad Sugerida</h6>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="destino-publicar">Destino</label>
                             <div class="dropdown" id="dropdown-destino-publicar">
-                                <input type="text" class="form-control" id="destino-publicar" data-bs-toggle="dropdown" required autocomplete="off">
+                                <input type="text" class="form-control" id="destino-publicar" aria-expanded="false" required autocomplete="off">
                                 <div class="dropdown-menu w-100">
-                                    <h6 class="dropdown-header">Ciudades Sugeridas</h6>
+                                    <h6 class="dropdown-header">Localidad Sugerida</h6>
                                 </div>
                             </div>
                         </div>
@@ -85,6 +85,26 @@
             <div class="modal-body text-center">
                 <p class="mb-0">¡Inicia sesión para poder publicar un viaje!</p>
                 <a href="http://127.0.0.1:8001/inicio" class="btn btn-warning" role="button" id="botonSesion">INICIAR SESIÓN</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Vehículo Requerido -->
+<div class="modal fade" id="vehiculoRequeridoModal" tabindex="-1" aria-labelledby="vehiculoRequeridoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="vehiculoRequeridoModalLabel">Vehículo Requerido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>No tiene un vehículo registrado para poder crear un viaje.</p>
+                <p>Por favor, agregue un vehículo en su perfil antes de continuar.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btn-ir-a-perfil">Ir a mi Perfil</button>
             </div>
         </div>
     </div>

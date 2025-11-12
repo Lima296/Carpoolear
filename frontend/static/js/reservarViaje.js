@@ -35,6 +35,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!viajeResponse.ok) throw new Error(`Error al cargar el viaje (${viajeResponse.status})`);
                 const viajeData = await viajeResponse.json();
 
+                // --- LÍNEAS DE DIAGNÓSTICO (AGREGA ESTO) ---
+                console.log("Datos completos del viaje:", viajeData);
+                console.log("Contenido de viajeData.conductor:", viajeData.conductor);
+                // --------------------------------------------
+
+                const conductorId = viajeData.conductor.id;
+                if (!conductorId) throw new Error('El viaje no tiene un conductor asignado.');
                 // 2. Usar los datos anidados directamente
                 const conductorData = viajeData.conductor;
                 if (!conductorData) throw new Error('El viaje no tiene un conductor asignado.');

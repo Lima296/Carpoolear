@@ -6,5 +6,9 @@ class Localidad(models.Model):
     lon = models.DecimalField(max_digits=9, decimal_places=4, null=True, blank=True)
 
 
+    def save(self, *args, **kwargs):
+        self.nombre = self.nombre.capitalize()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.nombre

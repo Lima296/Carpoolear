@@ -4,12 +4,16 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UsuarioSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False, allow_null=True)
+    reputacion = serializers.FloatField(read_only=True)
+    viajes_realizados = serializers.IntegerField(read_only=True)
+    first_name = serializers.CharField(source='nombre', read_only=True)
+    last_name = serializers.CharField(source='apellido', read_only=True)
 
     class Meta:
         model = Usuario
         # Excluir campos que no deben ser enviados al frontend o que son manejados por el sistema
-        fields = ['id', 'nombre', 'apellido', 'correo', 'telefono', 'password', 'token', 'creado', 'actualizado']
-        read_only_fields = ['id', 'token', 'creado', 'actualizado']
+        fields = ['id', 'nombre', 'apellido', 'first_name', 'last_name', 'correo', 'telefono', 'password', 'token', 'creado', 'actualizado', 'reputacion', 'viajes_realizados']
+        read_only_fields = ['id', 'token', 'creado', 'actualizado', 'reputacion', 'viajes_realizados', 'first_name', 'last_name']
 
     def validate_correo(self, value):
         """
@@ -29,8 +33,8 @@ class UsuarioSerializer(serializers.ModelSerializer):
         # Mapeamos explícitamente los datos validados a la firma de create_user
         return Usuario.objects.create_user(
             correo=validated_data['correo'],
-            nombre=validated_data['nombre'],
-            password=validated_data['password'],
+            nombre=validated_data.get('nombre', ''),
+            password=validated_data.get('password'),
             apellido=validated_data.get('apellido', ''),
             telefono=validated_data.get('telefono', '')
         )
