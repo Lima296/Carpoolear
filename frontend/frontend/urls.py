@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.urls import path, include
-from usuarios import views 
+from usuarios import views
 from dashboard import views as dashboard_views
 
 
@@ -13,6 +13,7 @@ urlpatterns = [
     path('inicio/', views.inicio_view, name='inicio'),
     path('miperfil/', views.perfil_view, name='miperfil'),
     path('perfil/usuario/<int:usuario_id>/', views.perfil_publico_view, name='perfil_publico'),
+    path('ayuda/', views.ayuda_view, name='ayuda'),
     path('', include('dashboard.urls')),
     path('reportes/', include('reporte.urls')),
 ]
