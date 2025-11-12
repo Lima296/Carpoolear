@@ -221,6 +221,13 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (!response.ok) throw new Error(`Error del servidor: ${response.status}`);
             const viajes = await response.json();
 
+            // Ordenar los viajes por fecha y hora (los más próximos primero)
+            viajes.sort((a, b) => {
+                const fechaA = new Date(`${a.fecha}T${a.hora}`);
+                const fechaB = new Date(`${b.fecha}T${b.hora}`);
+                return fechaA - fechaB;
+            });
+
             misViajesContainer.innerHTML = '';
             if (viajes.length === 0) {
                 misViajesContainer.innerHTML = '<li class="list-group-item text-center">Aún no has creado ningún viaje.</li>';
@@ -323,18 +330,18 @@ document.addEventListener('DOMContentLoaded', async function() {
 
             if (viaje.origen) {
                 origenInput.value = viaje.origen.nombre;
-                origenIdInput.value = viaje.origen.id;
+                origenInput.setAttribute('data-selected-id', viaje.origen.id);
             } else {
                 origenInput.value = '';
-                origenIdInput.value = '';
+                origenInput.removeAttribute('data-selected-id');
             }
 
             if (viaje.destino) {
                 destinoInput.value = viaje.destino.nombre;
-                destinoIdInput.value = viaje.destino.id;
+                destinoInput.setAttribute('data-selected-id', viaje.destino.id);
             } else {
                 destinoInput.value = '';
-                destinoIdInput.value = '';
+                destinoInput.removeAttribute('data-selected-id');
             }
 
             editViajeModal.show();
@@ -421,9 +428,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         e.preventDefault();
         const viajeId = document.getElementById('edit-viaje-id').value;
         
-        // Obtener los IDs de origen y destino de los campos ocultos
-        const origenId = document.getElementById('edit-origen-id').value;
-        const destinoId = document.getElementById('edit-destino-id').value;
+        // Obtener los IDs de origen y destino desde el atributo data-selected-id
+        const origenId = document.getElementById('edit-origen-input').getAttribute('data-selected-id');
+        const destinoId = document.getElementById('edit-destino-input').getAttribute('data-selected-id');
 
         // Validar que se haya seleccionado una localidad para origen y destino
         if (!origenId) {

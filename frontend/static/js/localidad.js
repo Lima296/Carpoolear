@@ -72,15 +72,11 @@ function populateLocalidadDropdown(dropdownMenuElement, localidades, inputElemen
         item.addEventListener('click', (e) => {
             e.preventDefault();
             
-            // Establecer el valor del input visible
+            // Establecer el valor del input visible con el nombre de la localidad
             inputElement.value = localidad.nombre;
 
-            // Encontrar y establecer el valor del input oculto correspondiente
-            const hiddenInputId = inputElement.id.replace('-input', '-id');
-            const hiddenInput = document.getElementById(hiddenInputId);
-            if (hiddenInput) {
-                hiddenInput.value = localidad.id;
-            }
+            // Guardar el ID de la localidad en el atributo data-selected-id del input
+            inputElement.setAttribute('data-selected-id', localidad.id);
 
             // Ocultar el menú desplegable después de la selección
             const dropdownInstance = bootstrap.Dropdown.getInstance(inputElement);
