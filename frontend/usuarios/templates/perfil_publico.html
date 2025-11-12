@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil del conductor</title>
+    <title>Perfil del Conductor</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,15 +12,14 @@
 
     <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbargeneral.css' %}">
-    <link rel="stylesheet" href="{% static 'css/miperfil.css' %}?v=2.0">
-    <link rel="stylesheet" href="{% static 'css/estiloModales.css' %}">
+    <link rel="stylesheet" href="{% static 'css/miperfil.css' %}?v=2.1">
 
 </head><body>
 
     {% include 'includes/navbargeneral.html' %}
 
     <div class="pantalla-header">
-        <h1 class="pantalla-titulo">Perfil del conductor</h1>
+        <h1 class="pantalla-titulo">Perfil del Conductor</h1>
         <hr class="pantalla-separador">
     </div>
 
@@ -35,7 +34,13 @@
                     </div>
                     <ul class="nav flex-column profile-nav">
                         <li class="nav-item">
-
+                            <a class="nav-link active" href="#" data-target="profile-content">
+                                Perfil
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-target="calificaciones-content">
+                                Calificaciones
                             </a>
                         </li>
                     </ul>
@@ -45,29 +50,27 @@
             <!-- Columna de Contenido Derecha -->
             <div class="col-lg-9">
                 <div class="profile-content-card">
-                    <!-- Contenido de Mi Perfil -->
+                    <!-- Contenido del Perfil -->
                     <div id="profile-content" class="content-pane active">
                         <div class="pane-header">
-                            <h3>Información Personal</h3>
+                            <h3>Información del Conductor</h3>
                         </div>
                         <div class="pane-body">
                             <ul class="info-list">
                                 <li><strong>Nombre:</strong> <span id="display-nombre">Cargando...</span></li>
                                 <li><strong>Apellido:</strong> <span id="display-apellido">Cargando...</span></li>
-                                <li><strong>Teléfono:</strong> <span id="display-telefono">Cargando...</span></li>
-                                <li><strong>Correo:</strong> <span id="display-correo">Cargando...</span></li>
+                                <!-- Otros campos públicos se pueden añadir aquí -->
                             </ul>
                         </div>
                     </div>
 
-                    <!-- Contenido de Mis Vehículos -->
-                    <div id="vehicles-content" class="content-pane">
+                    <!-- Contenido de Calificaciones -->
+                    <div id="calificaciones-content" class="content-pane">
                         <div class="pane-header">
-                            <h3>Mis Vehículos</h3>
-                            <button id="add-vehicle-btn" class="btn btn-brand-primary btn-sm">Agregar Vehículo</button>
+                            <h3>Calificaciones Recibidas</h3>
                         </div>
-                        <div id="vehicle-list-container" class="pane-body">
-                            <!-- La lista de vehículos se generará aquí -->
+                        <div id="calificaciones-list-container" class="pane-body">
+                            <!-- Las calificaciones se cargarán aquí dinámicamente -->
                         </div>
                     </div>
                 </div>
@@ -75,32 +78,9 @@
         </div>
     </div>
 
-    <!-- Modales (reutilizados de la versión anterior) -->
-    {% include 'includes/modals/editProfileModal.html' %}
-    {% include 'includes/modals/addVehicleModal.html' %}
-    {% include 'includes/modals/editVehicleModal.html' %}
-    <div class="modal fade modal-custom" id="deleteVehicleModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form id="delete-vehicle-form">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <h1>Confirmar Eliminación</h1>
-                        <p>¿Estás seguro de que deseas eliminar este vehículo? Esta acción no se puede deshacer.</p>
-                        <div class="d-flex justify-content-end gap-2 mt-4">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <script>
+        // Pasamos el ID del usuario desde la vista de Django al JavaScript
         const USUARIO_ID = {{ usuario_id }};
-        const STATIC_URL_BASE = "{% get_static_prefix %}";
     </script>
     <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/auth.js' %}"></script>

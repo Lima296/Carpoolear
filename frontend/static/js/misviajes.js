@@ -117,9 +117,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         const esViajePasado = fechaViaje < hoy;
 
         let botonesAccion = '';
-        if (reserva.estado !== 'CANCELADA') {
-            botonesAccion += `<button class="btn btn-outline-danger btn-cancelar-reserva" data-reserva-uuid="${reserva.uuid}">Cancelar Reserva</button>`;
-        }
         // Solo mostrar si la reserva está confirmada, el viaje pasó y (opcionalmente) no ha sido calificado
         if (reserva.estado === 'CONFIRMADA' && esViajePasado) {
             // Añadimos data-attributes para pasar la info al modal
@@ -130,6 +127,9 @@ document.addEventListener('DOMContentLoaded', async function() {
                                     data-conductor-id="${viaje.conductor.id}">
                                 Calificar Conductor
                               </button>`;
+        }
+        if (reserva.estado !== 'CANCELADA') {
+            botonesAccion += `<button class="btn btn-outline-danger btn-cancelar-reserva" data-reserva-uuid="${reserva.uuid}">Cancelar Reserva</button>`;
         }
 
         return (
