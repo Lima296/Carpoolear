@@ -170,10 +170,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const pasajero = solicitud.usuario;
         if (!viaje || !pasajero) return '';
 
+        // CORRECCIÓN: Acceder a la propiedad .nombre del objeto de localidad
+        const origenNombre = viaje.origen ? viaje.origen.nombre : 'No especificado';
+        const destinoNombre = viaje.destino ? viaje.destino.nombre : 'No especificado';
+
         return `
             <div class="list-group-item" id="solicitud-${solicitud.uuid}">
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Solicitud para: ${viaje.origen} → ${viaje.destino}</h5>
+                    <h5 class="mb-1">Solicitud para: ${origenNombre} → ${destinoNombre}</h5>
                     <small>${viaje.fecha}</small>
                 </div>
                 <p class="mb-1">Pasajero: <span class="fw-bold">${pasajero.nombre} ${pasajero.apellido}</span></p>
