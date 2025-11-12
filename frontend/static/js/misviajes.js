@@ -510,7 +510,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const calificacionData = {
-            calificador: user.id,
             calificado: conductorId,
             viaje: viajeId,
             tipo: tipo,
