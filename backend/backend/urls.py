@@ -60,6 +60,8 @@ urlpatterns = [
     path('api/reservas/', ReservaLista.as_view(), name='reserva-lista'),
     path('api/reservas/pendientes/', ReservasPendientesView.as_view(), name='reservas-pendientes'),
     path('api/reservas/<uuid:uuid>/', ReservaDetalle.as_view(), name='reserva-detalle'),
+
+    path('api/calificaciones/', include('calificaciones.urls')),
 ]
 
 """
