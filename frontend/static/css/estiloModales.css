@@ -365,18 +365,8 @@ body.modal-open {
     border: none;
 }
 
-/* ---------- Estilos para Botones de Calificación ---------- */
-#calificacion-tipo-container .calificacion-btn {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 60px !important;
-    height: 60px !important;
-    border-radius: 50% !important; /* Para hacer los botones circulares */
-    padding: 0 !important;
-}
-
-#calificacion-tipo-container .calificacion-btn svg {
-    width: 28px; /* Ajustar el tamaño del ícono si es necesario */
-    height: 28px;
+/* Estilos para dropdowns en modales */
+.modal .dropdown-menu {
+    max-height: 200px; /* Ajusta este valor según necesites */
+    overflow-y: auto;
 }

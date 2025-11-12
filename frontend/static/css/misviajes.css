@@ -60,3 +60,12 @@ body.misviajes {
     border-color: #024873;
     color: #ffffff;
 }
+
+/* Estilos para las listas con scroll */
+#mis-viajes-container,
+#mis-reservas-container,
+#solicitudes-container {
+    max-height: 425px !important; /* Altura máxima para las listas, ajustada para 2 elementos */
+    overflow-y: auto !important;  /* Habilitar scroll vertical si el contenido excede la altura */
+    padding-right: 10px; /* Espacio para que el scrollbar no tape el contenido */
+}

@@ -38,48 +38,55 @@ async function getLocalidades() {
  * @param {HTMLInputElement} inputElement - El input asociado al dropdown.
  */
 function populateLocalidadDropdown(dropdownMenuElement, localidades, inputElement) {
-    // Limpiar elementos anteriores, excepto el encabezado
-    let currentHeader = dropdownMenuElement.querySelector('.dropdown-header');
-    if (!currentHeader) {
-        currentHeader = document.createElement('h6');
-        currentHeader.classList.add('dropdown-header');
-        currentHeader.textContent = 'Localidad Sugerida';
-        dropdownMenuElement.prepend(currentHeader);
-    } else {
-        // Eliminar todos los hermanos del encabezado
-        while (currentHeader.nextElementSibling) {
-            currentHeader.nextElementSibling.remove();
-        }
+    // Limpiar completamente el menú desplegable
+    dropdownMenuElement.innerHTML = '';
+
+    // Si hay localidades para mostrar, añadir un encabezado
+    if (localidades.length > 0) {
+        const header = document.createElement('h6');
+        header.classList.add('dropdown-header');
+        header.textContent = 'Localidades Sugeridas';
+        dropdownMenuElement.appendChild(header);
     }
 
+    // Si no se encuentran localidades, mostrar un mensaje y salir
     if (localidades.length === 0) {
         const noResultsItem = document.createElement('li');
-        noResultsItem.classList.add('dropdown-item', 'text-muted');
-        noResultsItem.textContent = 'No se encontraron localidades.';
+        // Bootstrap espera que los items de texto estén dentro de un <a> o <button> para el estilo
+        const noResultsLink = document.createElement('span');
+        noResultsLink.classList.add('dropdown-item-text', 'text-muted');
+        noResultsLink.textContent = 'No se encontraron localidades.';
+        noResultsItem.appendChild(noResultsLink);
         dropdownMenuElement.appendChild(noResultsItem);
         return;
     }
 
+    // Rellenar el menú con las localidades encontradas
     localidades.forEach(localidad => {
         const item = document.createElement('a');
         item.classList.add('dropdown-item');
         item.href = '#';
         item.textContent = localidad.nombre;
-        item.setAttribute('data-id', localidad.id); // Guardar el ID de la localidad
+        item.setAttribute('data-id', localidad.id);
 
         item.addEventListener('click', (e) => {
             e.preventDefault();
+            
+            // Establecer el valor del input visible con el nombre de la localidad
             inputElement.value = localidad.nombre;
-            inputElement.setAttribute('data-selected-id', localidad.id); // Guardar el ID seleccionado en el input
-                    // Ocultar el dropdown después de seleccionar
-                    const bsDropdown = bootstrap.Dropdown.getInstance(inputElement.closest('.dropdown'));
-                    if (bsDropdown) {
-                        bsDropdown.hide();
-                    }
-                });
-                dropdownMenuElement.appendChild(item);
-            });
+
+            // Guardar el ID de la localidad en el atributo data-selected-id del input
+            inputElement.setAttribute('data-selected-id', localidad.id);
+
+            // Ocultar el menú desplegable después de la selección
+            const dropdownInstance = bootstrap.Dropdown.getInstance(inputElement);
+            if (dropdownInstance) {
+                dropdownInstance.hide();
             }
+        });
+        dropdownMenuElement.appendChild(item);
+    });
+}
             
             /**
              * Inicializa la funcionalidad de autocompletado y filtrado para un campo de localidad.
