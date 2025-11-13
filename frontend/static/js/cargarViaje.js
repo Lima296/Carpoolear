@@ -197,4 +197,12 @@ async function cargarViajes(filters = {}) {
 }
 
 // Iniciar la carga de viajes al finalizar la carga del DOM
-document.addEventListener('DOMContentLoaded', cargarViajes);
+document.addEventListener('DOMContentLoaded', function() {
+    const accessToken = localStorage.getItem('access');
+    if (!accessToken) {
+        // Si no hay token, redirigir al inicio
+        window.location.href = '/'; 
+        return; // Detener la ejecución del script
+    }
+    cargarViajes();
+});
