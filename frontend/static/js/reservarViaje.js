@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('modal-conductor-nombre').textContent = 'Cargando...';
             document.getElementById('modal-viaje-origen').textContent = 'Cargando...';
             document.getElementById('modal-viaje-destino').textContent = 'Cargando...';
+            document.getElementById('modal-viaje-asientos-disponibles').textContent = 'Cargando...'; // Reset available seats
 
             const button = event.relatedTarget;
             const viajeId = button.getAttribute('data-viaje-id');
@@ -35,11 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!viajeResponse.ok) throw new Error(`Error al cargar el viaje (${viajeResponse.status})`);
                 const viajeData = await viajeResponse.json();
 
-                // --- LÍNEAS DE DIAGNÓSTICO (AGREGA ESTO) ---
-                console.log("Datos completos del viaje:", viajeData);
-                console.log("Contenido de viajeData.conductor:", viajeData.conductor);
-                // --------------------------------------------
-
                 const conductorId = viajeData.conductor.id;
                 if (!conductorId) throw new Error('El viaje no tiene un conductor asignado.');
                 // 2. Usar los datos anidados directamente
@@ -47,7 +43,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!conductorData) throw new Error('El viaje no tiene un conductor asignado.');
 
                 // 3. Poblar el modal con los datos correctos
-                document.getElementById('modal-conductor-nombre').textContent = `${conductorData.nombre} ${conductorData.apellido}`;
+                const conductorNombreEl = document.getElementById('modal-conductor-nombre');
+                conductorNombreEl.innerHTML = `<a href="/perfil/usuario/${conductorData.id}/" target="_blank">${conductorData.nombre} ${conductorData.apellido}</a>`;
+                
                 document.getElementById('modal-viaje-origen').textContent = viajeData.origen.nombre;
                 document.getElementById('modal-viaje-destino').textContent = viajeData.destino.nombre;
                 document.getElementById('modal-viaje-fecha').textContent = viajeData.fecha;
@@ -69,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 document.getElementById('modal-viaje-precio').textContent = `$ ${formatPriceWithDot(viajeData.precio)}`;
                 document.getElementById('modal-viaje-detalles').textContent = viajeData.detalle_viaje || 'No hay detalles disponibles.';
+                document.getElementById('modal-viaje-asientos-disponibles').textContent = viajeData.asientos_disponibles ?? '0'; // Populate available seats
 
                 inputAsientos.value = 1;
                 inputAsientos.max = viajeData.asientos_disponibles;
@@ -86,6 +85,17 @@ document.addEventListener('DOMContentLoaded', function () {
         btnSolicitarAsiento.addEventListener('click', async function () {
             const viajeId = this.getAttribute('data-viaje-id');
             const asientosSolicitados = parseInt(inputAsientos.value, 10);
+            const asientosDisponibles = parseInt(inputAsientos.max, 10); // Get max available seats
+
+            if (asientosSolicitados < 1) {
+                mostrarFeedback('Los asientos deben ser 1 o más.', 'danger', false);
+                return;
+            }
+
+            if (asientosSolicitados > asientosDisponibles) { // New validation
+                mostrarFeedback('Supera la cantidad de asientos disponibles.', 'danger', false);
+                return;
+            }
             
             this.disabled = true;
             await realizarReserva(viajeId, asientosSolicitados);

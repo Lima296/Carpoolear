@@ -191,15 +191,4 @@ async function cargarViajes(filters = {}) {
 }
 
 // Iniciar la carga de viajes al finalizar la carga del DOM
-document.addEventListener('DOMContentLoaded', () => {
-    cargarViajes();
-
-    // Inicializar la funcionalidad de autocompletado para los campos de localidad
-    if (window.initializeLocalityInput) {
-        // Para el campo de origen en la página principal
-        initializeLocalityInput('input-origen', '#dropdown-origen .dropdown-menu');
-        
-        // Para el campo de destino en la página principal
-        initializeLocalityInput('input-destino', '#dropdown-destino .dropdown-menu');
-    }
-});
+document.addEventListener('DOMContentLoaded', cargarViajes);
