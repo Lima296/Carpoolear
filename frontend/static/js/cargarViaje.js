@@ -158,12 +158,6 @@ async function cargarViajes(filters = {}) {
         // 4. Parsear los datos a JSON
         let listaDeViajes = await response.json();
         
-        // Filtrar viajes: solo mostrar los que NO estén 'Finalizado'
-        listaDeViajes = listaDeViajes.filter(viaje => viaje.estado !== 'Finalizado');
-
-        // 4.1. Ordenar los viajes por el campo 'actualizado' (más recientes primero)
-        listaDeViajes.sort((a, b) => new Date(b.actualizado) - new Date(a.actualizado));
-
         // 5. Renderizar los viajes o el mensaje de no hay resultados
         contenedorViajes.innerHTML = ''; // Limpiar mensaje de carga
 
@@ -197,4 +191,15 @@ async function cargarViajes(filters = {}) {
 }
 
 // Iniciar la carga de viajes al finalizar la carga del DOM
-document.addEventListener('DOMContentLoaded', cargarViajes);
+document.addEventListener('DOMContentLoaded', () => {
+    cargarViajes();
+
+    // Inicializar la funcionalidad de autocompletado para los campos de localidad
+    if (window.initializeLocalityInput) {
+        // Para el campo de origen en la página principal
+        initializeLocalityInput('input-origen', '#dropdown-origen .dropdown-menu');
+        
+        // Para el campo de destino en la página principal
+        initializeLocalityInput('input-destino', '#dropdown-destino .dropdown-menu');
+    }
+});

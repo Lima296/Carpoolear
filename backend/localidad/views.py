@@ -1,3 +1,4 @@
+import unicodedata
 from django.shortcuts import render
 from rest_framework.views import APIView # la clase base para crear las vistas REST manualmente
 from rest_framework.response import Response #devuelve respuestas HTTP con datos en JSON
@@ -6,9 +7,21 @@ from django.shortcuts import get_object_or_404 #busca un objeto o devuelve un er
 from .models import Localidad
 from .serializers import LocalidadSerializer
 
+def remove_accents(input_str):
+    nfkd_form = unicodedata.normalize('NFKD', input_str)
+    return u"".join([c for c in nfkd_form if not unicodedata.combining(c)])
+
 class LocalidadLista(APIView): #esta clase maneja toda la colección de localidades
     def get(self, request): #listar
-        localidades = Localidad.objects.all().order_by('nombre') #trae todas las localidades desde la base de datos
+        query = request.query_params.get('q', None)
+        localidades = Localidad.objects.all()
+        if query:
+            normalized_query = remove_accents(query).lower()
+            localidades = [loc for loc in localidades if normalized_query in remove_accents(loc.nombre).lower()]
+        
+        # Since we are filtering in python, we need to re-order the results
+        localidades = sorted(localidades, key=lambda x: x.nombre)
+
         serializer = LocalidadSerializer(localidades, many=True) #serializa las localidades a formato JSON
         return Response(serializer.data) #devuelve las localidades serializadas en una respuesta HTTP
     
