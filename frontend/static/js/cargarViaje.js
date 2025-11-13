@@ -156,8 +156,11 @@ async function cargarViajes(filters = {}) {
         }
 
         // 4. Parsear los datos a JSON
-        const listaDeViajes = await response.json();
+        let listaDeViajes = await response.json();
         
+        // Filtrar viajes: solo mostrar los que NO estén 'Finalizado'
+        listaDeViajes = listaDeViajes.filter(viaje => viaje.estado !== 'Finalizado');
+
         // 4.1. Ordenar los viajes por el campo 'actualizado' (más recientes primero)
         listaDeViajes.sort((a, b) => new Date(b.actualizado) - new Date(a.actualizado));
 

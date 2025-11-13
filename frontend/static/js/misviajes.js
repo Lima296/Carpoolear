@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     const deleteViajeForm = document.getElementById('delete-viaje-form');
     const verPasajerosModalEl = document.getElementById('verPasajerosModal');
     const verPasajerosModal = new bootstrap.Modal(verPasajerosModalEl);
-    // NUEVO: Modal de Calificación
     const calificarViajeModalEl = document.getElementById('calificarViajeModal');
     const calificarViajeModal = new bootstrap.Modal(calificarViajeModalEl);
     const calificarViajeForm = document.getElementById('calificar-viaje-form');
@@ -42,16 +41,33 @@ document.addEventListener('DOMContentLoaded', async function() {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
+    // --- Función para formatear fechas ---
+    function formatDate(dateString) {
+        if (!dateString) return 'N/A';
+        const [year, month, day] = dateString.split('-');
+        return `${day}-${month}-${year}`;
+    }
+
     // --- Creación de filas y tarjetas ---
     function crearFilaViaje(viaje) {
         const origen = (viaje.origen && viaje.origen.nombre) ? viaje.origen.nombre : 'N/A';
         const destino = (viaje.destino && viaje.destino.nombre) ? viaje.destino.nombre : 'N/A';
-        const fecha = viaje.fecha || 'N/A';
+        const fecha = formatDate(viaje.fecha); // Aplicar formato
         const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
         const precio = viaje.precio ? `$${formatPriceWithDot(viaje.precio)}` : 'N/A';
         const asientos = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
         const estado = viaje.estado || 'N/A';
 
+        let botonesAccion = `
+            <button class="btn btn-brand-secondary-outline ver-pasajeros-btn" data-viaje-id="${viaje.id}">Ver Pasajeros</button>
+        `;
+
+        if (viaje.estado !== 'Finalizado') {
+            botonesAccion += `
+                <button class="btn btn-brand-secondary-outline edit-viaje-btn" data-viaje-id="${viaje.id}">Editar</button>
+                <button class="btn btn-outline-danger delete-viaje-btn" data-viaje-id="${viaje.id}">Eliminar</button>
+            `;
+        }
 
         return (
             `<li class="list-group-item list-group-item-action d-flex flex-column" data-viaje-id="${viaje.id}">
@@ -82,9 +98,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                     </div>
                 </div>
                 <div class="d-flex mt-auto justify-content-end gap-2">
-                    <button class="btn btn-brand-secondary-outline edit-viaje-btn" data-viaje-id="${viaje.id}">Editar</button>
-                    <button class="btn btn-brand-secondary-outline ver-pasajeros-btn" data-viaje-id="${viaje.id}">Ver Pasajeros</button>
-                    <button class="btn btn-outline-danger delete-viaje-btn" data-viaje-id="${viaje.id}">Eliminar</button>
+                    ${botonesAccion}
                 </div>
             </li>`
         );
@@ -96,7 +110,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         const origen = (viaje.origen && viaje.origen.nombre) ? viaje.origen.nombre : 'N/A';
         const destino = (viaje.destino && viaje.destino.nombre) ? viaje.destino.nombre : 'N/A';
-        const fecha = viaje.fecha || 'N/A';
+        const fecha = formatDate(viaje.fecha); // Aplicar formato
         const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
         const precioTotal = reserva.cantidad_asientos * viaje.precio;
         const precioFila = ` $${formatPriceWithDot(precioTotal)} (${reserva.cantidad_asientos} asiento/s)`;
@@ -109,7 +123,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             default: estadoClass = 'text-muted';
         }
 
-        // --- NUEVO: Lógica para el botón de calificar ---
         const hoy = new Date();
         const fechaViaje = new Date(viaje.fecha);
         hoy.setHours(0, 0, 0, 0);
@@ -117,9 +130,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         const esViajePasado = fechaViaje < hoy;
 
         let botonesAccion = '';
-        // Solo mostrar si la reserva está confirmada, el viaje pasó y (opcionalmente) no ha sido calificado
+        
+        if (viaje.estado !== 'Finalizado' && reserva.estado !== 'CANCELADA') {
+            botonesAccion += `<button class="btn btn-outline-danger btn-cancelar-reserva" data-reserva-uuid="${reserva.uuid}">Cancelar Reserva</button>`;
+        }
+
         if (reserva.estado === 'CONFIRMADA' && esViajePasado) {
-            // Añadimos data-attributes para pasar la info al modal
             botonesAccion += `<button class="btn btn-primary btn-calificar-viaje" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#calificarViajeModal"
@@ -127,9 +143,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                                     data-conductor-id="${viaje.conductor.id}">
                                 Calificar Conductor
                               </button>`;
-        }
-        if (reserva.estado !== 'CANCELADA') {
-            botonesAccion += `<button class="btn btn-outline-danger btn-cancelar-reserva" data-reserva-uuid="${reserva.uuid}">Cancelar Reserva</button>`;
         }
 
         return (
@@ -154,7 +167,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                                 <span class="fw-bold text-success">${precioFila}</span>
                             </div>
                         </div>
-                        <p class="mb-1 mt-2">Estado de la reserva: <span class="fw-bold ${estadoClass}">${reserva.estado}</span></p>
+                        <p class="mb-1 mt-2">Estado del viaje: <span class="fw-bold">${viaje.estado}</span></p>
+                        <p class="mb-1">Estado de la reserva: <span class="fw-bold ${estadoClass}">${reserva.estado}</span></p>
                     </div>
                 </div>
                 <div class="d-flex mt-auto justify-content-end gap-2">
@@ -169,11 +183,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         const pasajero = solicitud.usuario;
         if (!viaje || !pasajero) return '';
 
+        const origenNombre = viaje.origen ? viaje.origen.nombre : 'No especificado';
+        const destinoNombre = viaje.destino ? viaje.destino.nombre : 'No especificado';
+        const fecha = formatDate(viaje.fecha); // Aplicar formato
+
         return `
             <div class="list-group-item" id="solicitud-${solicitud.uuid}">
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">Solicitud para: ${viaje.origen} → ${viaje.destino}</h5>
-                    <small>${viaje.fecha}</small>
+                    <h5 class="mb-1">Solicitud para: ${origenNombre} → ${destinoNombre}</h5>
+                    <small>${fecha}</small>
                 </div>
                 <p class="mb-1">Pasajero: <span class="fw-bold">${pasajero.nombre} ${pasajero.apellido}</span></p>
                 <small>Asientos solicitados: <span class="fw-bold">${solicitud.cantidad_asientos}</span></small>
@@ -211,11 +229,16 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (!response.ok) throw new Error(`Error del servidor: ${response.status}`);
             const viajes = await response.json();
 
-            // Ordenar los viajes por fecha y hora (los más próximos primero)
+            // Ordenar: 'CREADO' primero, luego por fecha descendente
             viajes.sort((a, b) => {
-                const fechaA = new Date(`${a.fecha}T${a.hora}`);
-                const fechaB = new Date(`${b.fecha}T${b.hora}`);
-                return fechaA - fechaB;
+                if (a.estado === 'CREADO' && b.estado !== 'CREADO') {
+                    return -1; // a va primero
+                }
+                if (a.estado !== 'CREADO' && b.estado === 'CREADO') {
+                    return 1; // b va primero
+                }
+                // Para estados iguales (o ambos no son 'CREADO'), ordenar por fecha
+                return new Date(b.fecha) - new Date(a.fecha);
             });
 
             misViajesContainer.innerHTML = '';
@@ -389,21 +412,17 @@ document.addEventListener('DOMContentLoaded', async function() {
                     });
 
                     if (!response.ok) {
-                        // Si el backend devuelve un mensaje de error, lo mostramos
-                        const errorData = await response.json().catch(() => ({})); // Intenta parsear JSON, si falla, devuelve objeto vacío
+                        const errorData = await response.json().catch(() => ({}));
                         throw new Error(errorData.detail || 'Error al eliminar al pasajero.');
                     }
 
-                    // Eliminar el elemento de la lista visualmente
                     e.target.closest('.list-group-item').remove();
                     
-                    // Opcional: si la lista queda vacía, mostrar un mensaje
                     const pasajerosList = document.getElementById('pasajeros-list');
                     if (pasajerosList.children.length === 0) {
                         pasajerosList.innerHTML = '<li class="list-group-item text-center">No hay pasajeros confirmados para este viaje.</li>';
                     }
                     
-                    // Recargar la lista de viajes para actualizar el número de asientos disponibles
                     loadMisViajes();
 
                 } catch (error) {
@@ -418,11 +437,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         e.preventDefault();
         const viajeId = document.getElementById('edit-viaje-id').value;
         
-        // Obtener los IDs de origen y destino desde el atributo data-selected-id
         const origenId = document.getElementById('edit-origen-input').getAttribute('data-selected-id');
         const destinoId = document.getElementById('edit-destino-input').getAttribute('data-selected-id');
 
-        // Validar que se haya seleccionado una localidad para origen y destino
         if (!origenId) {
             alert('Por favor, selecciona un Origen válido de la lista.');
             return;
@@ -449,8 +466,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
 
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({})); // Intenta leer el JSON, si falla, devuelve un objeto vacío.
-                const errorMessage = Object.values(errorData).flat().join('\n'); // Concatena todos los mensajes de error.
+                const errorData = await response.json().catch(() => ({}));
+                const errorMessage = Object.values(errorData).flat().join('\n');
                 throw new Error(errorMessage || 'Error al actualizar el viaje. Por favor, revisa los datos.');
             }
 
@@ -477,11 +494,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
 
-    // --- Lógica de Acciones de Reserva (Cancelar y NUEVO: Calificar) ---
     misReservasContainer.addEventListener('click', async (e) => {
         const target = e.target;
 
-        // Lógica para cancelar
         if (target.classList.contains('btn-cancelar-reserva')) {
             const reservaUuid = target.dataset.reservaUuid;
             if (!reservaUuid) return;
@@ -502,22 +517,18 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         }
 
-        // NUEVO: Lógica para abrir el modal de calificación
         if (target.classList.contains('btn-calificar-viaje')) {
             const viajeId = target.dataset.viajeId;
             const conductorId = target.dataset.conductorId;
             
-            // Guardamos los IDs en el formulario del modal para usarlos al enviar
             document.getElementById('calificacion-viaje-id').value = viajeId;
             document.getElementById('calificacion-conductor-id').value = conductorId;
         }
     });
 
-    // NUEVO: Lógica del Modal de Calificación
     calificarViajeModalEl.addEventListener('click', function(e) {
         const target = e.target.closest('.calificacion-btn');
         if (target) {
-            // Resaltar botón seleccionado y guardar el valor
             document.querySelectorAll('.calificacion-btn').forEach(btn => btn.classList.remove('active'));
             target.classList.add('active');
             document.getElementById('calificacion-tipo-input').value = target.dataset.tipo;
@@ -561,7 +572,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                // Manejar el caso de que ya exista una calificación
                 if (errorData.non_field_errors || (errorData.detail && errorData.detail.includes("unique"))) {
                      alert('Ya has calificado este viaje.');
                 } else {
@@ -572,7 +582,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
             
             calificarViajeModal.hide();
-            // Opcional: deshabilitar el botón de calificar para este viaje
             const botonCalificar = document.querySelector(`.btn-calificar-viaje[data-viaje-id="${viajeId}"]`);
             if (botonCalificar) {
                 botonCalificar.textContent = 'Calificado';
@@ -586,7 +595,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
 
 
-    // --- Lógica de Acciones de Solicitud (Aceptar/Rechazar) ---
     async function actualizarEstadoReserva(uuid, nuevoEstado, cardElement) {
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/reservas/${uuid}/`, {
@@ -634,24 +642,19 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
 
-    // --- Inicialización ---
     async function initializeMisViajes() {
         if (accessToken) {
             try {
-                // Cargar localidades primero
                 todasLasLocalidades = await window.getLocalidades();
                 console.log('Localidades cargadas en misviajes.js:', todasLasLocalidades);
 
-                // Inicializar los campos de localidad para el modal de edición
                 window.initializeLocalityInput('edit-origen-input', '#editViajeModal .dropdown-menu[aria-labelledby="edit-origen-input"]');
                 window.initializeLocalityInput('edit-destino-input', '#editViajeModal .dropdown-menu[aria-labelledby="edit-destino-input"]');
 
             } catch (error) {
                 console.error('Error al inicializar las localidades en misviajes.js:', error);
-                // Opcional: mostrar un error al usuario
             }
             
-            // Luego cargar los viajes
             loadMisViajes();
         }
     }
