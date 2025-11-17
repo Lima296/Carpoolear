@@ -48,63 +48,61 @@ document.addEventListener('DOMContentLoaded', async function() {
         return `${day}-${month}-${year}`;
     }
 
-    // --- Creación de filas y tarjetas ---
-    function crearFilaViaje(viaje) {
-        const origen = (viaje.origen && viaje.origen.nombre) ? viaje.origen.nombre : 'N/A';
-        const destino = (viaje.destino && viaje.destino.nombre) ? viaje.destino.nombre : 'N/A';
-        const fecha = formatDate(viaje.fecha); // Aplicar formato
-        const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
-        const precio = viaje.precio ? `$${formatPriceWithDot(viaje.precio)}` : 'N/A';
-        const asientos = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
-        const estado = viaje.estado || 'N/A';
-
-        let botonesAccion = `
-            <button class="btn btn-brand-secondary-outline ver-pasajeros-btn" data-viaje-id="${viaje.id}">Ver Pasajeros</button>
-        `;
-
-        if (viaje.estado !== 'Finalizado') {
-            botonesAccion += `
-                <button class="btn btn-brand-secondary-outline edit-viaje-btn" data-viaje-id="${viaje.id}">Editar</button>
-                <button class="btn btn-outline-danger delete-viaje-btn" data-viaje-id="${viaje.id}">Eliminar</button>
-            `;
-        }
-
-        return (
-            `<li class="list-group-item list-group-item-action d-flex flex-column" data-viaje-id="${viaje.id}">
-                <div class="d-flex w-100 justify-content-between align-items-start flex-grow-1">
-                    <div class="trip-details">
-                        <h5 class="mb-1">${origen} → ${destino}</h5>
-                        <div class="mt-2">
-                            <div class="d-flex gap-3 mb-1">
-                                <div class="d-flex align-items-center gap-1">
-                                    <img src="/static/img/fecha2.svg" alt="Fecha" width="16">
-                                    <span class="mb-1">${fecha}</span>
+            // --- Creación de filas y tarjetas ---
+            function crearFilaViaje(viaje) {
+                const origen = (viaje.origen && viaje.origen.nombre) ? viaje.origen.nombre : 'N/A';
+                const destino = (viaje.destino && viaje.destino.nombre) ? viaje.destino.nombre : 'N/A';
+                const fecha = formatDate(viaje.fecha); // Aplicar formato
+                const hora = viaje.hora ? viaje.hora.substring(0, 5) + ' HS' : 'N/A';
+                const precio = viaje.precio ? `$${formatPriceWithDot(viaje.precio)}` : 'N/A';
+                const asientos = viaje.asientos_disponibles !== undefined ? viaje.asientos_disponibles : 'N/A';
+                const estado = viaje.estado || 'N/A';
+        
+                let botonesAccion = `
+                    <button class="btn btn-brand-secondary-outline ver-pasajeros-btn" data-viaje-id="${viaje.id}">Ver Pasajeros</button>
+                `;
+        
+                if (viaje.estado !== 'Finalizado') {
+                    botonesAccion += `
+                        <button class="btn btn-brand-secondary-outline edit-viaje-btn" data-viaje-id="${viaje.id}">Editar</button>
+                        <button class="btn btn-outline-danger delete-viaje-btn" data-viaje-id="${viaje.id}">Eliminar</button>
+                    `;
+                }
+        
+                return (
+                    `<li class="list-group-item list-group-item-action d-flex flex-column" data-viaje-id="${viaje.id}">
+                        <div class="d-flex w-100 justify-content-between align-items-start flex-grow-1">
+                            <div class="trip-details">
+                                <h5 class="mb-1">${origen} → ${destino}</h5>
+                                <div class="mt-2">
+                                    <div class="d-flex gap-3 mb-1">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <img src="/static/img/fecha2.svg" alt="Fecha" width="16">
+                                            <span class="mb-1">${fecha}</span>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-1">
+                                            <img src="/static/img/reloj2.svg" alt="Hora" width="16">
+                                            <span class="mb-1">${hora}</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1 mb-1">
+                                        <img src="/static/img/money2.svg" alt="Precio" width="16">
+                                        <span class="fw-bold text-success">${precio}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1 mb-1">
+                                        <img src="/static/img/asiento.svg" alt="Asientos" width="16">
+                                        <span class="mb-1">${asientos} asientos</span>
+                                    </div>
                                 </div>
-                                <div class="d-flex align-items-center gap-1">
-                                    <img src="/static/img/reloj2.svg" alt="Hora" width="16">
-                                    <span class="mb-1">${hora}</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-1 mb-1">
-                                <img src="/static/img/money2.svg" alt="Precio" width="16">
-                                <span class="fw-bold text-success">${precio}</span>
-                            </div>
-                            <div class="d-flex align-items-center gap-1 mb-1">
-                                <img src="/static/img/asiento.svg" alt="Asientos" width="16">
-                                <span class="mb-1">${asientos} asientos</span>
+                                <p class="mb-1 mt-2">Estado: <span class="fw-bold">${estado}</span></p>
                             </div>
                         </div>
-                        <p class="mb-1 mt-2">Estado: <span class="fw-bold">${estado}</span></p>
-                    </div>
-                </div>
-                <div class="d-flex mt-auto justify-content-end gap-2">
-                    ${botonesAccion}
-                </div>
-            </li>`
-        );
-    }
-
-    function crearFilaReserva(reserva) {
+                        <div class="d-flex mt-auto justify-content-end gap-2">
+                            ${botonesAccion}
+                        </div>
+                    </li>`
+                );
+            }    function crearFilaReserva(reserva) {
         const viaje = reserva.viaje;
         if (!viaje) return '';
 

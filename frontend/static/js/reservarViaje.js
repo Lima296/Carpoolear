@@ -8,6 +8,23 @@ document.addEventListener('DOMContentLoaded', function () {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
+    // --- Función para formatear tiempo ---
+    function formatTime(minutes) {
+        if (minutes === null || isNaN(parseInt(minutes))) {
+            return 'No disponible';
+        }
+        const hours = Math.floor(minutes / 60);
+        const mins = Math.round(minutes % 60);
+        let result = '';
+        if (hours > 0) {
+            result += `${hours} h `;
+        }
+        if (mins > 0) {
+            result += `${mins} min`;
+        }
+        return result.trim() || 'Menos de 1 min';
+    }
+
     const reservarViajeModal = document.getElementById('reservarViajeModal');
     
     if (reservarViajeModal) {
@@ -24,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('modal-conductor-nombre').textContent = 'Cargando...';
             document.getElementById('modal-viaje-origen').textContent = 'Cargando...';
             document.getElementById('modal-viaje-destino').textContent = 'Cargando...';
+            document.getElementById('modal-viaje-distancia').textContent = 'Calculando...';
+            document.getElementById('modal-viaje-tiempo').textContent = 'Calculando...';
             document.getElementById('modal-viaje-asientos-disponibles').textContent = 'Cargando...'; // Reset available seats
 
             const button = event.relatedTarget;
@@ -44,12 +63,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // 3. Poblar el modal con los datos correctos
                 const conductorNombreEl = document.getElementById('modal-conductor-nombre');
-                conductorNombreEl.innerHTML = `<a href="/perfil/usuario/${conductorData.id}/" target="_blank">${conductorData.nombre} ${conductorData.apellido}</a>`;
+                if (conductorNombreEl) {
+                    conductorNombreEl.innerHTML = `<a href="/perfil/usuario/${conductorData.id}/" target="_blank">${conductorData.nombre} ${conductorData.apellido}</a>`;
+                }
+
+                const origenEl = document.getElementById('modal-viaje-origen');
+                if (origenEl) origenEl.textContent = viajeData.origen.nombre;
+
+                const destinoEl = document.getElementById('modal-viaje-destino');
+                if (destinoEl) destinoEl.textContent = viajeData.destino.nombre;
+
+                const fechaEl = document.getElementById('modal-viaje-fecha');
+                if (fechaEl) fechaEl.textContent = viajeData.fecha;
+
+                const horaEl = document.getElementById('modal-viaje-hora');
+                if (horaEl) horaEl.textContent = viajeData.hora ? viajeData.hora.substring(0, 5) + ' HS' : 'N/A';
                 
-                document.getElementById('modal-viaje-origen').textContent = viajeData.origen.nombre;
-                document.getElementById('modal-viaje-destino').textContent = viajeData.destino.nombre;
-                document.getElementById('modal-viaje-fecha').textContent = viajeData.fecha;
-                document.getElementById('modal-viaje-hora').textContent = viajeData.hora ? viajeData.hora.substring(0, 5) + ' HS' : 'N/A';
+                const distanciaEl = document.getElementById('modal-viaje-distancia');
+                if (distanciaEl) {
+                    distanciaEl.textContent = viajeData.distancia ? `${parseFloat(viajeData.distancia).toFixed(1)} km` : 'No disponible';
+                }
+
+                const tiempoEl = document.getElementById('modal-viaje-tiempo');
+                if (tiempoEl) {
+                    tiempoEl.textContent = formatTime(viajeData.tiempo);
+                }
 
                 const hoy = new Date();
                 const fechaViaje = new Date(viajeData.fecha);
@@ -63,11 +101,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else if (fechaViaje.getTime() === hoy.getTime()) {
                     estado = 'En Curso';
                 }
-                document.getElementById('modal-viaje-estado').textContent = estado;
+                
+                const estadoEl = document.getElementById('modal-viaje-estado');
+                if (estadoEl) estadoEl.textContent = estado;
 
-                document.getElementById('modal-viaje-precio').textContent = `$ ${formatPriceWithDot(viajeData.precio)}`;
-                document.getElementById('modal-viaje-detalles').textContent = viajeData.detalle_viaje || 'No hay detalles disponibles.';
-                document.getElementById('modal-viaje-asientos-disponibles').textContent = viajeData.asientos_disponibles ?? '0'; // Populate available seats
+                const precioEl = document.getElementById('modal-viaje-precio');
+                if (precioEl) precioEl.textContent = `$ ${formatPriceWithDot(viajeData.precio)}`;
+
+                const detallesEl = document.getElementById('modal-viaje-detalles');
+                if (detallesEl) detallesEl.textContent = viajeData.detalle_viaje || 'No hay detalles disponibles.';
+
+                const asientosEl = document.getElementById('modal-viaje-asientos-disponibles');
+                if (asientosEl) asientosEl.textContent = viajeData.asientos_disponibles ?? '0'; // Populate available seats
 
                 inputAsientos.value = 1;
                 inputAsientos.max = viajeData.asientos_disponibles;
