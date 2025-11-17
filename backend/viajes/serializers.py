@@ -6,14 +6,21 @@ from datetime import date
 
 class ViajeSerializer(serializers.ModelSerializer):
     conductor = UsuarioSerializer(read_only=True)
-    # TODO: Implementar una tarea asíncrona (management command o Celery task)
-    # que se ejecute periódicamente para actualizar el estado de los viajes
-    # de 'Creado' a 'En Curso' o 'Finalizado' según la fecha.
-    estado = serializers.CharField(read_only=True, source='get_estado_display')
+    estado = serializers.SerializerMethodField()
 
     class Meta:
         model = Viaje
         fields = ['id', 'conductor', 'origen', 'destino', 'fecha', 'hora', 'asientos_disponibles', 'precio', 'detalle_viaje', 'estado', 'distancia', 'tiempo', 'creado', 'actualizado']
+
+
+    def get_estado(self, obj):
+        hoy = date.today()
+        if obj.fecha < hoy:
+            return 'Finalizado'
+        elif obj.fecha == hoy:
+            return 'En Curso'
+        else:
+            return 'Creado'
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)

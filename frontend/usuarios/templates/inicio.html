@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnectch" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;1,14..32,300&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/inicio.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbarinicio.css' %}">
+    <link rel="stylesheet" href="{% static 'css/estiloModales.css' %}">
+    <title>Iniciar Sesión</title>
+</head>
+<body>
+    {% include 'includes/navbarinicio.html' %}
+
+    <div class="container-fluid" style="margin-top: 70px; padding: 20px;">
+        <div class="modal fade modal-custom" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-header-custom">
+                        <h1>Iniciá sesión</h1>
+                    </div>
+                    <div class="modal-body">
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label for="correo">Correo electrónico</label>
+                                <input type="email" class="form-control" id="correo" placeholder="ejemplo@correo.com" required oninvalid="this.setCustomValidity('Por favor, ingrese un correo electrónico válido')" oninput="this.setCustomValidity('')">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Contraseña</label>
+                                <input type="password" class="form-control" id="password" placeholder="Contraseña" required>
+                            </div>
+                            <p class="mb-3 text-end"> <a href="#" class="text-decoration-none">Olvidé mi contraseña</a> </p>
+                            <div id="mensajeLogin" class="alert" style="display: none;"></div>
+                            <button class="btn btn-primary w-100" type="submit">Ingresar</button>
+                            <p class="mt-2 text-center">¿No tenés cuenta? <a href="#" data-bs-toggle="modal" data-bs-target="#modalRegistro" data-bs-dismiss="modal">Hacé click para registrarte</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade modal-custom" id="modalRegistro" tabindex="-1" aria-labelledby="modalRegistroLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-header-custom">
+                        <h1>Registrate</h1>
+                    </div>
+                    <div class="modal-body">
+                        <form id="registroForm">
+                            <div class="input-group">
+                                <div class="form-group">
+                                    <label for="reg_nombre">Nombre</label>
+                                    <input type="text" class="form-control" id="reg_nombre" placeholder="Juan" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reg_apellido">Apellido</label>
+                                    <input type="text" class="form-control" id="reg_apellido" placeholder="Perez" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div class="form-group">
+                                    <label for="reg_email">Correo electrónico</label>
+                                    <input type="email" class="form-control" id="reg_email" placeholder="ejemplo@correo.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reg_check_email">Repetir correo</label>
+                                    <input type="email" class="form-control" id="reg_check_email" placeholder="ejemplo@correo.com" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div class="form-group">
+                                    <label for="reg_password">Contraseña</label>
+                                    <input type="password" class="form-control" id="reg_password" placeholder="Contraseña" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reg_check_password">Repetir contraseña</label>
+                                    <input type="password" class="form-control" id="reg_check_password" placeholder="Contraseña" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <div class="form-group">
+                                    <label for="reg_caracteristica">Característica</label>
+                                    <input type="text" class="form-control" id="reg_caracteristica" placeholder="011" required maxlength="4" pattern="[0-9]*" inputmode="numeric">
+                                </div>
+                                <div class="form-group">
+                                    <label for="reg_telefono">Teléfono (sin el prefijo 15)</label>
+                                    <input type="text" class="form-control" id="reg_telefono" placeholder="12345678" required maxlength="8" pattern="[0-9]*" inputmode="numeric">
+                                </div>
+                            </div>
+                            <div id="mensaje" class="alert" style="display: none;"></div>
+                            <button class="btn btn-primary w-100" type="submit">Registrarse</button>
+                            <p class="mt-2 text-center">¿Ya tenés una cuenta? <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-dismiss="modal">Hacé click para ingresar</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> 
+    
+    <div class="contenido_inicio">
+        <h1 class="hero-title">Viajá, <br>Compartí,<br>Ahorrá<span style="color: #85C74D;">.</span></h1>
+        <div class="hero-buttons-container">
+            <h1 class="hero-title2">Buscás conductor o acompañante?</h1>
+            <div class="d-flex align-items-center gap-2">
+
+                <button type="button" class="btn btn-hero-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Iniciar Sesión
+                </button>
+                <h1 class="h-text-small" style="color: #85C74D;">O</h1> <!-- Cambiado a h1 con clase para estilos -->
+                <button type="button" class="btn btn-hero-secondary" data-bs-toggle="modal" data-bs-target="#modalRegistro">
+                    Registrarse
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/login.js' %}"></script>
+    <script src="{% static 'js/registro.js' %}"></script>
+</body>
+</html>

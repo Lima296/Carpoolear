@@ -39,7 +39,7 @@ class ViajeLista(APIView):
             filters['fecha'] = fecha_param
 
         # Apply filters and order by the 'actualizado' field to show newest first
-        viajes = Viaje.objects.select_related('origen', 'destino', 'conductor').filter(**filters).order_by('-actualizado')
+        viajes = Viaje.objects.filter(**filters).order_by('-actualizado')
 
         serializer = ViajeSerializer(viajes, many=True)
         return Response(serializer.data)
@@ -58,7 +58,7 @@ class MisViajesLista(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        viajes = Viaje.objects.select_related('origen', 'destino', 'conductor').filter(conductor=self.request.user)
+        viajes = Viaje.objects.filter(conductor=self.request.user)
         serializer = ViajeSerializer(viajes, many=True)
         return Response(serializer.data)
 
@@ -66,7 +66,7 @@ class MisViajesLista(APIView):
 
 class ViajeDetalle(APIView):
     def get(self, request, pk):
-        viaje = get_object_or_404(Viaje.objects.select_related('origen', 'destino', 'conductor'), pk=pk)
+        viaje = get_object_or_404(Viaje, pk=pk)
         serializer = ViajeSerializer(viaje)
         return Response(serializer.data)
 

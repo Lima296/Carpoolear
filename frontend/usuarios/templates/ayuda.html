@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayuda - Carpoolear</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbargeneral.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ayuda.css' %}">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    {% include 'includes/navbargeneral.html' %}
+
+    <div class="container my-5">
+        <div class="ayuda-header text-center mb-5">
+            <h1 class="display-4">Centro de Ayuda</h1>
+            <p class="lead">Tu guía para usar ViajAr</p>
+        </div>
+
+        <div class="accordion" id="ayuda-acordeon">
+
+            <!-- Sección 1: Primeros Pasos -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-uno">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-uno" aria-expanded="true" aria-controls="collapse-uno">
+                        <strong>Primeros Pasos: Registro e Inicio de Sesión</strong>
+                    </button>
+                </h2>
+                <div id="collapse-uno" class="accordion-collapse collapse show" aria-labelledby="heading-uno" data-bs-parent="#ayuda-acordeon">
+                    <div class="accordion-body">
+                        <ol>
+                            <li><strong>Registrarse:</strong> En la página de inicio, haz clic en "Registrarse". Completa el formulario con tu nombre, apellido, email, fecha de nacimiento y una contraseña.</li>
+                            <li><strong>Iniciar Sesión:</strong> Una vez registrado, ve a "Iniciar Sesión". Ingresa tu email y contraseña para acceder a tu panel de control.</li>
+                            <li><strong>Mi Perfil:</strong> Puedes ver y editar tu información personal haciendo clic en tu nombre en la barra de navegación y seleccionando "Mi Perfil".</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 2: Viajes como Conductor -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-dos">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-dos" aria-expanded="false" aria-controls="collapse-dos">
+                        <strong>Viajes como Conductor</strong>
+                    </button>
+                </h2>
+                <div id="collapse-dos" class="accordion-collapse collapse" aria-labelledby="heading-dos" data-bs-parent="#ayuda-acordeon">
+                    <div class="accordion-body">
+                        <ol>
+                            <li><strong>Añadir un Vehículo:</strong> Antes de poder publicar un viaje, debes registrar tu vehículo. Ve a "Mi Perfil" y busca la sección para añadir vehículos. Deberás proporcionar la patente, marca, modelo, color y cantidad de asientos.</li>
+                            <li><strong>Publicar un Viaje:</strong> En el panel principal, haz clic en "Publicá el tuyo". Se abrirá un formulario donde deberás especificar el origen, destino, fecha, hora, precio por asiento y los asientos disponibles.</li>
+                            <li><strong>Gestionar mis Viajes Publicados:</strong> En la sección "Mis Viajes", podrás ver los viajes que has creado, editar su información o cancelarlos. También verás quiénes han reservado un asiento.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 3: Viajes como Pasajero -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-tres">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-tres" aria-expanded="false" aria-controls="collapse-tres">
+                        <strong>Viajes como Pasajero</strong>
+                    </button>
+                </h2>
+                <div id="collapse-tres" class="accordion-collapse collapse" aria-labelledby="heading-tres" data-bs-parent="#ayuda-acordeon">
+                    <div class="accordion-body">
+                        <ol>
+                            <li><strong>Buscar un Viaje:</strong> En la página principal, utiliza el buscador. Ingresa el origen, destino y la fecha en la que te gustaría viajar.</li>
+                            <li><strong>Filtrar Resultados:</strong> El sistema te mostrará una lista de viajes disponibles. Puedes revisarlos para encontrar el que mejor se ajuste a tu horario y presupuesto.</li>
+                            <li><strong>Reservar un Asiento:</strong> Cuando encuentres un viaje que te interese, haz clic en él para ver más detalles y luego presiona el botón para reservar. Se te pedirá que confirmes la reserva.</li>
+                            <li><strong>Mis Reservas:</strong> En la sección "Mis Viajes", podrás ver un historial de los viajes que has reservado, así como los detalles del conductor y el vehículo.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 4: Reportes -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-cuatro">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-cuatro" aria-expanded="false" aria-controls="collapse-cuatro">
+                        <strong>Reportar un Problema</strong>
+                    </button>
+                </h2>
+                <div id="collapse-cuatro" class="accordion-collapse collapse" aria-labelledby="heading-cuatro" data-bs-parent="#ayuda-acordeon">
+                    <div class="accordion-body">
+                        <p>Si tienes algún problema con un usuario o un viaje, puedes realizar un reporte.</p>
+                        <ol>
+                            <li>Ve a la página de "Reporte" desde la barra de navegación.</li>
+                            <li>Selecciona el motivo del reporte.</li>
+                            <li>Describe detalladamente el problema que tuviste.</li>
+                            <li>Envía el formulario. Nuestro equipo revisará el caso y tomará las medidas necesarias.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/auth.js' %}"></script>
+</body>
+</html>

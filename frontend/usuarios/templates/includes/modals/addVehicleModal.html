@@ -1,0 +1,36 @@
+<!-- Modal para Agregar Vehículo -->
+<div class="modal fade modal-custom" id="addVehicleModal" tabindex="-1" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form id="add-vehicle-form">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h1>Agregar Vehículo</h1>
+                    <div class="form-group">
+                        <label for="add-marca">Marca</label>
+                        <input type="text" class="form-control" id="add-marca" name="marca" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-modelo">Modelo</label>
+                        <input type="text" class="form-control" id="add-modelo" name="modelo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-patente">Patente</label>
+                        <input type="text" class="form-control" id="add-patente" name="patente" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-color">Color</label>
+                        <input type="text" class="form-control" id="add-color" name="color" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-asientos">Asientos</label>
+                        <input type="number" class="form-control" id="add-asientos" name="asientos" required>
+                    </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="submit" class="btn btn-primary">Guardar Vehículo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

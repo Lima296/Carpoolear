@@ -3,31 +3,37 @@ URL configuration for backend project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
-from django.views.generic import RedirectView
 
-# API Views
+from django.urls import path, include 
+from django.contrib import admin
+# Importaciones de tus vistas de API
 from estado.views import EstadoLista, EstadoDetalle
 from usuarios.views import UsuarioViewSet, DetalleUsuario, LoginView, PerfilUsuarioActual
 from provincias.views import ProvinciaLista, ProvinciaDetalle
 from vehiculos.views import VehiculoDetalle, VehiculoLista
 from viajes.views import ViajeLista, ViajeDetalle, MisViajesLista
+from estado.views import EstadoLista, EstadoDetalle
 from localidad.views import LocalidadDetalle, LocalidadLista
 from reservas.views import ReservaLista, ReservaDetalle, ReservasPendientesView, ViajeReservasListView, MisReservasView
 
+# 🔑 CORRECCIÓN 2: Eliminamos 'from . import views' (causaba error) y no es necesario 
+# si usamos 'include' para delegar las rutas de frontend.
+
 urlpatterns = [
-    # Root redirect to dashboard
-    path('', RedirectView.as_view(url='/dashboard/', permanent=True)),
-
-    # Frontend App URLs
-    path('', include('web.urls', namespace='web')),
-
-    # Admin
+    # Rutas de administración y APIs (las que ya tenías)
     path('admin/', admin.site.urls),
 
-    # API URLs
     path('api/login/', LoginView.as_view(), name='login'),
     path('api/perfil/', PerfilUsuarioActual.as_view(), name='perfil_usuario'),
 
@@ -57,3 +63,20 @@ urlpatterns = [
 
     path('api/calificaciones/', include('calificaciones.urls')),
 ]
+
+"""
+URL configuration for backend project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/5.2/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
