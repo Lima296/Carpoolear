@@ -148,6 +148,16 @@ body {
     color: #721c24 !important;
 }
 
+/* --- TEXTO DEL BOTÓN DE PERFIL RESPONSIVE --- */
+.profile-text-mobile {
+    display: none;
+}
+
+/* Ocultar items de navegación móvil en el dropdown por defecto */
+.mobile-nav-item {
+    display: none;
+}
+
 /* --- RESPONSIVE --- */
 @media (max-width: 992px) {
     .navbar-custom {
@@ -160,8 +170,18 @@ body {
 }
 
 @media (max-width: 768px) {
-    .d-flex.justify-content-center.flex-grow-1 {
-        display: none !important; /* Oculta enlaces centrales en móviles */
+    .main-nav-links {
+        display: none !important; /* Oculta los enlaces de navegación principales */
+    }
+    .profile-text-desktop {
+        display: none; /* Oculta "Usuario" */
+    }
+    .profile-text-mobile {
+        display: inline; /* Muestra "Menu" */
+    }
+    /* Mostrar items de navegación móvil en el dropdown */
+    .mobile-nav-item {
+        display: block;
     }
 }
 

@@ -8,7 +8,7 @@ body {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../img/card1.png');
     background-size: cover;
     background-position: center;
-    padding: 20px;
+    padding: 15px;
     text-align: center;
     color: #fff;
 }
@@ -135,16 +135,16 @@ body {
 .viaje-card-v3 {
     background-color: #fff;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    border: 1px solid #e9ecef;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.65); /* Sombra más pronunciada */
+    border: 2px solid #e9ecef;
     display: flex;
     flex-direction: column;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .viaje-card-v3:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.09);
+    transform: translateY(-5px); /* Ligeramente más elevado al pasar el ratón */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.65); /* Sombra de hover más pronunciada */
 }
 
 .viaje-card-v3 .card-header {
@@ -343,6 +343,11 @@ body {
     }
     .contenedor_viajes {
         grid-template-columns: 1fr;
+    }
+    #btn-scroll-top {
+        left: 30px; /* Posiciona el botón a la izquierda */
+        right: auto; /* Desactiva la posición a la derecha */
+        bottom: 20px; /* Ajusta la posición inferior si es necesario */
     }
 }
 /* Rotar flecha para que apunte a la derecha */

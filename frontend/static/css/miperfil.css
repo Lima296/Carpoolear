@@ -235,3 +235,13 @@ body {
 .calificacion-comentario em {
     color: #6c757d;
 }
+
+/* AJUSTES RESPONSIVE */
+@media (max-width: 768px) {
+    .profile-page-container {
+        margin-bottom: 10px;
+    }
+    .profile-nav-card {
+        margin-bottom: 10px;
+    }
+}
