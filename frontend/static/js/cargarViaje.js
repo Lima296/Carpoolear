@@ -27,6 +27,9 @@ function formatPriceWithDot(price) {
 function crearTarjetaViaje(viaje) {
     const getStaticUrl = (path) => `${STATIC_URL_BASE}img/${path}`;
 
+    // Lógica para determinar la clase de color de los asientos
+    const asientosClaseColor = viaje.asientos_disponibles >= 3 ? 'asientos-disponibles-verde' : 'asientos-disponibles-naranja';
+
     // --- Generación Condicional de HTML ---
     const fechaHTML = viaje.fecha ? `
         <div class="info-item">
@@ -102,7 +105,7 @@ function crearTarjetaViaje(viaje) {
             <div class="card-footer">
                 ${conductorHTML}
                 <div class="actions">
-                    <div class="asientos-disponibles">
+                    <div class="asientos-disponibles ${asientosClaseColor}">
                         <img src="${getStaticUrl('asiento.svg')}" alt="Asientos">
                         <span>${viaje.asientos_disponibles ?? '0'}</span>
                     </div>
