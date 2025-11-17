@@ -56,3 +56,25 @@ body {
     margin-left: -70px;
     height: auto;
 }
+
+/* --- AJUSTES RESPONSIVE --- */
+@media (max-width: 768px) {
+    .profile-nav-card {
+        width: 100%; /* Ocupa todo el ancho disponible */
+        margin-left: 0;
+        margin-bottom: 20px; /* Espacio entre la tarjeta de navegación y la de contenido */
+    }
+
+    .contenedor_reporte {
+        width: 100%; /* Ocupa todo el ancho disponible */
+        margin-left: 0;
+    }
+
+    .profile-nav-card button {
+        width: 100%; /* Los botones ocupan todo el ancho */
+    }
+
+    .profile-nav .nav-item .nav-link.active {
+        width: 100%; /* El botón activo también ocupa todo el ancho */
+    }
+}
