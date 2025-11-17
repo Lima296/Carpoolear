@@ -1,0 +1,207 @@
+/* --- navbargeneral.css --- */
+/* Rediseño completo para una estética moderna y limpia */
+
+/* --- FUENTES --- */
+body {
+    font-family: 'Outfit', sans-serif;
+    padding-top: 75px; /* Para evitar que la navbar fija se superponga al contenido */
+}
+
+/* --- BARRA DE NAVEGACIÓN PRINCIPAL --- */
+.navbar-custom {
+    background-color: #ffffff !important;
+    height: 75px;
+    padding: 0 30px;
+    border-bottom: 1px solid #e9ecef;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+}
+
+/* --- LOGO Y TÍTULO --- */
+.logo-img {
+    height: 60px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.05);
+}
+
+.navbar-title {
+    font-size: 26px;
+    font-weight: 600;
+    color: #024873;
+    margin-left: 8px;
+}
+
+/* --- ENLACES DE NAVEGACIÓN CENTRALES --- */
+.nav-link {
+    font-size: 16px;
+    font-weight: 500;
+    color: #343a40;
+    margin: 0 15px;
+    padding: 8px 0;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: #024873;
+    transition: all 0.3s ease-out;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover {
+    color: #024873;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* --- MENÚ DE PERFIL DE USUARIO --- */
+.profile-link {
+    color: #343a40;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.profile-link:hover {
+    color: #024873;
+}
+
+.navbar-profile-icon {
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.profile-link:hover .navbar-profile-icon {
+    border-color: #024873;
+}
+
+/* --- MENÚ DESPLEGABLE (DROPDOWN) --- */
+
+/* Animaciones para el Dropdown controladas por JS */
+.dropdown-menu {
+    /* Estilos base que podrían haberse perdido */
+    border-radius: 8px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 8px 0;
+    margin-top: 15px !important;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOutUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+.dropdown-menu.anim-fade-in {
+    animation: fadeInDown 0.3s ease forwards;
+}
+
+.dropdown-menu.anim-fade-out {
+    animation: fadeOutUp 0.3s ease forwards;
+}
+
+.dropdown-item {
+    font-size: 15px;
+    font-weight: 500;
+    padding: 10px 20px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-item.text-danger:hover {
+    background-color: #f8d7da;
+    color: #721c24 !important;
+}
+
+/* --- TEXTO DEL BOTÓN DE PERFIL RESPONSIVE --- */
+.profile-text-mobile {
+    display: none;
+}
+
+/* Ocultar items de navegación móvil en el dropdown por defecto */
+.mobile-nav-item {
+    display: none;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 992px) {
+    .navbar-custom {
+        padding: 0 15px;
+    }
+    .nav-link {
+        margin: 0 8px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-nav-links {
+        display: none !important; /* Oculta los enlaces de navegación principales */
+    }
+    .profile-text-desktop {
+        display: none; /* Oculta "Usuario" */
+    }
+    .profile-text-mobile {
+        display: inline; /* Muestra "Menu" */
+    }
+    /* Mostrar items de navegación móvil en el dropdown */
+    .mobile-nav-item {
+        display: block;
+    }
+}
+
+/* --- ESTILOS PARA TÍTULO DE PANTALLA --- */
+.pantalla-header {
+    padding: 20px 60px 10px 60px; /* Padding: Arriba, Derecha, Abajo, Izquierda */
+    background-color: #024873; /* Color de fondo oscuro para que el texto blanco resalte */
+    text-align: center;
+    margin-bottom: 0px;
+}
+
+.pantalla-titulo {
+    color: white;
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem; /* Espacio entre el título y el separador */
+}
+
+.pantalla-separador {
+    border: 0;
+    border-top: 1px solid white;
+    opacity: 0.75;
+}

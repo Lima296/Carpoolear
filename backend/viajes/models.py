@@ -24,38 +24,40 @@ class Viaje(models.Model):
     actualizado = models.DateTimeField(auto_now=True) #se actualiza automáticamente cada vez que se guarda o modifica algo. Sirve para ver cuando fue la última vez que se cambió un registro // auto_now=True para que se actualice automáticamente al guardar el registro
 
     def save(self, *args, **kwargs):
-        print("--- Entrando al método save() del Viaje ---") # DEBUG
+        # TODO: Mover esta lógica a una tarea asíncrona (Celery) para no bloquear el guardado.
+        # La llamada a la API de OSRM puede tardar y no debería estar en el flujo síncrono.
+        # print("--- Entrando al método save() del Viaje ---") # DEBUG
         
-        # Verificar que el origen y el destino tengan coordenadas
-        if self.origen and self.destino and self.origen.lon and self.origen.lat and self.destino.lon and self.destino.lat:
-            print(f"Coordenadas encontradas: Origen=({self.origen.lat}, {self.origen.lon}), Destino=({self.destino.lon}, {self.destino.lat})") # DEBUG
-            try:
-                # Construir la URL para la API de OSRM
-                url = f"http://router.project-osrm.org/route/v1/driving/{self.origen.lon},{self.origen.lat};{self.destino.lat},{self.destino.lon}?overview=false"
-                print(f"URL de OSRM: {url}") # DEBUG
+        # # Verificar que el origen y el destino tengan coordenadas
+        # if self.origen and self.destino and self.origen.lon and self.origen.lat and self.destino.lon and self.destino.lat:
+        #     print(f"Coordenadas encontradas: Origen=({self.origen.lat}, {self.origen.lon}), Destino=({self.destino.lon}, {self.destino.lat})") # DEBUG
+        #     try:
+        #         # Construir la URL para la API de OSRM
+        #         url = f"http://router.project-osrm.org/route/v1/driving/{self.origen.lon},{self.origen.lat};{self.destino.lat},{self.destino.lon}?overview=false"
+        #         print(f"URL de OSRM: {url}") # DEBUG
                 
-                response = requests.get(url)
-                response.raise_for_status()
+        #         response = requests.get(url)
+        #         response.raise_for_status()
                 
-                data = response.json()
+        #         data = response.json()
                 
-                if data['code'] == 'Ok' and data['routes']:
-                    route = data['routes'][0]
-                    self.distancia = route['distance'] / 1000
-                    self.tiempo = route['duration'] / 60
-                    print(f"Cálculo exitoso: Distancia={self.distancia} km, Tiempo={self.tiempo} min") # DEBUG
-                else:
-                    print(f"Respuesta de OSRM no fue 'Ok' o no contenía rutas. Código: {data.get('code')}") # DEBUG
+        #         if data['code'] == 'Ok' and data['routes']:
+        #             route = data['routes'][0]
+        #             self.distancia = route['distance'] / 1000
+        #             self.tiempo = route['duration'] / 60
+        #             print(f"Cálculo exitoso: Distancia={self.distancia} km, Tiempo={self.tiempo} min") # DEBUG
+        #         else:
+        #             print(f"Respuesta de OSRM no fue 'Ok' o no contenía rutas. Código: {data.get('code')}") # DEBUG
                 
-            except requests.exceptions.RequestException as e:
-                print(f"Error al conectar con OSRM: {e}")
-                self.distancia = None
-                self.tiempo = None
-        else:
-            print("No se encontraron coordenadas para origen y/o destino. Saltando cálculo.") # DEBUG
+        #     except requests.exceptions.RequestException as e:
+        #         print(f"Error al conectar con OSRM: {e}")
+        #         self.distancia = None
+        #         self.tiempo = None
+        # else:
+        #     print("No se encontraron coordenadas para origen y/o destino. Saltando cálculo.") # DEBUG
 
         super(Viaje, self).save(*args, **kwargs)
-        print(f"--- Saliendo del método save(). Distancia final: {self.distancia}, Tiempo final: {self.tiempo} ---") # DEBUG
+        # print(f"--- Saliendo del método save(). Distancia final: {self.distancia}, Tiempo final: {self.tiempo} ---") # DEBUG
 
     def __str__(self):
         return f"{self.origen} → {self.destino} ({self.fecha})"

@@ -54,8 +54,17 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
     @property
     def reputacion(self):
-        return 4.5
+        calificaciones_recibidas = self.calificaciones_recibidas.all()
+        if not calificaciones_recibidas.exists():
+            return 0
+        
+        likes = calificaciones_recibidas.filter(tipo='like').count()
+        total = calificaciones_recibidas.count()
+        
+        # Calcular reputación en una escala de 5 estrellas
+        return (likes / total) * 5 if total > 0 else 0
 
     @property
     def viajes_realizados(self):
-        return 120
+        # Contar los viajes donde el usuario es el conductor y el estado es 'FINALIZADO'
+        return self.viajes_creados.filter(estado='FINALIZADO').count()

@@ -1,0 +1,129 @@
+/* ------------- ESTILOS GENERALES ------------- */
+body {
+    font-family: 'Outfit', sans-serif;
+}
+
+/* ------------- NAVBAR PRINCIPAL ------------- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff !important;
+    position: relative;
+    height: 70px;
+}
+
+/* Título dentro de la navbar */
+.navbar-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #024873;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor del botón hamburguesa (lado izquierdo) */
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+/* ------------- ENLACES DENTRO DEL NAVBAR ------------- */
+.nav-links {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li a {
+    color: rgb(0, 0, 0);
+    margin-right: 15px;
+    text-decoration: none;
+}
+
+/* ------------- LOGO ------------- */
+.logo-img {
+    height: 50px;
+    width: auto;
+}
+
+/* ------------- BOTÓN HAMBURGUESA ------------- */
+.menu-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 22px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.menu-toggle span {
+    display: block;
+    height: 4px;
+    width: 100%;
+    background-color: #024873;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* ------------- ANIMACIÓN DEL BOTÓN HAMBURGUESA ------------- */
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ------------- OFFCANVAS (MENÚ LATERAL) ------------- */
+.offcanvas-header {
+    background-color: #024873;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+}
+
+.offcanvas-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: white; /* El título está sobre un fondo azul, el blanco es más legible */
+}
+
+.offcanvas-header .btn-close {
+    filter: invert(1);
+}
+
+.offcanvas-body .nav-links {
+    margin-top: 20px;
+}
+
+.offcanvas-body .nav-links li a {
+    font-size: 20px;
+    color: #000;
+    text-decoration: none;
+}
+
+.offcanvas-body .nav-links li a:hover {
+    color: #024873;
+}
+
+/* ------------- RESPONSIVE (MÓVILES) ------------- */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Oculta enlaces en pantallas pequeñas */
+    }
+}

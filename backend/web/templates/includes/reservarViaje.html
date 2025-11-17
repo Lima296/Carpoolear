@@ -1,0 +1,50 @@
+<!-- Modal para Reservar Viaje -->
+<div class="modal fade" id="reservarViajeModal" tabindex="-1" aria-labelledby="reservarViajeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reservarViajeModalLabel">Reserva tu asiento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Contenedor para los detalles del viaje -->
+        <div id="modal-viaje-contenido">
+          <p><strong>Conductor:</strong> <span id="modal-conductor-nombre"></span></p>
+
+          <hr>
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Origen:</strong> <span id="modal-viaje-origen"></span></p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>Destino:</strong> <span id="modal-viaje-destino"></span></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Fecha:</strong> <span id="modal-viaje-fecha"></span></p>
+            </div>
+            <div class="col-md-6">
+              <p><strong>Hora:</strong> <span id="modal-viaje-hora"></span></p>
+            </div>
+          </div>
+          <p><strong>Estado:</strong> <span id="modal-viaje-estado"></span></p>
+          <p><strong>Precio por asiento:</strong> <span id="modal-viaje-precio"></span></p>
+          <p><strong>Detalles del viaje:</strong> <span id="modal-viaje-detalles"></span></p>
+          <p><strong>Asientos disponibles:</strong> <span id="modal-viaje-asientos-disponibles"></span></p>
+          <hr>
+          <div class="mb-3">
+            <label for="cantidadAsientos" class="form-label">¿Cuántos asientos quieres solicitar?</label>
+            <input type="number" id="cantidadAsientos" class="form-control" value="1" min="1">
+          </div>
+        </div>
+        <!-- Contenedor para mensajes de feedback (éxito/error) -->
+        <div id="modal-reserva-feedback" style="display: none;"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-success" id="btn-solicitar-asiento">Solicita Asiento</button>
+      </div>
+    </div>
+  </div>
+</div>
