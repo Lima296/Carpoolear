@@ -3,7 +3,14 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
+from datetime import date
+import unicodedata
 from .models import Viaje
+
+
+def remove_accents(input_str):
+    nfkd_form = unicodedata.normalize('NFKD', input_str)
+    return "".join([c for c in nfkd_form if not unicodedata.combining(c)])
 from .serializers import ViajeSerializer
 from vehiculos.models import Vehiculo
 from localidad.models import Localidad
@@ -25,18 +32,30 @@ class ViajeLista(APIView):
             if origen_param.isdigit():
                 filters['origen_id'] = origen_param
             else:
-                origen_ids = Localidad.objects.filter(nombre__iexact=origen_param).values_list('id', flat=True)
-                filters['origen_id__in'] = list(origen_ids)
+                all_localidades = Localidad.objects.all()
+                normalized_query = remove_accents(origen_param).lower()
+                origen_ids = [
+                    loc.id for loc in all_localidades 
+                    if normalized_query in remove_accents(loc.nombre).lower()
+                ]
+                filters['origen_id__in'] = origen_ids
 
         if destino_param and destino_param.strip():
             if destino_param.isdigit():
                 filters['destino_id'] = destino_param
             else:
-                destino_ids = Localidad.objects.filter(nombre__iexact=destino_param).values_list('id', flat=True)
-                filters['destino_id__in'] = list(destino_ids)
+                all_localidades = Localidad.objects.all()
+                normalized_query = remove_accents(destino_param).lower()
+                destino_ids = [
+                    loc.id for loc in all_localidades 
+                    if normalized_query in remove_accents(loc.nombre).lower()
+                ]
+                filters['destino_id__in'] = destino_ids
         
         if fecha_param and fecha_param.strip():
             filters['fecha'] = fecha_param
+        
+        filters['fecha__gte'] = date.today()
 
         # Apply filters and order by the 'actualizado' field to show newest first
         viajes = Viaje.objects.filter(**filters).order_by('-actualizado')
