@@ -31,7 +31,7 @@ class Viaje(models.Model):
             print(f"Coordenadas encontradas: Origen=({self.origen.lat}, {self.origen.lon}), Destino=({self.destino.lon}, {self.destino.lat})") # DEBUG
             try:
                 # Construir la URL para la API de OSRM
-                url = f"http://router.project-osrm.org/route/v1/driving/{self.origen.lon},{self.origen.lat};{self.destino.lat},{self.destino.lon}?overview=false"
+                url = f"http://router.project-osrm.org/route/v1/driving/{self.origen.lon},{self.origen.lat};{self.destino.lon},{self.destino.lat}?overview=false"
                 print(f"URL de OSRM: {url}") # DEBUG
                 
                 response = requests.get(url)
