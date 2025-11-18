@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async function() { // Make it asyn
 
         const dropdownMenu = dropdownContainer.querySelector('.dropdown-menu');
         
-        dropdownMenu.innerHTML = '<h6 class="dropdown-header">Ciudades Sugeridas</h6>';
+        dropdownMenu.innerHTML = '<h6 class="dropdown-header">Seleccione una ciudad</h6>';
         localidades.forEach(localidad => {
             const item = document.createElement('a');
             item.classList.add('dropdown-item');
