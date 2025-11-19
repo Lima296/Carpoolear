@@ -4,12 +4,18 @@ const API_LOCALIDAD_URL = 'http://127.0.0.1:8000/api/localidades/';
 /**
  * Función para obtener la lista de localidades desde la API.
  */
-async function getLocalidades() {
-    console.log('Iniciando la carga de localidades...');
+async function getLocalidades(query = '') {
+    console.log(`Iniciando la carga de localidades con query: "${query}"`);
 
     try {
+        // Construir la URL con el parámetro de búsqueda si existe
+        const url = new URL(API_LOCALIDAD_URL);
+        if (query) {
+            url.searchParams.append('q', query);
+        }
+
         // Realiza la solicitud Fetch a la API
-        const response = await fetch(API_LOCALIDAD_URL);
+        const response = await fetch(url);
 
         // Verifica si la respuesta de la red es exitosa (código 2xx)
         if (!response.ok) {
@@ -103,40 +109,23 @@ function populateLocalidadDropdown(dropdownMenuElement, localidades, inputElemen
     }
 
     const bsDropdown = bootstrap.Dropdown.getOrCreateInstance(inputElement);
-    let allLocalidades = [];
 
-    try {
-        allLocalidades = await getLocalidades();
-        // Llenar inicialmente con todas las localidades para que el filtrado funcione desde el principio
-        populateLocalidadDropdown(dropdownMenuElement, allLocalidades, inputElement);
-    } catch (error) {
-        console.error(`Error al cargar localidades para ${inputId}:`, error);
-        // Opcional: mostrar un mensaje de error en el dropdown
-        dropdownMenuElement.innerHTML = '<li class="dropdown-item text-muted">No se pudieron cargar las localidades.</li>';
-        return;
-    }
+    inputElement.addEventListener('input', async () => {
+        const searchTerm = inputElement.value;
+        const localidades = await getLocalidades(searchTerm);
+        populateLocalidadDropdown(dropdownMenuElement, localidades, inputElement);
 
-    inputElement.addEventListener('input', () => {
-        const searchTerm = inputElement.value.toLowerCase();
-        const filteredLocalidades = allLocalidades.filter(loc =>
-            loc.nombre.toLowerCase().includes(searchTerm)
-        );
-        populateLocalidadDropdown(dropdownMenuElement, filteredLocalidades, inputElement);
-
-        if (searchTerm.length > 0 && filteredLocalidades.length > 0) {
+        if (searchTerm.length > 0 && localidades.length > 0) {
             bsDropdown.show();
         } else {
             bsDropdown.hide();
         }
     });
 
-    inputElement.addEventListener('focus', () => {
-        const searchTerm = inputElement.value.toLowerCase();
-        // Si el campo está vacío, se re-popula con la lista completa de localidades.
-        if (searchTerm.length === 0) {
-            populateLocalidadDropdown(dropdownMenuElement, allLocalidades, inputElement);
-        }
-        // Siempre se intenta mostrar el desplegable al obtener el foco.
+    inputElement.addEventListener('focus', async () => {
+        const searchTerm = inputElement.value;
+        const localidades = await getLocalidades(searchTerm);
+        populateLocalidadDropdown(dropdownMenuElement, localidades, inputElement);
         bsDropdown.show();
     });
 

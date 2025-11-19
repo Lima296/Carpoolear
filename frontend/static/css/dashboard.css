@@ -411,3 +411,30 @@ body {
     background-color: #f1f1f1;
 }
 
+/* --- ESTILOS PARA INDICADOR DE ASIENTOS (CORREGIDO) --- */
+.actions .asientos-disponibles {
+    /* Estilos de layout y nuevos de decoración */
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    color: #fff; /* Texto blanco */
+    transition: background-color 0.3s ease;
+}
+
+.asientos-disponibles-verde {
+    background-color: #28a745 !important; /* Verde */
+}
+
+.asientos-disponibles-naranja {
+    background-color: #fd7e14 !important; /* Naranja */
+}
+
+/* Estilos para la imagen dentro del indicador */
+.actions .asientos-disponibles img {
+    width: 22px; /* Ancho original restaurado */
+    opacity: 1;  /* Completamente visible */
+    filter: brightness(0) invert(1); /* Convertir a blanco */
+}
