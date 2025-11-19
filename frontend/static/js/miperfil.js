@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
             vehicleItem.className = 'vehicle-item';
             vehicleItem.innerHTML = `
                 <div class="vehicle-info">
-                    <h6>${vehicle.marca} ${vehicle.modelo}</h6>
+                    <h6>${vehicle.marca} ${vehicle.modelo} (${vehicle.año})</h6>
                     <p>Patente: ${vehicle.patente} | Color: ${vehicle.color} | Asientos: ${vehicle.asientos}</p>
                 </div>
                 <div class="vehicle-actions">
@@ -187,6 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('edit-modelo').value = vehicle.modelo;
                 document.getElementById('edit-patente').value = vehicle.patente;
                 document.getElementById('edit-color').value = vehicle.color;
+                document.getElementById('edit-año').value = vehicle.año; // Añadir el campo año aquí
                 document.getElementById('edit-asientos').value = vehicle.asientos;
                 editVehicleModal.show();
             }
@@ -198,8 +199,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     addVehicleForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        console.log("Evento 'submit' del formulario de agregar vehículo capturado.");
+
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
+        console.log("Datos del vehículo a enviar:", data);
         
         try {
             const response = await fetch(vehiclesUrl, {
@@ -207,12 +211,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
-            if (!response.ok) throw new Error('Error al agregar vehículo');
+
+            console.log("Respuesta del servidor recibida:", response);
+
+            if (!response.ok) {
+                // Leer la respuesta de error como texto para obtener el mensaje exacto de Django
+                const errorText = await response.text();
+                console.error('Cuerpo de la respuesta de error del servidor:', errorText);
+                throw new Error(`Error del servidor: ${response.status} ${response.statusText}`);
+            }
+            
+            const responseData = await response.json();
+            console.log("Vehículo agregado exitosamente:", responseData);
+
             addVehicleModal.hide();
             e.target.reset();
             loadVehicleData();
         } catch (error) {
-            console.error(error);
+            console.error('Fallo al procesar la petición de agregar vehículo:', error);
+            // Opcional: Mostrar un mensaje de error al usuario en la UI
+            alert('No se pudo guardar el vehículo. Revisa la consola para más detalles.');
         }
     });
 

@@ -38,7 +38,10 @@ document.addEventListener('DOMContentLoaded', async function() { // Make it asyn
         const items = dropdownMenu.querySelectorAll('.dropdown-item');
         const dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(inputElement);
 
-        inputElement.addEventListener('keyup', function() {
+        inputElement.addEventListener('input', function() {
+            // Al escribir, se anula cualquier selección previa de la lista
+            inputElement.removeAttribute('data-selected-id');
+            
             const filter = inputElement.value.toLowerCase();
             let hasVisibleItems = false;
             
@@ -51,11 +54,17 @@ document.addEventListener('DOMContentLoaded', async function() { // Make it asyn
                     item.style.display = 'none';
                 }
             });
-            
+
+            const isVisible = dropdownMenu.classList.contains('show');
+
             if (filter.length > 0 && hasVisibleItems) {
-                 dropdownInstance.show();
+                if (!isVisible) {
+                    dropdownInstance.show();
+                }
             } else {
-                 dropdownInstance.hide();
+                if (isVisible) {
+                    dropdownInstance.hide();
+                }
             }
         });
 
