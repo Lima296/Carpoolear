@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                                     </div>
                                     <div class="d-flex align-items-center gap-1 mb-1">
                                         <img src="/static/img/asiento.svg" alt="Asientos" width="16">
-                                        <span class="mb-1">${asientos} asientos</span>
+                                        <span class="mb-1">${asientos} asientos dsiponibles</span>
                                     </div>
                                 </div>
                                 <p class="mb-1 mt-2">Estado: <span class="fw-bold">${estado}</span></p>
@@ -594,35 +594,35 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 
     async function actualizarEstadoReserva(uuid, nuevoEstado, cardElement) {
-        try {
-            const response = await fetch(`http://127.0.0.1:8000/api/reservas/${uuid}/`, {
-                method: 'PATCH',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ estado: nuevoEstado })
-            });
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/reservas/${uuid}/`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ estado: nuevoEstado })
+        });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.detail || `Error al actualizar la reserva a ${nuevoEstado}`);
-            }
-            
-            cardElement.style.transition = 'opacity 0.5s ease';
-            cardElement.style.opacity = '0';
-            setTimeout(() => {
-                cardElement.remove();
-                if (solicitudesContainer.children.length === 0) {
-                    solicitudesContainer.innerHTML = '<div class="list-group-item text-center">No tienes solicitudes pendientes.</div>';
-                }
-            }, 500);
-
-        } catch (error) {
-            console.error('Error:', error);
-            alert(`No se pudo ${nuevoEstado === 'CONFIRMADA' ? 'aceptar' : 'rechazar'} la solicitud. Razón: ${error.message}`);
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || `Error al actualizar la reserva a ${nuevoEstado}`);
         }
+        
+        cardElement.style.transition = 'opacity 0.5s ease';
+        cardElement.style.opacity = '0';
+        setTimeout(() => {
+            cardElement.remove();
+            if (solicitudesContainer.children.length === 0) {
+                solicitudesContainer.innerHTML = '<div class="list-group-item text-center">No tienes solicitudes pendientes.</div>';
+            }
+        }, 500);
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert(`No se pudo ${nuevoEstado === 'CONFIRMADA' ? 'aceptar' : 'rechazar'} la solicitud. Razón: ${error.message}`);
     }
+}
 
     solicitudesContainer.addEventListener('click', function(e) {
         const target = e.target;

@@ -141,7 +141,7 @@ async function cargarViajes(filters = {}) {
 
     try {
         // Añadimos un retraso de 2 segundos para simular la carga
-        await delay(2000);
+        await delay(1500);
 
         // 2. Realizar la solicitud Fetch
         const response = await fetch(url);
@@ -158,8 +158,8 @@ async function cargarViajes(filters = {}) {
         // 4. Parsear los datos a JSON
         let listaDeViajes = await response.json();
         
-        // Filtrar viajes: solo mostrar los que NO estén 'Finalizado'
-        listaDeViajes = listaDeViajes.filter(viaje => viaje.estado !== 'Finalizado');
+        // Filtrar viajes: solo mostrar los que NO estén 'Finalizado' y tengan asientos
+        listaDeViajes = listaDeViajes.filter(viaje => viaje.estado !== 'Finalizado' && viaje.asientos_disponibles > 0);
 
         // 4.1. Ordenar los viajes por el campo 'actualizado' (más recientes primero)
         listaDeViajes.sort((a, b) => new Date(b.actualizado) - new Date(a.actualizado));
