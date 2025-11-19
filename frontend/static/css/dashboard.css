@@ -116,7 +116,7 @@ body {
 
 /* --- CONTENEDOR DE RESULTADOS --- */
 .results-container {
-    padding: 40px 15px;
+    padding:     15px;
 }
 
 .results-separator {
@@ -154,6 +154,7 @@ body {
     padding: 16px;
     background-color: #f8f9fa;
     border-bottom: 1px solid #e9ecef;
+    border-radius: 10px;
 }
 
 .card-header .origen, .card-header .destino {
@@ -217,6 +218,7 @@ body {
     padding: 12px 16px;
     border-top: 1px solid #e9ecef;
     background-color: #f8f9fa;
+    border-radius: 10px;
 }
 
 .card-footer .conductor-info {
