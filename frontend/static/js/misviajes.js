@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     let todasLasLocalidades = [];
+    let currentUser = null;
 
     // --- Contenedores ---
     const misViajesContainer = document.getElementById('mis-viajes-container');
