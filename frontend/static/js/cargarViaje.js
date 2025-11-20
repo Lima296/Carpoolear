@@ -109,7 +109,7 @@ function crearTarjetaViaje(viaje) {
                         <img src="${getStaticUrl('asiento.svg')}" alt="Asientos">
                         <span>${viaje.asientos_disponibles ?? '0'}</span>
                     </div>
-                    <button class="btn btn-reservar-v3" data-bs-toggle="modal" data-bs-target="#reservarViajeModal" data-viaje-id="${viaje.id}">
+                    <button class="btn btn-reservar-v3" data-viaje-id="${viaje.id}" data-conductor-id="${viaje.conductor.id}">
                         Reservar
                     </button>
                 </div>
@@ -200,4 +200,56 @@ async function cargarViajes(filters = {}) {
 }
 
 // Iniciar la carga de viajes al finalizar la carga del DOM
-document.addEventListener('DOMContentLoaded', cargarViajes);
+document.addEventListener('DOMContentLoaded', () => {
+    cargarViajes();
+
+    const reservarViajeModalEl = document.getElementById('reservarViajeModal');
+    const infoModalEl = document.getElementById('infoModal');
+
+    if (!reservarViajeModalEl || !infoModalEl || !contenedorViajes) return;
+
+    const reservarViajeModal = new bootstrap.Modal(reservarViajeModalEl);
+    const infoModal = new bootstrap.Modal(infoModalEl);
+    const infoModalBody = document.getElementById('infoModalBody');
+
+    async function getUsuarioId() {
+        const userProfileUrl = 'http://127.0.0.1:8000/api/perfil/';
+        const accessToken = localStorage.getItem('access');
+        if (!accessToken) return null;
+        try {
+            const response = await fetch(userProfileUrl, {
+                headers: { 'Authorization': `Bearer ${accessToken}` }
+            });
+            if (!response.ok) return null;
+            const data = await response.json();
+            return data.id;
+        } catch (error) {
+            console.error('Error fetching user ID:', error);
+            return null;
+        }
+    }
+
+    contenedorViajes.addEventListener('click', async function(event) {
+        const reservarBtn = event.target.closest('.btn-reservar-v3');
+        if (!reservarBtn) return;
+
+        const conductorId = parseInt(reservarBtn.dataset.conductorId, 10);
+        const viajeId = reservarBtn.dataset.viajeId;
+        const currentUserId = await getUsuarioId();
+
+        if (currentUserId !== null && conductorId === currentUserId) {
+            infoModalBody.textContent = 'No podés reservar un asiento en tu propio viaje.';
+            infoModal.show();
+        } else {
+            // Pasamos el viajeId al modal de reserva antes de mostrarlo
+            // para que el script 'reservarViaje.js' pueda usarlo.
+            if (reservarViajeModalEl.querySelector('#btn-solicitar-asiento')) {
+                 reservarViajeModalEl.querySelector('#btn-solicitar-asiento').setAttribute('data-viaje-id', viajeId);
+            }
+           
+            // La lógica de poblar el modal se encuentra en el evento 'show.bs.modal' de 'reservarViaje.js'
+            // Por lo tanto, solo necesitamos mostrar el modal. Le pasamos el botón como 'relatedTarget'.
+            reservarViajeModal.show(reservarBtn);
+        }
+    });
+});
