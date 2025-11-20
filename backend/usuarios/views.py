@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, serializers
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
@@ -15,6 +15,41 @@ from .serializers import UsuarioSerializer
 # VISTAS DEL BACKEND (API REST FRAMEWORK)
 # Estas clases manejan las peticiones GET, POST, PUT, DELETE para los datos de la API.
 # =================================================================
+
+class ChangePasswordView(APIView):
+    """
+    Endpoint para que el usuario autenticado cambie su contraseña.
+    """
+    permission_classes = [IsAuthenticated]
+
+    class ChangePasswordSerializer(serializers.Serializer):
+        current_password = serializers.CharField(required=True)
+        new_password = serializers.CharField(required=True)
+        confirm_password = serializers.CharField(required=True)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.ChangePasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            user = request.user
+            current_password = serializer.validated_data.get('current_password')
+            new_password = serializer.validated_data.get('new_password')
+            confirm_password = serializer.validated_data.get('confirm_password')
+
+            if not user.check_password(current_password):
+                return Response({"error": "La contraseña actual es incorrecta."}, status=status.HTTP_400_BAD_REQUEST)
+
+            if new_password != confirm_password:
+                return Response({"error": "Las nuevas contraseñas no coinciden."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Aquí puedes añadir validación extra para la nueva contraseña si lo necesitas
+            # Por ejemplo, longitud mínima, etc.
+
+            user.set_password(new_password)
+            user.save()
+            return Response({"mensaje": "Contraseña Cambiada con exito"}, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UsuarioViewSet(APIView):
     """

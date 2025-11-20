@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const userProfileUrl = 'http://127.0.0.1:8000/api/perfil/';
     const vehiclesUrl = 'http://127.0.0.1:8000/api/vehiculos/';
     const calificacionesUrl = 'http://127.0.0.1:8000/api/calificaciones/';
+    const changePasswordUrl = 'http://127.0.0.1:8000/api/change-password/';
 
     // --- Almacenamiento de datos ---
     let userVehicles = [];
@@ -25,13 +26,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const editVehicleModal = new bootstrap.Modal(document.getElementById('editVehicleModal'));
     const deleteVehicleModal = new bootstrap.Modal(document.getElementById('deleteVehicleModal'));
     const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
-    // const calificacionesModal = new bootstrap.Modal(document.getElementById('calificacionesModal')); // Eliminado
+    const changePasswordModal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
 
     // Formularios
     const addVehicleForm = document.getElementById('add-vehicle-form');
     const editVehicleForm = document.getElementById('edit-vehicle-form');
     const deleteVehicleForm = document.getElementById('delete-vehicle-form');
     const editProfileForm = document.getElementById('edit-profile-form');
+    const changePasswordForm = document.getElementById('change-password-form');
 
     // --- Navegación del Perfil ---
     navLinks.forEach(link => {
@@ -69,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('display-apellido').textContent = data.apellido || 'N/A';
             document.getElementById('display-telefono').textContent = data.telefono || 'N/A';
             document.getElementById('display-correo').textContent = data.correo || 'N/A';
+            document.getElementById('display-password').textContent = '********';
 
             // Llenar modal de edición de perfil
             document.getElementById('edit-nombre').value = data.nombre || '';
@@ -298,6 +301,48 @@ document.addEventListener('DOMContentLoaded', function() {
             loadProfileData();
         } catch (error) {
             console.error(error);
+        }
+    });
+
+    changePasswordForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const current_password = document.getElementById('current-password').value;
+        const new_password = document.getElementById('new-password').value;
+        const confirm_password = document.getElementById('confirm-password').value;
+
+        if (new_password !== confirm_password) {
+            alert('Las nuevas contraseñas no coinciden.');
+            return;
+        }
+
+        if (!current_password || !new_password) {
+            alert('Por favor, completa todos los campos.');
+            return;
+        }
+
+        try {
+            const response = await fetch(changePasswordUrl, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ current_password, new_password, confirm_password })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Error al cambiar la contraseña.');
+            }
+
+            showSuccessModal(data.mensaje || 'Contraseña actualizada con éxito.');
+            changePasswordModal.hide();
+            changePasswordForm.reset();
+
+        } catch (error) {
+            console.error(error);
+            alert(error.message);
         }
     });
 

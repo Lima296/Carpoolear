@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.contrib import admin
 # Importaciones de tus vistas de API
 from estado.views import EstadoLista, EstadoDetalle
-from usuarios.views import UsuarioViewSet, DetalleUsuario, LoginView, PerfilUsuarioActual
+from usuarios.views import UsuarioViewSet, DetalleUsuario, LoginView, PerfilUsuarioActual, ChangePasswordView
 from provincias.views import ProvinciaLista, ProvinciaDetalle
 from vehiculos.views import VehiculoDetalle, VehiculoLista
 from viajes.views import ViajeLista, ViajeDetalle, MisViajesLista
@@ -36,6 +36,7 @@ urlpatterns = [
 
     path('api/login/', LoginView.as_view(), name='login'),
     path('api/perfil/', PerfilUsuarioActual.as_view(), name='perfil_usuario'),
+    path('api/change-password/', ChangePasswordView.as_view(), name='change_password'),
 
     path('api/usuarios/', UsuarioViewSet.as_view(), name='usuarios-lista'),
     path('api/usuarios/<int:pk>/', DetalleUsuario.as_view(), name='detalle_usuario'),
