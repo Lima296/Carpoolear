@@ -68,7 +68,13 @@
                                 <li><strong>Apellido:</strong> <span id="display-apellido">Cargando...</span></li>
                                 <li><strong>Teléfono:</strong> <span id="display-telefono">Cargando...</span></li>
                                 <li><strong>Correo:</strong> <span id="display-correo">Cargando...</span></li>
+                                <li class="d-flex justify-content-between align-items-center">
+                                    <span><strong>Contraseña:</strong> <span id="display-password">Cargando...</span></span>
+                                    <a href="#" class="text-primary btn-sm text-decoration-none" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Cambiar Contraseña</a>
+                                </li>
                             </ul>
+
+
                         </div>
                     </div>
 
@@ -98,7 +104,9 @@
     </div>
 
     <!-- Modales -->
+    {% include 'includes/modals/genericSuccessModal.html' %}
     {% include 'includes/modals/editProfileModal.html' %}
+    {% include 'includes/modals/changePasswordModal.html' %}
     {% include 'includes/modals/addVehicleModal.html' %}
     {% include 'includes/modals/editVehicleModal.html' %}
     <div class="modal fade modal-custom" id="deleteVehicleModal" tabindex="-1" aria-hidden="true">
@@ -122,6 +130,7 @@
 
     <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/auth.js' %}"></script>
+    <script src="{% static 'js/utils.js' %}"></script>
     <script src="{% static 'js/miperfil.js' %}?v=2.0"></script>
 
 </body>
