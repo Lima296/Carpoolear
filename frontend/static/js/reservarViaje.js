@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function realizarReserva(viajeId, asientos) {
         const accessToken = localStorage.getItem('access');
         if (!accessToken) {
-            mostrarFeedback('Error: Debes iniciar sesión para poder reservar.', 'danger');
+            mostrarFeedback('Error: Tenés que iniciar sesión para poder reservar.', 'danger');
             document.getElementById('btn-solicitar-asiento').disabled = false;
             return;
         }
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Novedad: Obtenemos el ID del usuario logueado
         const usuarioId = await getUsuarioId();
         if (!usuarioId) {
-            mostrarFeedback('Error: No se pudo verificar tu identidad para realizar la reserva.', 'danger');
+            mostrarFeedback('Error: No se pudo verificar la identidad para realizar la reserva.', 'danger');
             document.getElementById('btn-solicitar-asiento').disabled = false;
             return;
         }
@@ -197,9 +197,20 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify(reservaData)
         })
-        .then(response => {
+        .then(async response => {
             if (!response.ok) {
-                return response.json().then(err => { throw new Error(err.detail || JSON.stringify(err)); });
+                const err = await response.json();
+                let errorMessages = '<ul>';
+                for (const key in err) {
+                    if (err.hasOwnProperty(key)) {
+                        // err[key] es un array de strings de error
+                        err[key].forEach(message => {
+                            errorMessages += `<li>${message}</li>`;
+                        });
+                    }
+                }
+                errorMessages += '</ul>';
+                throw new Error(errorMessages);
             }
             return response.json();
         })
@@ -215,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Mostrar mensaje de éxito con el botón de WhatsApp
             const feedbackHtml = `
                 <div class="alert alert-success">¡Reserva realizada con éxito!</div>
-                <p class="text-center mt-3">Contacta al conductor para coordinar.</p>
+                <p class="text-center mt-3">Contactá al conductor para coordinar.</p>
                 <button id="btn-enviar-whatsapp" class="btn btn-success w-100 mt-2">Enviar WhatsApp</button>
             `;
             mostrarFeedback(feedbackHtml, 'success');

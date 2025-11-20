@@ -594,36 +594,50 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
 
 
+    const infoModalEl = document.getElementById('infoModal');
+    const infoModal = new bootstrap.Modal(infoModalEl);
+    const infoModalBody = infoModalEl.querySelector('.modal-body');
+
+    // ... (otro código de modales) ...
+
     async function actualizarEstadoReserva(uuid, nuevoEstado, cardElement) {
-    try {
-        const response = await fetch(`http://127.0.0.1:8000/api/reservas/${uuid}/`, {
-            method: 'PATCH',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ estado: nuevoEstado })
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.detail || `Error al actualizar la reserva a ${nuevoEstado}`);
-        }
-        
-        cardElement.style.transition = 'opacity 0.5s ease';
-        cardElement.style.opacity = '0';
-        setTimeout(() => {
-            cardElement.remove();
-            if (solicitudesContainer.children.length === 0) {
-                solicitudesContainer.innerHTML = '<div class="list-group-item text-center">No tienes solicitudes pendientes.</div>';
+        try {
+            const response = await fetch(`http://127.0.0.1:8000/api/reservas/${uuid}/`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ estado: nuevoEstado })
+            });
+    
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.detail || `Error al actualizar la reserva a ${nuevoEstado}`);
             }
-        }, 500);
 
-    } catch (error) {
-        console.error('Error:', error);
-        alert(`No se pudo ${nuevoEstado === 'CONFIRMADA' ? 'aceptar' : 'rechazar'} la solicitud. Razón: ${error.message}`);
+            // Mostrar modal de éxito
+            const accion = nuevoEstado === 'CONFIRMADA' ? 'aceptada' : 'rechazada';
+            infoModalBody.textContent = `Solicitud ${accion} con éxito.`;
+            infoModal.show();
+            
+            // Eliminar la tarjeta de la UI
+            cardElement.style.transition = 'opacity 0.5s ease';
+            cardElement.style.opacity = '0';
+            setTimeout(() => {
+                cardElement.remove();
+                if (solicitudesContainer.children.length === 0) {
+                    solicitudesContainer.innerHTML = '<div class="list-group-item text-center">No tienes solicitudes pendientes.</div>';
+                }
+            }, 500);
+    
+        } catch (error) {
+            console.error('Error:', error);
+            // Mostrar modal de error
+            infoModalBody.textContent = `No se pudo completar la acción. Razón: ${error.message}`;
+            infoModal.show();
+        }
     }
-}
 
     solicitudesContainer.addEventListener('click', function(e) {
         const target = e.target;
