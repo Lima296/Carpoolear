@@ -33,6 +33,16 @@ class ViajeSerializer(serializers.ModelSerializer):
         model = Viaje
         fields = ['id', 'conductor', 'origen', 'destino', 'fecha', 'hora', 'asientos_disponibles', 'precio', 'detalle_viaje', 'estado', 'distancia', 'tiempo', 'creado', 'actualizado']
 
+    def validate_fecha(self, value):
+        if value < date.today():
+            raise serializers.ValidationError("La fecha no puede ser anterior al día actual.")
+        return value
+
+    def validate_asientos_disponibles(self, value):
+        if value > 8:
+            value = 8  # Silently cap the value at 8
+        return value
+
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         # Con el LocalidadRelatedField, origen y destino ya están serializados.

@@ -15,7 +15,7 @@
                             <div class="dropdown" id="dropdown-origen-publicar">
                                 <input type="text" class="form-control" id="origen-publicar" aria-expanded="false" required autocomplete="off">
                                 <div class="dropdown-menu w-100">
-                                    <h6 class="dropdown-header">Localidad Sugerida</h6>
+                                    <h6 class="dropdown-header">Localidad sugerida</h6>
                                 </div>
                             </div>
                         </div>
@@ -24,43 +24,43 @@
                             <div class="dropdown" id="dropdown-destino-publicar">
                                 <input type="text" class="form-control" id="destino-publicar" aria-expanded="false" required autocomplete="off">
                                 <div class="dropdown-menu w-100">
-                                    <h6 class="dropdown-header">Localidad Sugerida</h6>
+                                    <h6 class="dropdown-header">Localidad sugerida</h6>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="input-group">
                         <div class="form-group">
-                            <label for="fecha-publicar">Fecha de Salida</label>
+                            <label for="fecha-publicar">Fecha de salida</label>
                             <input type="text" class="form-control" id="fecha-publicar" placeholder="" onfocus="(this.type='date')" onblur="(this.type='text')" required min="{{ current_date }}">
                         </div>
                         <div class="form-group">
-                            <label for="hora-publicar">Hora de Salida</label>
+                            <label for="hora-publicar">Hora de salida</label>
                             <input type="time" class="form-control" id="hora-publicar" required>
                         </div>
                     </div>
                     <div class="input-group">
                         <div class="form-group">
-                            <label for="asientos-publicar">Asientos Disponibles</label>
+                            <label for="asientos-publicar">Asientos disponibles</label>
                             <div class="asientos-disponibles">
                                 <button type="button" onclick="this.nextElementSibling.stepDown()">-</button>
-                                <input type="number" id="asientos-publicar" min="1" value="1" readonly>
+                                <input type="number" id="asientos-publicar" min="1" max="8" value="1" readonly>
                                 <button type="button" onclick="this.previousElementSibling.stepUp()">+</button>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="precio-publicar">Precio por Asiento</label>
+                            <label for="precio-publicar">Precio por asiento</label>
                             <input type="number" class="form-control" id="precio-publicar" step="100" min="0" placeholder="Sin puntos ni comas" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="detalle_viaje">Detalles del viaje</label>
-                        <textarea class="form-control" id="detalle_viaje" placeholder="Viajo con un perro, paso por algún lado, etc." maxlength="200" style="height: 100px"></textarea>
+                        <textarea class="form-control" id="detalle_viaje" placeholder="Viajo con una mascota, paso por tal ciudad, etc." maxlength="200" style="height: 100px"></textarea>
                     </div>
 
 
-                    <button class="btn btn-primary w-100" type="submit">Publicar Viaje</button>
+                    <button class="btn btn-primary w-100" type="submit">PUBLICAR VIAJE</button>
                 </form>
             </div>
         </div>
@@ -95,7 +95,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="vehiculoRequeridoModalLabel">Vehículo Requerido</h5>
+                <h5 class="modal-title" id="vehiculoRequeridoModalLabel">Vehículo requerido</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -104,7 +104,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="btn-ir-a-perfil">Ir a mi Perfil</button>
+                <button type="button" class="btn btn-primary" id="btn-ir-a-perfil">Ir a Mi Perfil</button>
             </div>
         </div>
     </div>
