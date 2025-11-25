@@ -713,451 +713,275 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    const form = document.getElementById('form-publicar-viaje');
+        const form = document.getElementById('form-publicar-viaje');
 
 
 
-    if (form) {
+        if (form) {
 
 
 
-        form.addEventListener('submit', async (event) => {
+            const submitButton = form.querySelector('button[type="submit"]');
 
 
 
-            event.preventDefault();
+    
 
 
 
+            form.addEventListener('submit', async (event) => {
 
 
 
+                event.preventDefault();
 
-                        try {
 
 
+    
 
 
 
+                if (submitButton) {
 
 
-                            const origenInput = document.getElementById('origen-publicar');
 
+                    submitButton.disabled = true;
 
 
 
+                    submitButton.textContent = 'Publicando...';
 
 
 
-                            const destinoInput = document.getElementById('destino-publicar');
+                }
 
 
 
+    
 
 
 
+                try {
 
-            
 
 
+                    const origenInput = document.getElementById('origen-publicar');
 
 
 
+                    const destinoInput = document.getElementById('destino-publicar');
 
 
-                            const datosDelViaje = {
 
+    
 
 
 
+                    const datosDelViaje = {
 
 
 
-                                origen: origenInput.getAttribute('data-selected-id') || origenInput.value,
+                        origen: origenInput.getAttribute('data-selected-id') || origenInput.value,
 
 
 
+                        destino: destinoInput.getAttribute('data-selected-id') || destinoInput.value,
 
 
 
+                        fecha: document.getElementById('fecha-publicar').value,
 
-                                destino: destinoInput.getAttribute('data-selected-id') || destinoInput.value,
 
 
+                        hora: document.getElementById('hora-publicar').value,
 
 
 
+                        asientos_disponibles: parseInt(document.getElementById('asientos-publicar').value, 10),
 
 
-                                fecha: document.getElementById('fecha-publicar').value,
 
+                        precio: parseFloat(document.getElementById('precio-publicar').value),
 
 
 
+                        detalle_viaje: document.getElementById('detalle_viaje').value
 
 
 
-                                hora: document.getElementById('hora-publicar').value,
+                    };
 
 
 
+    
 
 
 
+                    if (!datosDelViaje.origen || !datosDelViaje.destino) {
 
-                                asientos_disponibles: parseInt(document.getElementById('asientos-publicar').value, 10),
 
 
+                        alert('Por favor, ingresa un origen y un destino.');
 
 
 
+                        // Re-enable button on validation failure
 
 
-                                precio: parseFloat(document.getElementById('precio-publicar').value),
 
+                        if (submitButton) {
 
 
 
+                            submitButton.disabled = false;
 
 
 
-                                detalle_viaje: document.getElementById('detalle_viaje').value
+                            submitButton.textContent = 'PUBLICAR VIAJE';
 
 
 
+                        }
 
 
 
+                        return;
 
-                            };
 
 
+                    }
 
 
 
+    
 
 
-            
 
+                    await publicarViaje(datosDelViaje);
 
 
 
+    
 
 
 
-                            if (!datosDelViaje.origen || !datosDelViaje.destino) {
+                    // Ocultar modal de publicación y mostrar modal de éxito
 
 
 
+                    const publicarViajeModalElement = document.getElementById('publicarViajeModal');
 
 
 
+                    const publicarViajeBootstrapModal = bootstrap.Modal.getInstance(publicarViajeModalElement);
 
-                                alert('Por favor, ingresa un origen y un destino.');
 
 
+                    if (publicarViajeBootstrapModal) {
 
 
 
+                        publicarViajeBootstrapModal.hide();
 
 
-                                return;
 
+                    }
 
 
 
+    
 
 
 
-                            }
+                    const successModalElement = document.getElementById('successModal');
 
 
 
+                    const successBootstrapModal = new bootstrap.Modal(successModalElement);
 
 
 
+                    successBootstrapModal.show();
 
-            
 
 
+    
 
 
 
+                    // Ocultar el modal de éxito y recargar la página después de un breve retraso
 
 
-                            await publicarViaje(datosDelViaje);
 
+                    setTimeout(() => {
 
 
 
+                        successBootstrapModal.hide();
 
 
 
-            
+                        window.location.reload();
 
 
 
+                    }, 2000);
 
 
 
+    
 
-                            // Ocultar modal de publicación y mostrar modal de éxito
 
 
+                } catch (error) {
 
 
 
+                    console.error('Ocurrió un error al publicar el viaje:', error);
 
 
-                            const publicarViajeModalElement = document.getElementById('publicarViajeModal');
 
+                    const errorMessage = error.detail || 'No se pudo publicar el viaje. Por favor, inténtalo de nuevo más tarde.';
 
 
 
+                    alert(errorMessage);
 
 
 
-                            const publicarViajeBootstrapModal = bootstrap.Modal.getInstance(publicarViajeModalElement);
+                } finally {
 
 
 
+                    // Rehabilita el botón después de que todo haya terminado (éxito o error)
 
 
 
+                    if (submitButton) {
 
-                            if (publicarViajeBootstrapModal) {
 
 
+                        submitButton.disabled = false;
 
 
 
+                        submitButton.textContent = 'PUBLICAR VIAJE';
 
 
-                                publicarViajeBootstrapModal.hide();
 
+                    }
 
 
 
+                }
 
 
 
-                            }
+            });
 
 
 
-
-
-
-
-            
-
-
-
-
-
-
-
-                            const successModalElement = document.getElementById('successModal');
-
-
-
-
-
-
-
-                            const successBootstrapModal = new bootstrap.Modal(successModalElement);
-
-
-
-
-
-
-
-                            successBootstrapModal.show();
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-                                                        // Ocultar el modal de éxito y recargar la página después de un breve retraso
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-                                                        setTimeout(() => {
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-                                                            successBootstrapModal.hide();
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-                                                            window.location.reload();
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-                                                        }, 2000);
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-                            
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-                                                    } catch (error) {
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-                                                        console.error('Ocurrió un error al publicar el viaje:', error);
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-                                                        const errorMessage = error.detail || 'No se pudo publicar el viaje. Por favor, inténtalo de nuevo más tarde.';
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-                                                        alert(errorMessage);
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-                                                    }
-
-
-
-        });
-
-
-
-    }
+        }
 
 
 

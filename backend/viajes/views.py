@@ -67,6 +67,26 @@ class ViajeLista(APIView):
         if not Vehiculo.objects.filter(propietario=request.user).exists():
             return Response({"detail": "No tiene un vehículo registrado para poder crear un viaje."}, status=status.HTTP_400_BAD_REQUEST)
         
+        # Validación para evitar duplicados
+        # Un viaje se considera duplicado si el mismo conductor publica un viaje con
+        # el mismo origen, destino, fecha y hora.
+        duplicate_check_data = {
+            'conductor': request.user,
+            'origen_id': request.data.get('origen'),
+            'destino_id': request.data.get('destino'),
+            'fecha': request.data.get('fecha'),
+            'hora': request.data.get('hora'),
+        }
+
+        # Se eliminan las claves con valores nulos o vacíos para una comparación robusta
+        cleaned_check_data = {k: v for k, v in duplicate_check_data.items() if v is not None}
+
+        if Viaje.objects.filter(**cleaned_check_data).exists():
+            return Response(
+                {"detail": "Ya has publicado un viaje idéntico."},
+                status=status.HTTP_409_CONFLICT
+            )
+
         serializer = ViajeSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(conductor=request.user)
