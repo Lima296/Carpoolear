@@ -37,9 +37,24 @@ class VehiculoDetalle(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
+        from django.core.exceptions import ValidationError
+
         vehiculo = get_object_or_404(Vehiculo, pk=pk)
-        vehiculo.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+
+        if vehiculo.propietario != request.user:
+            return Response(
+                {"detail": "No tienes permiso para realizar esta acción."},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        try:
+            vehiculo.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except ValidationError as e:
+            return Response(
+                {"non_field_errors": e.messages}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 class MisVehiculosLista(APIView):
     permission_classes = [IsAuthenticated]

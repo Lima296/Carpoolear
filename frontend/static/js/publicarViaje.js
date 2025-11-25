@@ -989,31 +989,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-                            // Actualizar la lista de viajes si la función existe
-
-
-
-
-
-
-
-                            if (typeof cargarViajes === 'function') {
-
-
-
-
-
-
-
-                                cargarViajes();
-
-
-
-
-
-
-
-                            }
+                                                        // Ocultar el modal de éxito y recargar la página después de un breve retraso
 
 
 
@@ -1029,31 +1005,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-                            form.reset();
-
-
-
-
-
-
-
-                            setTimeout(() => {
-
-
-
-
-
-
-
-                                successBootstrapModal.hide();
-
-
-
-
-
-
-
-                            }, 2000);
+                                                        setTimeout(() => {
 
 
 
@@ -1069,7 +1021,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-                        } catch (error) {
+                                                            successBootstrapModal.hide();
 
 
 
@@ -1077,7 +1029,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-                            console.error('Ocurrió un error al publicar el viaje:', error);
+            
 
 
 
@@ -1085,7 +1037,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-                            const errorMessage = error.detail || 'No se pudo publicar el viaje. Por favor, inténtalo de nuevo más tarde.';
+                                                            window.location.reload();
 
 
 
@@ -1093,7 +1045,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-                            alert(errorMessage);
+            
 
 
 
@@ -1101,7 +1053,103 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-                        }
+                                                        }, 2000);
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+                            
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+                                                    } catch (error) {
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+                                                        console.error('Ocurrió un error al publicar el viaje:', error);
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+                                                        const errorMessage = error.detail || 'No se pudo publicar el viaje. Por favor, inténtalo de nuevo más tarde.';
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+                                                        alert(errorMessage);
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+                                                    }
 
 
 

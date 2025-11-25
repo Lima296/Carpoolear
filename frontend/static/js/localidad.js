@@ -110,10 +110,64 @@ function populateLocalidadDropdown(dropdownMenuElement, localidades, inputElemen
 
     const bsDropdown = bootstrap.Dropdown.getOrCreateInstance(inputElement);
 
+    let activeIndex = -1; // Para rastrear el elemento actualmente "enfocado" por teclado
+
+    const updateActiveItem = () => {
+        const items = dropdownMenuElement.querySelectorAll('.dropdown-item');
+        items.forEach((item, index) => {
+            if (index === activeIndex) {
+                item.classList.add('active');
+                // Añadir lógica de scrollIntoView para hacer el elemento visible
+                if (dropdownMenuElement.scrollHeight > dropdownMenuElement.clientHeight) { // Solo si hay scrollbar
+                    item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                }
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    };
+
+    const selectActiveItem = () => {
+        const activeItem = dropdownMenuElement.querySelector('.dropdown-item.active');
+        if (activeItem) {
+            activeItem.click();
+            bsDropdown.hide();
+            inputElement.focus(); // Mantener el foco en el input después de la selección
+        }
+    };
+
+    inputElement.addEventListener('keydown', (e) => {
+        const items = dropdownMenuElement.querySelectorAll('.dropdown-item');
+        if (items.length === 0) return;
+
+        switch (e.key) {
+            case 'ArrowDown':
+                e.preventDefault();
+                activeIndex = (activeIndex + 1) % items.length;
+                updateActiveItem();
+                break;
+            case 'ArrowUp':
+                e.preventDefault();
+                activeIndex = (activeIndex - 1 + items.length) % items.length;
+                updateActiveItem();
+                break;
+            case 'Enter':
+                e.preventDefault();
+                selectActiveItem();
+                break;
+            case 'Escape':
+                e.preventDefault();
+                bsDropdown.hide();
+                activeIndex = -1; // Resetear el índice activo al cerrar
+                break;
+        }
+    });
+
     inputElement.addEventListener('input', async () => {
         const searchTerm = inputElement.value;
         const localidades = await getLocalidades(searchTerm);
         populateLocalidadDropdown(dropdownMenuElement, localidades, inputElement);
+        activeIndex = -1; // Resetear al cambiar el input
 
         if (searchTerm.length > 0 && localidades.length > 0) {
             bsDropdown.show();
@@ -126,6 +180,7 @@ function populateLocalidadDropdown(dropdownMenuElement, localidades, inputElemen
         const searchTerm = inputElement.value;
         const localidades = await getLocalidades(searchTerm);
         populateLocalidadDropdown(dropdownMenuElement, localidades, inputElement);
+        activeIndex = -1; // Resetear al enfocar
         bsDropdown.show();
     });
 
