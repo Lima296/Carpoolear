@@ -51,11 +51,8 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('display-nombre').textContent = data.nombre || 'N/A';
             document.getElementById('display-apellido').textContent = data.apellido || 'N/A';
             
-            // Ocultamos campos que no queremos mostrar en el perfil público
-            const telefonoLi = document.getElementById('display-telefono')?.closest('li');
-            const correoLi = document.getElementById('display-correo')?.closest('li');
-            if(telefonoLi) telefonoLi.style.display = 'none';
-            if(correoLi) correoLi.style.display = 'none';
+            document.getElementById('display-telefono').textContent = data.telefono || 'N/A';
+            document.getElementById('display-correo').textContent = data.correo || 'N/A';
 
         } catch (error) {
             console.error(error);

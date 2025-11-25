@@ -4,74 +4,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil del Conductor</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;1,14..32,300&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-
+    <title>Perfil del conductor</title>
     <link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbargeneral.css' %}">
-    <link rel="stylesheet" href="{% static 'css/miperfil.css' %}?v=2.1">
-
-</head><body>
-
+    <link rel="stylesheet" href="{% static 'css/miperfil.css' %}">
+</head>
+<body>
     {% include 'includes/navbargeneral.html' %}
 
-    <div class="pantalla-header">
-        <h1 class="pantalla-titulo">Perfil del Conductor</h1>
-        <hr class="pantalla-separador">
-    </div>
-
-    <div class="container profile-page-container">
+    <div class="container profile-page-container mt-5">
         <div class="row">
-            <!-- Columna de Navegación Izquierda -->
-            <div class="col-lg-3">
+            <div class="col-md-4">
                 <div class="profile-nav-card">
-                    <div class="profile-nav-header text-center">
-                        <img src="{% static 'img/default-avatar.svg' %}" alt="Foto de Perfil" class="profile-nav-picture">
-                        <h5 id="nav-display-name" class="mt-3">Cargando...</h5>
+                    <div class="profile-avatar-container text-center mb-3">
+                        <img src="{% static 'img/default-avatar.svg' %}" alt="Avatar" class="profile-avatar">
                     </div>
-                    <ul class="nav flex-column profile-nav">
+                    <h5 id="nav-display-name" class="text-center">Cargando...</h5>
+                    <hr>
+                    <!-- Menú de navegación del perfil -->
+                    <ul class="nav profile-nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#" data-target="profile-content">
-                                Perfil
-                            </a>
+                            <a class="nav-link active" href="#" data-target="info-content">Información</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" data-target="calificaciones-content">
-                                Calificaciones
-                            </a>
+                            <a class="nav-link" href="#" data-target="calificaciones-content">Calificaciones</a>
                         </li>
                     </ul>
                 </div>
             </div>
-
-            <!-- Columna de Contenido Derecha -->
-            <div class="col-lg-9">
+            <div class="col-md-8">
                 <div class="profile-content-card">
-                    <!-- Contenido del Perfil -->
-                    <div id="profile-content" class="content-pane active">
-                        <div class="pane-header">
-                            <h3>Información del Conductor</h3>
-                        </div>
-                        <div class="pane-body">
-                            <ul class="info-list">
-                                <li><strong>Nombre:</strong> <span id="display-nombre">Cargando...</span></li>
-                                <li><strong>Apellido:</strong> <span id="display-apellido">Cargando...</span></li>
-                                <!-- Otros campos públicos se pueden añadir aquí -->
-                            </ul>
-                        </div>
+                    <!-- Panel de Información -->
+                    <div id="info-content" class="content-pane active">
+                        <h3 class="mb-4">Perfil del conductor</h3>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <strong>Nombre:</strong> <span id="display-nombre">Cargando...</span>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Apellido:</strong> <span id="display-apellido">Cargando...</span>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Teléfono:</strong> <span id="display-telefono">Cargando...</span>
+                            </li>
+                            <li class="list-group-item">
+                                <strong>Correo:</strong> <span id="display-correo">Cargando...</span>
+                            </li>
+                        </ul>
                     </div>
-
-                    <!-- Contenido de Calificaciones -->
+                    <!-- Panel de Calificaciones -->
                     <div id="calificaciones-content" class="content-pane">
-                        <div class="pane-header">
-                            <h3>Calificaciones Recibidas</h3>
-                        </div>
-                        <div id="calificaciones-list-container" class="pane-body">
-                            <!-- Las calificaciones se cargarán aquí dinámicamente -->
+                        <h3 class="mb-4">Calificaciones recibidas</h3>
+                        <div id="calificaciones-list-container">
+                            <p class="text-center text-muted">Cargando calificaciones...</p>
                         </div>
                     </div>
                 </div>
-</html>}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const USUARIO_ID = "{{ usuario_id }}";
+    </script>
+    <script src="{% static 'libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/auth.js' %}"></script>
+    <script src="{% static 'js/perfilpublico.js' %}"></script>
+</body>
+</html>
