@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from views import UsuarioViewSet, DetalleUsuario
+from .views import UsuarioViewSet, DetalleUsuario
 
 urlpatterns = [
     path('api/usuarios/', UsuarioViewSet.as_view(), name='usuarios'),
