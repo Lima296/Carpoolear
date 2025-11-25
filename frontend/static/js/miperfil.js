@@ -27,6 +27,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const deleteVehicleModal = new bootstrap.Modal(document.getElementById('deleteVehicleModal'));
     const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
     const changePasswordModal = new bootstrap.Modal(document.getElementById('changePasswordModal'));
+    const genericSuccessModal = new bootstrap.Modal(document.getElementById('genericSuccessModal')); // Referencia al modal de éxito genérico
+    const genericErrorModal = new bootstrap.Modal(document.getElementById('genericErrorModal'));   // Referencia al modal de error genérico
+
+    // Funciones para mostrar modales de mensajes
+    function showSuccessModal(message) {
+        document.getElementById('generic-success-message').textContent = message;
+        genericSuccessModal.show();
+    }
+
+    function showErrorModal(message) {
+        document.getElementById('generic-error-message').textContent = message;
+        genericErrorModal.show();
+    }
 
     // Formularios
     const addVehicleForm = document.getElementById('add-vehicle-form');
@@ -265,10 +278,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${accessToken}` }
             });
-            if (!response.ok) throw new Error('Error al eliminar vehículo');
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                const errorMessage = (errorData.non_field_errors && errorData.non_field_errors[0]) || 'Error al eliminar el vehículo.';
+                throw new Error(errorMessage);
+            }
+
             deleteVehicleModal.hide();
             loadVehicleData();
+
         } catch (error) {
+            deleteVehicleModal.hide();
+            showErrorModal(error.message);
             console.error(error);
         }
     });

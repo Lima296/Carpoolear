@@ -438,3 +438,11 @@ body {
     opacity: 1;  /* Completamente visible */
     filter: brightness(0) invert(1); /* Convertir a blanco */
 }
+
+/* Estilo para el elemento activo del dropdown */
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #0d6efd; /* Color de resaltado de Bootstrap */
+    outline: none; /* Eliminar el contorno al enfocar con teclado */
+}

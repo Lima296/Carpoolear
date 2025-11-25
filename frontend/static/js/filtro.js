@@ -23,6 +23,29 @@ document.addEventListener('DOMContentLoaded', async function() { // Make it asyn
         }
 
         const dropdownMenu = dropdownContainer.querySelector('.dropdown-menu');
+        let activeIndex = -1;
+
+        const updateActiveItem = () => {
+            const items = dropdownMenu.querySelectorAll('.dropdown-item');
+            items.forEach((item, index) => {
+                if (index === activeIndex) {
+                    item.classList.add('active');
+                    // Añadir lógica de scrollIntoView para hacer el elemento visible
+                    if (dropdownMenu.scrollHeight > dropdownMenu.clientHeight) { // Solo si hay scrollbar
+                        item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                    }
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        };
+
+        const selectActiveItem = () => {
+            const activeItem = dropdownMenu.querySelector('.dropdown-item.active');
+            if (activeItem) {
+                activeItem.click();
+            }
+        };
         
         dropdownMenu.innerHTML = '<h6 class="dropdown-header">Seleccione una ciudad</h6>';
         localidades.forEach(localidad => {
@@ -38,6 +61,42 @@ document.addEventListener('DOMContentLoaded', async function() { // Make it asyn
         const items = dropdownMenu.querySelectorAll('.dropdown-item');
         const dropdownInstance = bootstrap.Dropdown.getOrCreateInstance(inputElement);
 
+        inputElement.addEventListener('keydown', function(e) {
+            const visibleItems = Array.from(items).filter(item => item.style.display !== 'none');
+            if (visibleItems.length === 0) return;
+        
+            let currentActiveIndex = -1;
+            if (activeIndex !== -1) {
+                const activeItem = items[activeIndex];
+                currentActiveIndex = visibleItems.indexOf(activeItem);
+            }
+
+            switch (e.key) {
+                case 'ArrowDown':
+                    e.preventDefault();
+                    currentActiveIndex = (currentActiveIndex + 1) % visibleItems.length;
+                    activeIndex = Array.from(items).indexOf(visibleItems[currentActiveIndex]);
+                    updateActiveItem();
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    currentActiveIndex = (currentActiveIndex - 1 + visibleItems.length) % visibleItems.length;
+                    activeIndex = Array.from(items).indexOf(visibleItems[currentActiveIndex]);
+                    updateActiveItem();
+                    break;
+                case 'Enter':
+                    e.preventDefault();
+                    if (activeIndex !== -1) {
+                        selectActiveItem();
+                    }
+                    break;
+                case 'Escape':
+                    e.preventDefault();
+                    dropdownInstance.hide();
+                    break;
+            }
+        });
+
         inputElement.addEventListener('input', function() {
             // Al escribir, se anula cualquier selección previa de la lista
             inputElement.removeAttribute('data-selected-id');
@@ -45,6 +104,7 @@ document.addEventListener('DOMContentLoaded', async function() { // Make it asyn
             const filter = inputElement.value.toLowerCase();
             let hasVisibleItems = false;
             
+            activeIndex = -1; // Reset active index
             items.forEach(item => {
                 const text = item.textContent.toLowerCase();
                 if (text.includes(filter)) {
@@ -53,6 +113,7 @@ document.addEventListener('DOMContentLoaded', async function() { // Make it asyn
                 } else {
                     item.style.display = 'none';
                 }
+                item.classList.remove('active');
             });
 
             const isVisible = dropdownMenu.classList.contains('show');
