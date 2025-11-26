@@ -6,7 +6,12 @@
     if (!publicPaths.includes(currentPath)) {
         const accessToken = localStorage.getItem('access');
         if (!accessToken) {
+            // No mostrar nada y redirigir
+            document.body.style.display = 'none';
             window.location.href = '/';
+        } else {
+            // Si hay token, asegurarse de que el cuerpo sea visible
+            document.body.style.display = 'block';
         }
     }
 })();
