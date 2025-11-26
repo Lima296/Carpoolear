@@ -1,3 +1,16 @@
+// Verificar autenticación en cada carga de página
+(function() {
+    const publicPaths = ['/', '/inicio/'];
+    const currentPath = window.location.pathname;
+
+    if (!publicPaths.includes(currentPath)) {
+        const accessToken = localStorage.getItem('access');
+        if (!accessToken) {
+            window.location.href = '/';
+        }
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
     const logoutButton = document.getElementById('logout-btn');
 
