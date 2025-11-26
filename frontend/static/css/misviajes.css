@@ -65,7 +65,7 @@ body.misviajes {
 #mis-viajes-container,
 #mis-reservas-container,
 #solicitudes-container {
-    max-height: 400px; /* Altura máxima para las listas, ajustada para 2+ elementos */
+    max-height: 390px; /* Altura máxima para las listas, ajustada para que entren dos elementos sin scroll */
     overflow-y: auto;  /* Habilitar scroll vertical si el contenido excede la altura */
     padding-right: 10px; /* Espacio para que el scrollbar no tape el contenido */
 }
