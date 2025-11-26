@@ -9,10 +9,12 @@
                     <div class="form-group">
                         <label for="edit-marca">Marca</label>
                         <input type="text" class="form-control" id="edit-marca" name="marca" required>
+                        <div class="invalid-feedback">Solo se permiten letras y espacios.</div>
                     </div>
                     <div class="form-group">
                         <label for="edit-modelo">Modelo</label>
                         <input type="text" class="form-control" id="edit-modelo" name="modelo" required>
+                        <div class="invalid-feedback">Solo se permiten letras y espacios.</div>
                     </div>
                     <div class="form-group">
                         <label for="edit-patente">Patente</label>
@@ -21,14 +23,19 @@
                     <div class="form-group">
                         <label for="edit-color">Color</label>
                         <input type="text" class="form-control" id="edit-color" name="color" required>
+                        <div class="invalid-feedback">Solo se permiten letras y espacios.</div>
                     </div>
                     <div class="form-group">
                         <label for="edit-año">Modelo (Año)</label>
-                        <input type="number" class="form-control" id="edit-año" name="año" required>
+                        <input type="text" class="form-control" id="edit-año" name="año" required>
+                        <div class="invalid-feedback feedback-4-digits">Debe ingresar 4 números.</div>
+                        <div class="invalid-feedback feedback-numeric-only">Solo se permiten números.</div>
                     </div>
                     <div class="form-group">
                         <label for="edit-asientos">Asientos</label>
-                        <input type="number" class="form-control" id="edit-asientos" name="asientos" required>
+                        <input type="text" class="form-control" id="edit-asientos" name="asientos" required>
+                        <div class="invalid-feedback feedback-range">Debe ingresar un número entre 1 y 20.</div>
+                        <div class="invalid-feedback feedback-numeric-only">Solo se permiten números.</div>
                     </div>
                     <div class="d-flex justify-content-end mt-4">
                         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
