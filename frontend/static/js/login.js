@@ -23,7 +23,7 @@ form.addEventListener("submit", async (e) => {
       // Guardar tokens en localStorage
       localStorage.setItem("access", data.access);  
       localStorage.setItem("refresh", data.refresh);
-      window.location.href = "/dashboard";
+      window.location.href = "http://127.0.0.1:8001/dashboard/";
       
     } else {
       let errorText = data.detail || data.non_field_errors || "credenciales inválidas";

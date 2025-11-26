@@ -9,10 +9,12 @@
                     <div class="form-group">
                         <label for="add-marca">Marca</label>
                         <input type="text" class="form-control" id="add-marca" name="marca" required>
+                        <div class="invalid-feedback">Solo se permiten letras y espacios.</div>
                     </div>
                     <div class="form-group">
                         <label for="add-modelo">Modelo</label>
                         <input type="text" class="form-control" id="add-modelo" name="modelo" required>
+                        <div class="invalid-feedback">Solo se permiten letras y espacios.</div>
                     </div>
                     <div class="form-group">
                         <label for="add-patente">Patente</label>
@@ -21,14 +23,19 @@
                     <div class="form-group">
                         <label for="add-color">Color</label>
                         <input type="text" class="form-control" id="add-color" name="color" required>
+                        <div class="invalid-feedback">Solo se permiten letras y espacios.</div>
                     </div>
                     <div class="form-group">
                         <label for="add-año">Modelo (Año)</label>
-                        <input type="number" class="form-control" id="add-año" name="año" required>
+                        <input type="text" class="form-control" id="add-año" name="año" required>
+                        <div class="invalid-feedback feedback-4-digits">Debe ingresar 4 números.</div>
+                        <div class="invalid-feedback feedback-numeric-only">Solo se permiten números.</div>
                     </div>
                     <div class="form-group">
                         <label for="add-asientos">Asientos</label>
-                        <input type="number" class="form-control" id="add-asientos" name="asientos" required>
+                        <input type="text" class="form-control" id="add-asientos" name="asientos" required>
+                        <div class="invalid-feedback feedback-range">Debe ingresar un número entre 1 y 20.</div>
+                        <div class="invalid-feedback feedback-numeric-only">Solo se permiten números.</div>
                     </div>
                     <div class="d-flex justify-content-end mt-4">
                         <button type="submit" class="btn btn-primary">Guardar Vehículo</button>

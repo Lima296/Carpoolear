@@ -217,6 +217,44 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         console.log("Evento 'submit' del formulario de agregar vehículo capturado.");
 
+        const asientosInput = document.getElementById('add-asientos');
+        const asientosValue = parseInt(asientosInput.value, 10);
+        const asientosFeedbackRange = asientosInput.parentElement.querySelector('.feedback-range');
+        const asientosFeedbackNumeric = asientosInput.parentElement.querySelector('.feedback-numeric-only');
+
+
+        // Client-side validation for 'asientos' field
+        let isValidAsientos = true;
+
+        if (isNaN(asientosValue) || asientosValue < 1 || asientosValue > 20) {
+            if (asientosFeedbackRange) {
+                asientosFeedbackRange.style.display = 'block';
+                isValidAsientos = false;
+            }
+        } else {
+            if (asientosFeedbackRange) {
+                asientosFeedbackRange.style.display = 'none';
+            }
+        }
+        
+        // Also check if non-numeric characters were entered, though the input listener should catch this
+        if (asientosInput.value.replace(/[^0-9]/g, '') !== asientosInput.value) {
+             if (asientosFeedbackNumeric) {
+                asientosFeedbackNumeric.style.display = 'block';
+                isValidAsientos = false;
+            }
+        } else {
+             if (asientosFeedbackNumeric) {
+                asientosFeedbackNumeric.style.display = 'none';
+            }
+        }
+
+
+        if (!isValidAsientos) {
+            console.log("Validation failed for 'asientos'. Preventing form submission.");
+            return; // Stop the form submission
+        }
+
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
         console.log("Datos del vehículo a enviar:", data);
@@ -231,9 +269,9 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log("Respuesta del servidor recibida:", response);
 
             if (!response.ok) {
-                // Leer la respuesta de error como texto para obtener el mensaje exacto de Django
                 const errorText = await response.text();
                 console.error('Cuerpo de la respuesta de error del servidor:', errorText);
+                showErrorModal('No se pudo guardar el vehículo. Por favor, revisa los datos ingresados.'); // More user-friendly generic error
                 throw new Error(`Error del servidor: ${response.status} ${response.statusText}`);
             }
             
@@ -243,10 +281,13 @@ document.addEventListener('DOMContentLoaded', function() {
             addVehicleModal.hide();
             e.target.reset();
             loadVehicleData();
+            showSuccessModal('Vehículo agregado exitosamente.');
+
         } catch (error) {
             console.error('Fallo al procesar la petición de agregar vehículo:', error);
-            // Opcional: Mostrar un mensaje de error al usuario en la UI
-            alert('No se pudo guardar el vehículo. Revisa la consola para más detalles.');
+            if (!isValidAsientos) { // Only show generic error if specific one isn't showing
+                 showErrorModal('No se pudo guardar el vehículo. Revisa la consola para más detalles.');
+            }
         }
     });
 
@@ -365,6 +406,100 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error(error);
             alert(error.message);
+        }
+    });
+
+    // --- Validación de campos ---
+    const alphaOnlyInputs = ['add-color', 'edit-color', 'add-marca', 'edit-marca', 'add-modelo', 'edit-modelo'];
+    const numericOnlyInputs = ['add-asientos', 'edit-asientos']; // 'año' will have its own validation
+    const yearInputs = ['add-año', 'edit-año'];
+
+    // Validation for alpha-only fields
+    alphaOnlyInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            const feedback = input.nextElementSibling;
+
+            input.addEventListener('input', function(e) {
+                const value = e.target.value;
+                const sanitized = value.replace(/[^a-zA-Z\s]/g, '');
+
+                if (value !== sanitized) {
+                    if (feedback) {
+                        feedback.style.display = 'block';
+                    }
+                } else {
+                    if (feedback) {
+                        feedback.style.display = 'none';
+                    }
+                }
+                e.target.value = sanitized;
+            });
+        }
+    });
+
+    // Validation for generic numeric-only fields (e.g., 'asientos')
+    numericOnlyInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            const feedbackRange = input.parentElement.querySelector('.feedback-range');
+            const feedbackNumericOnly = input.parentElement.querySelector('.feedback-numeric-only');
+
+            input.addEventListener('input', function(e) {
+                const originalValue = e.target.value;
+                const sanitizedValue = originalValue.replace(/[^0-9]/g, '');
+                e.target.value = sanitizedValue; // Update immediately with only numbers
+
+                const numValue = parseInt(sanitizedValue, 10);
+
+                // Hide both messages initially
+                if (feedbackRange) feedbackRange.style.display = 'none';
+                if (feedbackNumericOnly) feedbackNumericOnly.style.display = 'none';
+
+                if (originalValue !== sanitizedValue) {
+                    // Invalid characters were entered
+                    if (feedbackNumericOnly) {
+                        feedbackNumericOnly.style.display = 'block';
+                    }
+                } else if (sanitizedValue.length > 0 && (isNaN(numValue) || numValue < 1 || numValue > 20)) {
+                    // Range is incorrect
+                    if (feedbackRange) {
+                        feedbackRange.style.display = 'block';
+                    }
+                }
+            });
+        }
+    });
+
+    // Validation for 'año' fields (exactly 4 digits)
+    yearInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            const feedback4Digits = input.parentElement.querySelector('.feedback-4-digits');
+            const feedbackNumericOnly = input.parentElement.querySelector('.feedback-numeric-only');
+
+            input.addEventListener('input', function(e) {
+                const originalValue = e.target.value;
+                const sanitizedValue = originalValue.replace(/[^0-9]/g, '');
+
+                // Hide both messages initially
+                if (feedback4Digits) feedback4Digits.style.display = 'none';
+                if (feedbackNumericOnly) feedbackNumericOnly.style.display = 'none';
+
+                if (originalValue !== sanitizedValue) {
+                    // Invalid characters were entered
+                    if (feedbackNumericOnly) {
+                        feedbackNumericOnly.style.display = 'block';
+                    }
+                } else if (sanitizedValue.length > 0 && sanitizedValue.length !== 4) {
+                    // Length is incorrect
+                    if (feedback4Digits) {
+                        feedback4Digits.style.display = 'block';
+                    }
+                }
+
+                e.target.value = sanitizedValue; // Always update with sanitized value
+            });
         }
     });
 
