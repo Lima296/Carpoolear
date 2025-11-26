@@ -141,5 +141,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 LOGIN_URL = 'root_inicio'
+LOGIN_REDIRECT_URL = 'dashboard'
 
 
